@@ -101,6 +101,10 @@ See [PERFORMANCE_NOTES.md](./docs/PERFORMANCE_NOTES.md) for detailed benchmarks 
 npm run build
 ```
 
+## Sponsor
+
+Development of these modules was sponsored by [addmaple.com](https://addmaple.com) — a modern data analysis platform.
+
 ## License
 
-MIT
+MIT — see [LICENSE](./LICENSE) for details.

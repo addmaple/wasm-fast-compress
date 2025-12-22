@@ -17,8 +17,15 @@
     }
   },
   "files": [
-    "dist/"
+    "dist/",
+    "README.md"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/addmaple/wasm-fast-compress.git",
+    "directory": "js/brotli"
+  },
+  "homepage": "https://github.com/addmaple/wasm-fast-compress#readme",
   "scripts": {
   },
   "dependencies": {
