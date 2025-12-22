@@ -1,0 +1,9 @@
+[package]
+name = "codec-gzip"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+core-api = { path = "../core-api" }
+flate2 = { version = "1.0", default-features = false, features = ["zlib-rs"] }
+

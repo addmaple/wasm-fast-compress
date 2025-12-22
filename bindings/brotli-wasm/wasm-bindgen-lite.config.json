@@ -1,0 +1,42 @@
+{
+  "outDir": "../../js/brotli/dist",
+  "artifactBaseName": "brotli",
+  "autoInit": "lazy",
+  "js": {
+    "custom": "wrapper.js"
+  },
+  "emitNode": true,
+  "emitBrowser": true,
+  "emitTypes": true,
+  "targets": {
+    "baseline": true,
+    "simd": true,
+    "simdFeatures": "brotli_portable_simd"
+  },
+  "exports": [
+    {
+      "abi": "compress_brotli_level_1",
+      "name": "compress_level_1",
+      "return": "bytes",
+      "outSize": "len + 1024"
+    },
+    {
+      "abi": "compress_brotli_level_4",
+      "name": "compress_level_4",
+      "return": "bytes",
+      "outSize": "len + 1024"
+    },
+    {
+      "abi": "compress_brotli_level_6",
+      "name": "compress_level_6",
+      "return": "bytes",
+      "outSize": "len + 1024"
+    },
+    {
+      "abi": "compress_brotli_level_9",
+      "name": "compress_level_9",
+      "return": "bytes",
+      "outSize": "len + 1024"
+    }
+  ]
+}

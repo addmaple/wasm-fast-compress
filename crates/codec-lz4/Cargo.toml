@@ -1,0 +1,13 @@
+[package]
+name = "codec-lz4"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+core-api = { path = "../core-api" }
+lz4_flex = { version = "0.12", default-features = false, features = ["frame", "std"] }
+
+
+
+
+

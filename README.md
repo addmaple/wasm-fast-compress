@@ -14,18 +14,18 @@ Fast, SIMD-optimized compression in the browser and Node.js using Rust + WASM.
 
 | Package | Codec | Comparison |
 | :--- | :--- | :--- |
-| `@wfc/gzip` | Gzip/Deflate | **2.5x-3x faster** than `pako` |
-| `@wfc/lz4` | LZ4 | **2x-3.5x faster** than `lz4js` |
-| `@wfc/brotli` | Brotli | Highly optimized SIMD implementation |
+| `@addmaple/gzip` | Gzip/Deflate | **3.5x-5.5x faster** than `pako` |
+| `@addmaple/lz4` | LZ4 | **2.5x-3.5x faster** than `lz4js` |
+| `@addmaple/brotli` | Brotli | **1.3x faster** than native C at Level 9 |
 
 ## Installation
 
 ```bash
-npm install @wfc/gzip
+npm install @addmaple/gzip
 # or
-npm install @wfc/brotli
+npm install @addmaple/brotli
 # or
-npm install @wfc/lz4
+npm install @addmaple/lz4
 ```
 
 ## Usage
@@ -34,7 +34,7 @@ npm install @wfc/lz4
 Automatically detects environment (Node/Browser) and SIMD support. Loads `.wasm` files as separate artifacts.
 
 ```javascript
-import { init, compress } from '@wfc/gzip';
+import { init, compress } from '@addmaple/gzip';
 
 // Initialization is async and required once
 await init();
@@ -47,7 +47,7 @@ const compressed = await compress(input, { level: 9 });
 WASM bytes are embedded directly in the JS bundle. Ideal for environments where fetching separate files is difficult or adds too much latency.
 
 ```javascript
-import { init, compress } from '@wfc/gzip/inline';
+import { init, compress } from '@addmaple/gzip/inline';
 
 await init();
 const compressed = await compress(input);
@@ -58,7 +58,7 @@ Use directly in the browser via `jsdelivr`.
 
 ```html
 <script type="module">
-  import { init, compress } from 'https://cdn.jsdelivr.net/npm/@wfc/gzip/dist/browser.js';
+  import { init, compress } from 'https://cdn.jsdelivr.net/npm/@addmaple/gzip/dist/browser.js';
   
   await init();
   const input = new Uint8Array([1, 2, 3, 4]);
@@ -68,7 +68,7 @@ Use directly in the browser via `jsdelivr`.
 
 ## API Reference
 
-Each codec package (`@wfc/gzip`, `@wfc/brotli`, `@wfc/lz4`) exports the same basic API:
+Each codec package (`@addmaple/gzip`, `@addmaple/brotli`, `@addmaple/lz4`) exports the same basic API:
 
 ### `init(imports?)`
 Initializes the WASM module. 
@@ -84,14 +84,14 @@ Compresses the input data.
 ### Low-level Exports
 For advanced use cases, the generated `wasmExports` are available:
 ```javascript
-import { wasmExports } from '@wfc/gzip';
+import { wasmExports } from '@addmaple/gzip';
 // Access raw WASM memory and functions
 const { memory, alloc_bytes, free_bytes } = wasmExports();
 ```
 
 ## Performance
 
-See [PERFORMANCE_NOTES.md](./PERFORMANCE_NOTES.md) for detailed benchmarks and comparison against pure-JS alternatives.
+See [PERFORMANCE_NOTES.md](./docs/PERFORMANCE_NOTES.md) for detailed benchmarks and comparison against pure-JS alternatives.
 
 ## Building from source
 

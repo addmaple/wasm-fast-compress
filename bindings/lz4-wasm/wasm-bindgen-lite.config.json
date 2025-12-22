@@ -1,0 +1,25 @@
+{
+  "outDir": "../../js/lz4/dist",
+  "artifactBaseName": "lz4",
+  "autoInit": "lazy",
+  "js": {
+    "custom": "wrapper.js"
+  },
+  "emitNode": true,
+  "emitBrowser": true,
+  "emitTypes": true,
+  "exports": [
+    {
+      "abi": "compress_lz4_level_1",
+      "name": "compress_level_1",
+      "return": "bytes",
+      "outSize": "len + 1024"
+    },
+    {
+      "abi": "compress_lz4_level_9",
+      "name": "compress_level_9",
+      "return": "bytes",
+      "outSize": "len + 1024"
+    }
+  ]
+}

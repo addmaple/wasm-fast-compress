@@ -1,0 +1,19 @@
+[package]
+name = "brotli-wasm"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+codec-brotli = { path = "../../crates/codec-brotli" }
+core-api = { path = "../../crates/core-api" }
+
+[features]
+# Base build remains stable-friendly. This feature opts into upstream `brotli/simd`
+# which requires nightly due to `#![feature(portable_simd)]` in the brotli crate.
+default = []
+brotli_portable_simd = ["codec-brotli/brotli_simd"]
+
+

@@ -1,0 +1,11 @@
+[package]
+name = "gzip-wasm"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+codec-gzip = { path = "../../crates/codec-gzip" }
+core-api = { path = "../../crates/core-api" }

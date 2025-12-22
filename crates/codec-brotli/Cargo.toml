@@ -1,0 +1,18 @@
+[package]
+name = "codec-brotli"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+core-api = { path = "../core-api" }
+brotli = { git = "https://github.com/addmaple/rust-brotli.git", branch = "wasm-simd" }
+
+[features]
+# Keep default builds compatible with stable Rust.
+# The upstream `brotli` crate's `simd` feature enables `#![feature(portable_simd)]` (nightly-only).
+default = []
+brotli_simd = ["brotli/simd"]
+
+
+
+

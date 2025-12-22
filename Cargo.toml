@@ -1,0 +1,27 @@
+[workspace]
+members = [
+    "crates/core-api",
+    "crates/codec-gzip",
+    "crates/codec-brotli",
+    "crates/codec-lz4",
+    "bindings/gzip-wasm",
+    "bindings/brotli-wasm",
+    "bindings/lz4-wasm",
+]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+
+[workspace.dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde-wasm-bindgen = "0.6"
+
+[patch.crates-io]
+brotli = { git = "https://github.com/addmaple/rust-brotli.git", branch = "wasm-simd" }
+
+[profile.release]
+opt-level = "z"
+lto = true
+

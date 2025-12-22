@@ -1,0 +1,11 @@
+[package]
+name = "lz4-wasm"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+codec-lz4 = { path = "../../crates/codec-lz4" }
+core-api = { path = "../../crates/core-api" }

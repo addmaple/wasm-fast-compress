@@ -1,0 +1,31 @@
+{
+  "name": "@addmaple/gzip",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./dist/node.js",
+  "browser": "./dist/browser.js",
+  "exports": {
+    ".": {
+      "node": "./dist/node.js",
+      "browser": "./dist/browser.js",
+      "default": "./dist/node.js"
+    },
+    "./inline": {
+      "node": "./dist/node-inline.js",
+      "browser": "./dist/browser-inline.js",
+      "default": "./dist/node-inline.js"
+    }
+  },
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+  },
+  "dependencies": {
+    "pako": "^2.1.0"
+  },
+  "description": "Fast gzip compression in the browser using Rust + WASM",
+  "keywords": ["gzip", "compression", "wasm", "browser"],
+  "license": "MIT"
+}
+

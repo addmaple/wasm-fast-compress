@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WASM Fast Compress - Browser Example</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+        pre { background: #f4f4f4; padding: 1rem; border-radius: 4px; overflow-x: auto; }
+        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+        .stat-box { border: 1px solid #ddd; padding: 1rem; border-radius: 4px; }
+        button { background: #0070f3; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 1rem; }
+        button:hover { background: #0051bb; }
+    </style>
+</head>
+<body>
+    <h1>WASM Fast Compress</h1>
+    <p>This example demonstrates Gzip compression in the browser.</p>
+    
+    <textarea id="input" style="width: 100%; height: 250px;">[
+  {
+    "id": "5f9d88b2-6d1d-4b8b-8b1d-8b8b8b8b8b8b",
+    "index": 0,
+    "guid": "c1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d",
+    "isActive": true,
+    "balance": "$3,456.78",
+    "picture": "http://placehold.it/32x32",
+    "age": 28,
+    "eyeColor": "blue",
+    "name": "John Doe",
+    "gender": "male",
+    "company": "TECHCORP",
+    "email": "john.doe@techcorp.com",
+    "phone": "+1 (800) 555-1212",
+    "address": "123 Main St, Anytown, USA",
+    "about": "Deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "registered": "2023-01-01T12:00:00 -08:00",
+    "latitude": 37.7749,
+    "longitude": -122.4194,
+    "tags": ["tech", "rust", "wasm", "compression"],
+    "friends": [
+      { "id": 0, "name": "Jane Smith" },
+      { "id": 1, "name": "Bob Johnson" }
+    ]
+  },
+  {
+    "id": "6a7b8c9d-0e1f-2a3b-4c5d-5f9d88b26d1d",
+    "index": 1,
+    "guid": "d4c3b2a1-f6e5-4b5a-d9c8-d5c4b3a2f1e0",
+    "isActive": false,
+    "balance": "$1,234.56",
+    "picture": "http://placehold.it/32x32",
+    "age": 32,
+    "eyeColor": "green",
+    "name": "Jane Smith",
+    "gender": "female",
+    "company": "SOFTCO",
+    "email": "jane.smith@softco.com",
+    "phone": "+1 (800) 555-1234",
+    "address": "456 Side St, Othertown, USA",
+    "about": "Nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
+    "registered": "2022-06-15T09:30:00 -07:00",
+    "latitude": 34.0522,
+    "longitude": -118.2437,
+    "tags": ["soft", "js", "web", "performance"],
+    "friends": [
+      { "id": 0, "name": "John Doe" },
+      { "id": 1, "name": "Alice Brown" }
+    ]
+  }
+]</textarea>
+    <div style="margin-top: 1rem;">
+        <button id="compress-btn">Compress Now</button>
+    </div>
+
+    <div class="stats">
+        <div class="stat-box">
+            <strong>Original Size:</strong> <span id="orig-size">-</span>
+        </div>
+        <div class="stat-box">
+            <strong>Compressed Size:</strong> <span id="comp-size">-</span>
+        </div>
+        <div class="stat-box">
+            <strong>Time Taken:</strong> <span id="time">-</span>
+        </div>
+        <div class="stat-box">
+            <strong>Ratio:</strong> <span id="ratio">-</span>
+        </div>
+    </div>
+
+    <h3>Compressed Output (Base64):</h3>
+    <pre id="output">-</pre>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>
