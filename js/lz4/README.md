@@ -37,10 +37,11 @@ const compressed = await compress(input);
 ### `init()`
 Initialize the WASM module.
 
-### `compress(input, options?)`
+### `compress(input)`
 - `input`: `Uint8Array`
-- `options.level`: 1 or 9 (default: 1)
 - Returns: `Promise<Uint8Array>`
+
+Note: LZ4 is a single-speed algorithm optimized for maximum throughput. Unlike Brotli/Gzip, it doesn't have compression levels.
 
 ## Sponsor
 

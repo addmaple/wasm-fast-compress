@@ -10,16 +10,11 @@
   "emitTypes": true,
   "exports": [
     {
-      "abi": "compress_lz4_level_1",
-      "name": "compress_level_1",
-      "return": "bytes",
-      "outSize": "len + 1024"
-    },
-    {
-      "abi": "compress_lz4_level_9",
-      "name": "compress_level_9",
+      "abi": "compress_lz4",
+      "name": "compress_lz4",
       "return": "bytes",
       "outSize": "len + 1024"
     }
   ]
 }
+

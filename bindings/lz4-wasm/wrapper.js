@@ -1,14 +1,14 @@
-import { compress_level_1, compress_level_9, wasmExports } from './core.js';
+import { compress_lz4, wasmExports } from './core.js';
 
-export async function compress(input, options = {}) {
-  const level = options.level ?? 1;
-  
+// LZ4 is a single-speed algorithm optimized for maximum throughput.
+// Unlike Brotli/Gzip, it doesn't have compression levels.
+export async function compress(input) {
   try {
-    if (level <= 1) return compress_level_1(input);
-    return compress_level_9(input);
+    return compress_lz4(input);
   } catch (error) {
     throw new Error(`Compression failed: ${error.message}`);
   }
 }
 
 export { wasmExports };
+

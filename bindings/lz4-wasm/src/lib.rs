@@ -17,18 +17,16 @@ pub unsafe extern "C" fn free_bytes(ptr: *mut u8, len: usize) {
     dealloc(ptr, layout);
 }
 
-unsafe fn compress_lz4_raw(
+// LZ4 is a single-speed algorithm - no compression levels
+#[no_mangle]
+pub unsafe extern "C" fn compress_lz4(
     in_ptr: *const u8,
     in_len: usize,
     out_ptr: *mut u8,
     out_len: usize,
-    level: u32,
 ) -> isize {
     let input = std::slice::from_raw_parts(in_ptr, in_len);
-    let opts = CompressionOptions {
-        level: Some(level),
-        ..Default::default()
-    };
+    let opts = CompressionOptions::default();
     
     match <Lz4Compressor as Compressor>::compress_all(input, opts) {
         Ok(out) => {
@@ -40,14 +38,4 @@ unsafe fn compress_lz4_raw(
         }
         Err(_) => -1,
     }
-}
-
-#[no_mangle]
-pub unsafe extern "C" fn compress_lz4_level_1(p: *const u8, l: usize, o: *mut u8, ol: usize) -> isize {
-    compress_lz4_raw(p, l, o, ol, 1)
-}
-
-#[no_mangle]
-pub unsafe extern "C" fn compress_lz4_level_9(p: *const u8, l: usize, o: *mut u8, ol: usize) -> isize {
-    compress_lz4_raw(p, l, o, ol, 9)
 }

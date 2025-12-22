@@ -17,22 +17,20 @@ impl std::fmt::Display for Lz4Error {
 impl std::error::Error for Lz4Error {}
 
 /// LZ4 compressor.
-/// Note: LZ4 doesn't have a native streaming API, so we accumulate input.
+/// Note: LZ4 is a single-speed algorithm - no compression levels.
+/// We accumulate input since LZ4 doesn't have a native streaming API.
 pub struct Lz4Compressor {
     buffer: Vec<u8>,
     finished: bool,
-    level: u32,
 }
 
 impl Compressor for Lz4Compressor {
     type Error = Lz4Error;
 
-    fn new(options: CompressionOptions) -> Result<Self, Self::Error> {
-        let level = options.level.unwrap_or(4);
+    fn new(_options: CompressionOptions) -> Result<Self, Self::Error> {
         Ok(Self {
             buffer: Vec::new(),
             finished: false,
-            level,
         })
     }
 
