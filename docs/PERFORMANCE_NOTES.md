@@ -82,7 +82,7 @@ Note: At Level 11, `@addmaple/brotli` is over **90x faster** than the `brotli` n
 
 ### Recommendation
 
-For applications where **absolute performance is the priority**, we recommend using `brotlijs` or the native `brotli` npm package if available in your environment.
+For applications where **absolute performance is the priority**, the `brotli` npm package (a JS port of native C code) is a mature alternative.
 
 Our Brotli implementation is best used when:
 - You need a **pure WASM/Rust** solution without native dependencies.

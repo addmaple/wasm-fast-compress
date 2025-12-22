@@ -16,7 +16,7 @@ Fast, SIMD-optimized compression in the browser and Node.js using Rust + WASM.
 | :--- | :--- | :--- |
 | `@addmaple/gzip` | Gzip/Deflate | **3.5x-5.5x faster** than `pako` |
 | `@addmaple/lz4` | LZ4 | **2.5x-3.5x faster** than `lz4js` |
-| `@addmaple/brotli` | Brotli | **1.3x faster** than native C at Level 9 |
+| `@addmaple/brotli` | Brotli | **1.3x faster** than `brotli` (JS port of native C) |
 
 ## Installation
 

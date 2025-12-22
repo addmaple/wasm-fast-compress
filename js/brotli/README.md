@@ -2,7 +2,7 @@
 
 Fast Brotli compression in the browser and Node.js using Rust + WASM with SIMD optimizations.
 
-**1.3x faster** than native C Brotli at compression level 9.
+**1.3x faster** than the `brotli` npm package (JS port of native C) at compression level 9.
 
 ## Installation
 
