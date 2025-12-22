@@ -47,6 +47,7 @@ dependencies = [
 name = "brotli-wasm"
 version = "0.1.0"
 dependencies = [
+ "brotli",
  "codec-brotli",
  "core-api",
 ]
@@ -111,13 +112,14 @@ version = "0.1.0"
 dependencies = [
  "codec-gzip",
  "core-api",
+ "flate2",
 ]
 
 [[package]]
 name = "libz-rs-sys"
-version = "0.5.4"
+version = "0.5.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "15413ef615ad868d4d65dce091cb233b229419c7c0c4bcaa746c0901c49ff39c"
+checksum = "c10501e7805cee23da17c7790e59df2870c0d4043ec6d03f67d31e2b53e77415"
 dependencies = [
  "zlib-rs",
 ]
@@ -128,13 +130,13 @@ version = "0.1.0"
 dependencies = [
  "codec-lz4",
  "core-api",
+ "lz4_flex",
 ]
 
 [[package]]
 name = "lz4_flex"
 version = "0.12.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ab6473172471198271ff72e9379150e9dfd70d8e533e0752a27e515b48dd375e"
+source = "git+https://github.com/addmaple/lz4_flex.git?branch=wasm-simd#50c6aad3b96c7f98e3ed127b954dd937d22f8f34"
 dependencies = [
  "twox-hash",
 ]
@@ -158,11 +160,10 @@ checksum = "e320a6c5ad31d271ad523dcf3ad13e2767ad8b1cb8f047f75a8aeaf8da139da2"
 [[package]]
 name = "twox-hash"
 version = "2.1.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9ea3136b675547379c4bd395ca6b938e5ad3c3d20fad76e7fe85f9e0d011419c"
+source = "git+https://github.com/addmaple/twox-hash.git?branch=wasm-simd#3437b272bbcc26c361de6bb0dd11cb3fd625c0a6"
 
 [[package]]
 name = "zlib-rs"
-version = "0.5.4"
+version = "0.5.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "51f936044d677be1a1168fae1d03b583a285a5dd9d8cbf7b24c23aa1fc775235"
+checksum = "40990edd51aae2c2b6907af74ffb635029d5788228222c4bb811e9351c0caad3"

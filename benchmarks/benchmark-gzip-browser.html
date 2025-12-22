@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gzip SIMD Benchmark</title>
+    <style>
+        body { font-family: monospace; background: #1a1a2e; color: #e0e0e0; padding: 40px; }
+        h1 { color: #00d9ff; }
+        pre { background: #0f0f1a; padding: 20px; border-radius: 8px; white-space: pre-wrap; }
+        button { background: #00d9ff; color: #0f0f1a; border: none; padding: 12px 24px; 
+                 border-radius: 4px; cursor: pointer; font-size: 16px; margin: 10px 5px; }
+        button:hover { background: #00b8d4; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js"></script>
+</head>
+<body>
+    <h1>🔬 Gzip SIMD vs Base vs JS Benchmark</h1>
+    <button onclick="runBenchmark(100*1024)">Run 100KB</button>
+    <button onclick="runBenchmark(1024*1024)">Run 1MB</button>
+    <pre id="output">Loading modules...</pre>
+
+    <script type="module">
+        const output = document.getElementById('output');
+        
+        async function loadWasm(url) {
+            const res = await fetch(url);
+            const bytes = await res.arrayBuffer();
+            const { instance } = await WebAssembly.instantiate(bytes, {});
+            return instance;
+        }
+        
+        function compress(instance, data, abi) {
+            const exports = instance.exports;
+            const inLen = data.length;
+            const outLen = inLen + 1024;
+            
+            const inPtr = exports.alloc_bytes(inLen);
+            const outPtr = exports.alloc_bytes(outLen);
+            
+            let memory = new Uint8Array(exports.memory.buffer);
+            memory.set(data, inPtr);
+            
+            const written = exports[abi](inPtr, inLen, outPtr, outLen);
+            
+            memory = new Uint8Array(exports.memory.buffer);
+            const result = memory.slice(outPtr, outPtr + written);
+            exports.free_bytes(inPtr, inLen);
+            exports.free_bytes(outPtr, outLen);
+            
+            return result;
+        }
+        
+        function benchmark(fn, runs = 10) {
+            for (let i = 0; i < 3; i++) fn();
+            
+            const times = [];
+            const iterations = 5;
+            for (let i = 0; i < runs; i++) {
+                const start = performance.now();
+                for (let j = 0; j < iterations; j++) fn();
+                times.push((performance.now() - start) / iterations);
+            }
+            
+            times.sort((a, b) => a - b);
+            return times[Math.floor(times.length / 2)];
+        }
+        
+        function generateData(size) {
+            const pattern = '{"id":12345,"name":"test","email":"user@example.com","values":[1,2,3]}';
+            const data = new Uint8Array(size);
+            for (let i = 0; i < size; i++) data[i] = pattern.charCodeAt(i % pattern.length);
+            return data;
+        }
+        
+        let baseInstance, simdInstance;
+        
+        async function init() {
+            output.textContent = 'Loading Gzip Base WASM...\n';
+            baseInstance = await loadWasm('../js/gzip/dist/wasm/gzip.base.wasm');
+            output.textContent += 'Loading Gzip SIMD WASM...\n';
+            simdInstance = await loadWasm('../js/gzip/dist/wasm/gzip.simd.wasm');
+            output.textContent += 'Ready! Click a button to benchmark.\n';
+        }
+        
+        window.runBenchmark = async function(size) {
+            if (!baseInstance || !simdInstance) {
+                output.textContent = 'Still loading...';
+                return;
+            }
+            
+            const data = generateData(size);
+            const sizeMB = size / 1024 / 1024;
+            const sizeLabel = size >= 1024*1024 ? `${size/1024/1024} MB` : `${size/1024} KB`;
+            
+            output.textContent = `\n🔬 Gzip SIMD vs Base vs JS Benchmark (${sizeLabel})\n`;
+            output.textContent += '='.repeat(70) + '\n\n';
+            
+            // pako (JS)
+            output.textContent += 'Testing pako (JS)...\n';
+            await new Promise(r => setTimeout(r, 10));
+            const jsTime = benchmark(() => pako.gzip(data, { level: 6 }));
+            const jsResult = pako.gzip(data, { level: 6 });
+            
+            // Base
+            output.textContent += 'Testing @addmaple Base...\n';
+            await new Promise(r => setTimeout(r, 10));
+            const baseTime = benchmark(() => compress(baseInstance, data, 'compress_gzip_level_6'));
+            const baseResult = compress(baseInstance, data, 'compress_gzip_level_6');
+            
+            // SIMD  
+            output.textContent += 'Testing @addmaple SIMD...\n';
+            await new Promise(r => setTimeout(r, 10));
+            const simdTime = benchmark(() => compress(simdInstance, data, 'compress_gzip_level_6'));
+            const simdResult = compress(simdInstance, data, 'compress_gzip_level_6');
+            
+            // Clear and show results
+            output.textContent = `\n🔬 Gzip SIMD vs Base vs JS Benchmark (${sizeLabel})\n`;
+            output.textContent += '='.repeat(70) + '\n\n';
+            
+            output.textContent += `| Implementation     | Time (ms) | Speed       | vs JS      | Ratio  |\n`;
+            output.textContent += `|--------------------|-----------|-------------|------------|--------|\n`;
+            output.textContent += `| pako (JS)          | ${jsTime.toFixed(2).padStart(9)} | ${(sizeMB/(jsTime/1000)).toFixed(0).padStart(8)} MB/s | baseline   | ${(jsResult.length/data.length*100).toFixed(1)}%   |\n`;
+            output.textContent += `| @addmaple (Base)   | ${baseTime.toFixed(2).padStart(9)} | ${(sizeMB/(baseTime/1000)).toFixed(0).padStart(8)} MB/s | ${(jsTime/baseTime).toFixed(2)}x 🚀    | ${(baseResult.length/data.length*100).toFixed(1)}%   |\n`;
+            output.textContent += `| @addmaple (SIMD)   | ${simdTime.toFixed(2).padStart(9)} | ${(sizeMB/(simdTime/1000)).toFixed(0).padStart(8)} MB/s | ${(jsTime/simdTime).toFixed(2)}x 🚀    | ${(simdResult.length/data.length*100).toFixed(1)}%   |\n`;
+            
+            output.textContent += `\nSIMD vs Base speedup: ${(baseTime/simdTime).toFixed(2)}x\n`;
+            output.textContent += '\n✅ Complete!\n';
+        };
+        
+        init();
+    </script>
+</body>
+</html>
+

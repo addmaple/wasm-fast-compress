@@ -10,10 +10,58 @@
   "emitTypes": true,
   "exports": [
     {
+      "abi": "compress_lz4_block",
+      "name": "compress_lz4_block",
+      "return": "bytes",
+      "outSize": "len + 1024"
+    },
+    {
+      "abi": "decompress_lz4_block",
+      "name": "decompress_lz4_block",
+      "return": "bytes",
+      "outSize": "outLen"
+    },
+    {
       "abi": "compress_lz4",
       "name": "compress_lz4",
       "return": "bytes",
       "outSize": "len + 1024"
+    },
+    {
+      "abi": "create_compressor",
+      "name": "create_compressor",
+      "return": "u32"
+    },
+    {
+      "abi": "compress_chunk",
+      "name": "compress_chunk",
+      "return": "bytes",
+      "outSize": "len + 1024"
+    },
+    {
+      "abi": "destroy_compressor",
+      "name": "destroy_compressor"
+    },
+    {
+      "abi": "decompress_lz4",
+      "name": "decompress_lz4",
+      "return": "bytes",
+      "outSize": "len * 10"
+    },
+    {
+      "abi": "create_decompressor",
+      "name": "create_decompressor",
+      "return": "u32"
+    },
+    {
+      "abi": "decompress_chunk",
+      "name": "decompress_chunk",
+      "return": "bytes",
+      "outSize": "len * 4"
+    },
+    {
+      "abi": "destroy_decompressor",
+      "name": "destroy_decompressor"
     }
   ]
 }

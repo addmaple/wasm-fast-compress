@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SIMD vs Base Benchmark</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 1100px; margin: 50px auto; padding: 20px; background: #0f0f1a; color: #e0e0e0; }
+        h1 { color: #00d9ff; margin-bottom: 5px; }
+        .subtitle { color: #888; margin-bottom: 30px; }
+        .results { background: #1a1a2e; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid #333; }
+        th { color: #00d9ff; background: #16213e; }
+        .faster { color: #00ff88; font-weight: bold; }
+        .slower { color: #ff6b6b; }
+        button { background: #00d9ff; color: #0f0f1a; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; font-size: 16px; margin: 10px 5px 10px 0; font-weight: 600; }
+        button:hover { background: #00b8d4; }
+        button:disabled { background: #555; cursor: not-allowed; }
+        #status { margin: 10px 0; color: #aaa; min-height: 24px; }
+        .codec-header { background: #2a2a4e !important; font-weight: bold; }
+        .summary { background: #16213e; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .summary h3 { color: #00d9ff; margin-top: 0; }
+    </style>
+</head>
+<body>
+    <h1>🔬 SIMD vs Base WASM Benchmark</h1>
+    <p class="subtitle">Compare SIMD-optimized vs non-SIMD WASM performance for each codec</p>
+    
+    <button id="runBtn" onclick="runBenchmark()">Run Benchmark (1MB JSON)</button>
+    <button onclick="runQuickBenchmark()">Quick Benchmark (100KB)</button>
+    <div id="status">Loading modules...</div>
+    
+    <div class="results">
+        <h2>Results</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Codec</th>
+                    <th>Level</th>
+                    <th>Base (ms)</th>
+                    <th>SIMD (ms)</th>
+                    <th>Base Speed</th>
+                    <th>SIMD Speed</th>
+                    <th>Speedup</th>
+                </tr>
+            </thead>
+            <tbody id="results"></tbody>
+        </table>
+    </div>
+
+    <script type="module">
+        // We'll manually load both base and SIMD versions of each codec
+        
+        class WasmCodec {
+            constructor(name) {
+                this.name = name;
+                this.baseInstance = null;
+                this.simdInstance = null;
+            }
+            
+            async load(baseUrl, simdUrl) {
+                const [baseRes, simdRes] = await Promise.all([
+                    fetch(baseUrl),
+                    fetch(simdUrl)
+                ]);
+                const [baseBytes, simdBytes] = await Promise.all([
+                    baseRes.arrayBuffer(),
+                    simdRes.arrayBuffer()
+                ]);
+                
+                const [baseResult, simdResult] = await Promise.all([
+                    WebAssembly.instantiate(baseBytes, {}),
+                    WebAssembly.instantiate(simdBytes, {})
+                ]);
+                
+                this.baseInstance = baseResult.instance;
+                this.simdInstance = simdResult.instance;
+            }
+            
+            compress(instance, data, abi) {
+                const exports = instance.exports;
+                
+                const inLen = data.length;
+                const outLen = inLen + 1024;
+                
+                const inPtr = exports.alloc_bytes(inLen);
+                const outPtr = exports.alloc_bytes(outLen);
+                
+                // Get fresh memory view after allocation (memory may have grown)
+                let memory = new Uint8Array(exports.memory.buffer);
+                memory.set(data, inPtr);
+                
+                const written = exports[abi](inPtr, inLen, outPtr, outLen);
+                
+                if (written < 0) {
+                    exports.free_bytes(inPtr, inLen);
+                    exports.free_bytes(outPtr, outLen);
+                    throw new Error(`Compression failed: ${written}`);
+                }
+                
+                // Refresh memory view again (compression may have grown memory)
+                memory = new Uint8Array(exports.memory.buffer);
+                const result = memory.slice(outPtr, outPtr + written);
+                exports.free_bytes(inPtr, inLen);
+                exports.free_bytes(outPtr, outLen);
+                
+                return result;
+            }
+            
+            compressBase(data, abi) {
+                return this.compress(this.baseInstance, data, abi);
+            }
+            
+            compressSIMD(data, abi) {
+                return this.compress(this.simdInstance, data, abi);
+            }
+        }
+        
+        const brotli = new WasmCodec('Brotli');
+        const gzip = new WasmCodec('Gzip');
+        const lz4 = new WasmCodec('LZ4');
+        
+        let modulesReady = false;
+        
+        async function loadModules() {
+            const status = document.getElementById('status');
+            try {
+                status.textContent = 'Loading Brotli (base + SIMD)...';
+                await brotli.load(
+                    '../js/brotli/dist/wasm/brotli.base.wasm',
+                    '../js/brotli/dist/wasm/brotli.simd.wasm'
+                );
+                
+                status.textContent = 'Loading Gzip (base + SIMD)...';
+                await gzip.load(
+                    '../js/gzip/dist/wasm/gzip.base.wasm',
+                    '../js/gzip/dist/wasm/gzip.simd.wasm'
+                );
+                
+                status.textContent = 'Loading LZ4 (base + SIMD)...';
+                await lz4.load(
+                    '../js/lz4/dist/wasm/lz4.base.wasm',
+                    '../js/lz4/dist/wasm/lz4.simd.wasm'
+                );
+                
+                status.textContent = 'All modules loaded. Ready to benchmark.';
+                modulesReady = true;
+            } catch (e) {
+                status.textContent = 'Error loading modules: ' + e.message;
+                console.error(e);
+            }
+        }
+        
+        function generateTestData(size) {
+            const items = [];
+            const names = ['Alice', 'Bob', 'Charlie', 'Diana', 'Eve', 'Frank'];
+            const cities = ['New York', 'London', 'Tokyo', 'Paris', 'Sydney', 'Berlin'];
+            
+            while (JSON.stringify(items).length < size) {
+                items.push({
+                    id: Math.floor(Math.random() * 1000000),
+                    name: names[Math.floor(Math.random() * names.length)],
+                    email: `user${items.length}@example.com`,
+                    city: cities[Math.floor(Math.random() * cities.length)],
+                    score: Math.random() * 100,
+                    active: Math.random() > 0.5,
+                    tags: ['tag1', 'tag2', 'tag3'],
+                    metadata: { created: new Date().toISOString(), version: '1.0.0' }
+                });
+            }
+            
+            const jsonStr = JSON.stringify(items);
+            return new TextEncoder().encode(jsonStr.slice(0, size));
+        }
+        
+        function benchmark(codec, data, abi, useSimd, runs = 5) {
+            const compressFn = useSimd 
+                ? () => codec.compressSIMD(data, abi)
+                : () => codec.compressBase(data, abi);
+            
+            // Warmup
+            for (let i = 0; i < 2; i++) {
+                compressFn();
+            }
+            
+            const times = [];
+            for (let i = 0; i < runs; i++) {
+                const start = performance.now();
+                compressFn();
+                times.push(performance.now() - start);
+            }
+            
+            // Median
+            times.sort((a, b) => a - b);
+            return times[Math.floor(times.length / 2)];
+        }
+        
+        function formatSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / 1024 / 1024).toFixed(2) + ' MB';
+        }
+        
+        async function runBenchmarkWithSize(size) {
+            if (!modulesReady) {
+                await loadModules();
+            }
+            
+            const status = document.getElementById('status');
+            const results = document.getElementById('results');
+            results.innerHTML = '';
+            
+            status.textContent = `Generating ${formatSize(size)} test data...`;
+            const data = generateTestData(size);
+            const sizeMB = data.length / 1024 / 1024;
+            
+            const tests = [
+                // Brotli
+                { codec: brotli, name: 'Brotli', level: 1, abi: 'compress_brotli_level_1' },
+                { codec: brotli, name: 'Brotli', level: 4, abi: 'compress_brotli_level_4' },
+                { codec: brotli, name: 'Brotli', level: 6, abi: 'compress_brotli_level_6' },
+                { codec: brotli, name: 'Brotli', level: 9, abi: 'compress_brotli_level_9' },
+                // Gzip
+                { codec: gzip, name: 'Gzip', level: 1, abi: 'compress_gzip_level_1' },
+                { codec: gzip, name: 'Gzip', level: 6, abi: 'compress_gzip_level_6' },
+                { codec: gzip, name: 'Gzip', level: 9, abi: 'compress_gzip_level_9' },
+                // LZ4 Frame (with checksums, compatible with lz4 CLI)
+                { codec: lz4, name: 'LZ4 Frame', level: '-', abi: 'compress_lz4' },
+                // LZ4 Block (raw, max speed)
+                { codec: lz4, name: 'LZ4 Block', level: '-', abi: 'compress_lz4_block' },
+            ];
+            
+            for (const test of tests) {
+                status.textContent = `Benchmarking ${test.name} L${test.level}...`;
+                
+                const baseTime = benchmark(test.codec, data, test.abi, false);
+                const simdTime = benchmark(test.codec, data, test.abi, true);
+                const speedup = baseTime / simdTime;
+                
+                const baseSpeed = (sizeMB / (baseTime / 1000)).toFixed(1);
+                const simdSpeed = (sizeMB / (simdTime / 1000)).toFixed(1);
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${test.name}</td>
+                    <td>${test.level}</td>
+                    <td>${baseTime.toFixed(2)}</td>
+                    <td>${simdTime.toFixed(2)}</td>
+                    <td>${baseSpeed} MB/s</td>
+                    <td class="faster">${simdSpeed} MB/s</td>
+                    <td class="${speedup > 1.1 ? 'faster' : ''}">${speedup.toFixed(2)}x</td>
+                `;
+                results.appendChild(row);
+            }
+            
+            status.textContent = `Benchmark complete! Input: ${formatSize(data.length)}`;
+        }
+        
+        window.runBenchmark = () => runBenchmarkWithSize(1024 * 1024);
+        window.runQuickBenchmark = () => runBenchmarkWithSize(100 * 1024);
+        
+        loadModules();
+    </script>
+</body>
+</html>
+

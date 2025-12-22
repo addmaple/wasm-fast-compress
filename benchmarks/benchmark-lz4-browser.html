@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LZ4 SIMD Benchmark</title>
+    <style>
+        body { font-family: monospace; background: #1a1a2e; color: #e0e0e0; padding: 40px; }
+        h1 { color: #00d9ff; }
+        pre { background: #0f0f1a; padding: 20px; border-radius: 8px; white-space: pre-wrap; }
+        button { background: #00d9ff; color: #0f0f1a; border: none; padding: 12px 24px; 
+                 border-radius: 4px; cursor: pointer; font-size: 16px; margin: 10px 5px; }
+        button:hover { background: #00b8d4; }
+    </style>
+</head>
+<body>
+    <h1>🔬 LZ4 SIMD vs Base Browser Benchmark</h1>
+    <button onclick="runBenchmark(100*1024)">Run 100KB</button>
+    <button onclick="runBenchmark(1024*1024)">Run 1MB</button>
+    <pre id="output">Loading modules...</pre>
+
+    <script type="module">
+        const output = document.getElementById('output');
+        
+        async function loadWasm(url) {
+            const res = await fetch(url);
+            const bytes = await res.arrayBuffer();
+            const { instance } = await WebAssembly.instantiate(bytes, {});
+            return instance;
+        }
+        
+        function compress(instance, data, abi) {
+            const exports = instance.exports;
+            const inLen = data.length;
+            const outLen = inLen + 1024;
+            
+            const inPtr = exports.alloc_bytes(inLen);
+            const outPtr = exports.alloc_bytes(outLen);
+            
+            let memory = new Uint8Array(exports.memory.buffer);
+            memory.set(data, inPtr);
+            
+            const written = exports[abi](inPtr, inLen, outPtr, outLen);
+            
+            memory = new Uint8Array(exports.memory.buffer);
+            const result = memory.slice(outPtr, outPtr + written);
+            exports.free_bytes(inPtr, inLen);
+            exports.free_bytes(outPtr, outLen);
+            
+            return result;
+        }
+        
+        function benchmark(instance, data, abi, runs = 15) {
+            // Warmup
+            for (let i = 0; i < 5; i++) compress(instance, data, abi);
+            
+            const times = [];
+            for (let i = 0; i < runs; i++) {
+                // Run multiple times per measurement for sub-ms operations
+                const iterations = 10;
+                const start = performance.now();
+                for (let j = 0; j < iterations; j++) {
+                    compress(instance, data, abi);
+                }
+                times.push((performance.now() - start) / iterations);
+            }
+            
+            times.sort((a, b) => a - b);
+            return times[Math.floor(times.length / 2)];
+        }
+        
+        function generateData(size) {
+            const pattern = '{"id":12345,"name":"test","email":"user@example.com","values":[1,2,3]}';
+            const data = new Uint8Array(size);
+            for (let i = 0; i < size; i++) data[i] = pattern.charCodeAt(i % pattern.length);
+            return data;
+        }
+        
+        let baseInstance, simdInstance;
+        
+        async function init() {
+            output.textContent = 'Loading LZ4 Base WASM...\n';
+            baseInstance = await loadWasm('../js/lz4/dist/wasm/lz4.base.wasm');
+            output.textContent += 'Loading LZ4 SIMD WASM...\n';
+            simdInstance = await loadWasm('../js/lz4/dist/wasm/lz4.simd.wasm');
+            output.textContent += 'Ready! Click a button to benchmark.\n';
+        }
+        
+        window.runBenchmark = async function(size) {
+            if (!baseInstance || !simdInstance) {
+                output.textContent = 'Still loading...';
+                return;
+            }
+            
+            const data = generateData(size);
+            const sizeMB = size / 1024 / 1024;
+            const sizeKB = size / 1024;
+            
+            output.textContent = `\n🔬 LZ4 SIMD vs Base Benchmark (${sizeKB} KB)\n`;
+            output.textContent += '='.repeat(60) + '\n\n';
+            
+            const tests = [
+                { name: 'LZ4 Frame', abi: 'compress_lz4' },
+                { name: 'LZ4 Block', abi: 'compress_lz4_block' },
+            ];
+            
+            output.textContent += '| API        | Base (ms) | SIMD (ms) | Base Speed  | SIMD Speed  | Speedup |\n';
+            output.textContent += '|------------|-----------|-----------|-------------|-------------|--------|\n';
+            
+            for (const test of tests) {
+                output.textContent += `Testing ${test.name}...\n`;
+                await new Promise(r => setTimeout(r, 10)); // Let UI update
+                
+                const baseTime = benchmark(baseInstance, data, test.abi);
+                const simdTime = benchmark(simdInstance, data, test.abi);
+                const speedup = baseTime / simdTime;
+                
+                const baseSpeed = (sizeMB / (baseTime / 1000)).toFixed(0);
+                const simdSpeed = (sizeMB / (simdTime / 1000)).toFixed(0);
+                
+                // Remove "Testing..." line and add result
+                const lines = output.textContent.split('\n');
+                lines.pop(); lines.pop();
+                output.textContent = lines.join('\n') + '\n';
+                
+                const speedupClass = speedup > 1.1 ? '🚀' : '';
+                output.textContent += `| ${test.name.padEnd(10)} | ${baseTime.toFixed(2).padStart(9)} | ${simdTime.toFixed(2).padStart(9)} | ${(baseSpeed + ' MB/s').padStart(11)} | ${(simdSpeed + ' MB/s').padStart(11)} | ${speedup.toFixed(2)}x ${speedupClass} |\n`;
+            }
+            
+            output.textContent += '\n✅ Complete!\n';
+        };
+        
+        init();
+    </script>
+</body>
+</html>
+

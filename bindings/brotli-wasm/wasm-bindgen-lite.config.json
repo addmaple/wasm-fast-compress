@@ -10,8 +10,7 @@
   "emitTypes": true,
   "targets": {
     "baseline": true,
-    "simd": true,
-    "simdFeatures": "brotli_portable_simd"
+    "simd": false
   },
   "exports": [
     {
@@ -37,6 +36,28 @@
       "name": "compress_level_9",
       "return": "bytes",
       "outSize": "len + 1024"
+    },
+    {
+      "abi": "decompress_brotli",
+      "name": "decompress_brotli",
+      "return": "bytes",
+      "outSize": "len * 100"
+    },
+    {
+      "abi": "create_brotli_compressor",
+      "name": "create_brotli_compressor",
+      "return": "u32"
+    },
+    {
+      "abi": "compress_brotli_chunk",
+      "name": "compress_brotli_chunk",
+      "return": "bytes",
+      "outSize": "len + 1024"
+    },
+    {
+      "abi": "destroy_brotli_compressor",
+      "name": "destroy_brotli_compressor"
     }
   ]
 }
+

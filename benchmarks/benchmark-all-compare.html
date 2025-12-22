@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Codec Comparison Benchmark</title>
+    <style>
+        body { font-family: system-ui, sans-serif; background: #0f0f1a; color: #e0e0e0; padding: 40px; max-width: 1400px; margin: 0 auto; }
+        h1 { color: #00d9ff; margin-bottom: 5px; }
+        .subtitle { color: #888; margin-bottom: 30px; }
+        button { background: #00d9ff; color: #0f0f1a; border: none; padding: 12px 24px; 
+                 border-radius: 4px; cursor: pointer; font-size: 16px; margin: 10px 5px 10px 0; font-weight: 600; }
+        button:hover { background: #00b8d4; }
+        button:disabled { background: #555; cursor: not-allowed; }
+        #status { margin: 15px 0; color: #aaa; min-height: 24px; }
+        pre { background: #1a1a2e; padding: 20px; border-radius: 8px; overflow-x: auto; font-size: 13px; line-height: 1.4; }
+        .faster { color: #00ff88; }
+        .section { margin: 30px 0; }
+        .section h2 { color: #00d9ff; border-bottom: 1px solid #333; padding-bottom: 10px; }
+    </style>
+    <!-- Load JS libraries from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/brotli@1.3.3/dec/decode.min.js"></script>
+</head>
+<body>
+    <h1>🔬 Codec Comparison: SIMD vs Base vs JS</h1>
+    <p class="subtitle">Compare our WASM SIMD, WASM Base (no SIMD), and standard JS libraries</p>
+    
+    <button onclick="runBenchmark(100*1024)">Run 100KB</button>
+    <button onclick="runBenchmark(1024*1024)">Run 1MB</button>
+    <div id="status">Loading modules...</div>
+    
+    <pre id="output"></pre>
+
+    <script type="module">
+        const output = document.getElementById('output');
+        const status = document.getElementById('status');
+        
+        // Load WASM modules
+        async function loadWasm(url) {
+            const res = await fetch(url);
+            const bytes = await res.arrayBuffer();
+            const { instance } = await WebAssembly.instantiate(bytes, {});
+            return instance;
+        }
+        
+        function wasmCompress(instance, data, abi) {
+            const exports = instance.exports;
+            const inLen = data.length;
+            const outLen = inLen + 1024;
+            
+            const inPtr = exports.alloc_bytes(inLen);
+            const outPtr = exports.alloc_bytes(outLen);
+            
+            let memory = new Uint8Array(exports.memory.buffer);
+            memory.set(data, inPtr);
+            
+            const written = exports[abi](inPtr, inLen, outPtr, outLen);
+            
+            if (written < 0) {
+                exports.free_bytes(inPtr, inLen);
+                exports.free_bytes(outPtr, outLen);
+                throw new Error(`Compression failed: ${written}`);
+            }
+            
+            memory = new Uint8Array(exports.memory.buffer);
+            const result = memory.slice(outPtr, outPtr + written);
+            exports.free_bytes(inPtr, inLen);
+            exports.free_bytes(outPtr, outLen);
+            
+            return result;
+        }
+        
+        function benchmark(fn, runs = 10) {
+            // Warmup
+            for (let i = 0; i < 3; i++) fn();
+            
+            const times = [];
+            const iterations = 5;
+            for (let i = 0; i < runs; i++) {
+                const start = performance.now();
+                for (let j = 0; j < iterations; j++) fn();
+                times.push((performance.now() - start) / iterations);
+            }
+            
+            times.sort((a, b) => a - b);
+            return times[Math.floor(times.length / 2)];
+        }
+        
+        function generateData(size) {
+            const items = [];
+            const names = ['Alice', 'Bob', 'Charlie', 'Diana', 'Eve'];
+            const cities = ['New York', 'London', 'Tokyo', 'Paris', 'Sydney'];
+            
+            while (JSON.stringify(items).length < size) {
+                items.push({
+                    id: Math.floor(Math.random() * 1000000),
+                    name: names[Math.floor(Math.random() * names.length)],
+                    email: `user${items.length}@example.com`,
+                    city: cities[Math.floor(Math.random() * cities.length)],
+                    score: Math.random() * 100,
+                    active: Math.random() > 0.5,
+                });
+            }
+            
+            const jsonStr = JSON.stringify(items);
+            return new TextEncoder().encode(jsonStr.slice(0, size));
+        }
+        
+        function formatSpeed(sizeMB, timeMs) {
+            if (timeMs === 0) return 'N/A';
+            const speed = sizeMB / (timeMs / 1000);
+            if (speed >= 1000) return (speed / 1000).toFixed(1) + ' GB/s';
+            return speed.toFixed(0) + ' MB/s';
+        }
+        
+        function formatSpeedup(base, current) {
+            const speedup = base / current;
+            if (speedup > 1.1) return `${speedup.toFixed(2)}x 🚀`;
+            if (speedup < 0.9) return `${speedup.toFixed(2)}x`;
+            return `${speedup.toFixed(2)}x`;
+        }
+        
+        // Module storage
+        let modules = {};
+        
+        async function init() {
+            try {
+                status.textContent = 'Loading Brotli WASM (base)...';
+                modules.brotliBase = await loadWasm('../js/brotli/dist/wasm/brotli.base.wasm');
+                
+                status.textContent = 'Loading Brotli WASM (SIMD)...';
+                modules.brotliSimd = await loadWasm('../js/brotli/dist/wasm/brotli.simd.wasm');
+                
+                status.textContent = 'Loading Gzip WASM (base)...';
+                modules.gzipBase = await loadWasm('../js/gzip/dist/wasm/gzip.base.wasm');
+                
+                status.textContent = 'Loading Gzip WASM (SIMD)...';
+                modules.gzipSimd = await loadWasm('../js/gzip/dist/wasm/gzip.simd.wasm');
+                
+                status.textContent = 'Loading LZ4 WASM (base)...';
+                modules.lz4Base = await loadWasm('../js/lz4/dist/wasm/lz4.base.wasm');
+                
+                status.textContent = 'Loading LZ4 WASM (SIMD)...';
+                modules.lz4Simd = await loadWasm('../js/lz4/dist/wasm/lz4.simd.wasm');
+                
+                status.textContent = 'Ready! Click a button to run the benchmark.';
+                output.textContent = 'Click a button above to start the benchmark.\n\nThis will compare:\n• Our WASM SIMD build\n• Our WASM Base (no SIMD) build\n• Standard JS libraries (pako for Gzip)';
+            } catch (e) {
+                status.textContent = 'Error loading: ' + e.message;
+                console.error(e);
+            }
+        }
+        
+        window.runBenchmark = async function(size) {
+            const data = generateData(size);
+            const sizeMB = size / 1024 / 1024;
+            const sizeLabel = size >= 1024*1024 ? `${size/1024/1024} MB` : `${size/1024} KB`;
+            
+            output.textContent = '';
+            status.textContent = 'Running benchmarks...';
+            
+            const results = [];
+            
+            // ============ GZIP ============
+            output.textContent += `\n${'='.repeat(80)}\n`;
+            output.textContent += `  GZIP COMPRESSION (${sizeLabel})\n`;
+            output.textContent += `${'='.repeat(80)}\n\n`;
+            
+            status.textContent = 'Testing Gzip JS (pako)...';
+            await new Promise(r => setTimeout(r, 10));
+            const gzipJsTime = benchmark(() => pako.gzip(data, { level: 6 }));
+            const gzipJsResult = pako.gzip(data, { level: 6 });
+            
+            status.textContent = 'Testing Gzip WASM Base...';
+            await new Promise(r => setTimeout(r, 10));
+            const gzipBaseTime = benchmark(() => wasmCompress(modules.gzipBase, data, 'compress_gzip_level_6'));
+            const gzipBaseResult = wasmCompress(modules.gzipBase, data, 'compress_gzip_level_6');
+            
+            status.textContent = 'Testing Gzip WASM SIMD...';
+            await new Promise(r => setTimeout(r, 10));
+            const gzipSimdTime = benchmark(() => wasmCompress(modules.gzipSimd, data, 'compress_gzip_level_6'));
+            const gzipSimdResult = wasmCompress(modules.gzipSimd, data, 'compress_gzip_level_6');
+            
+            output.textContent += `| Implementation     | Time (ms) | Speed        | vs JS     | Ratio  |\n`;
+            output.textContent += `|--------------------|-----------|--------------|-----------|--------|\n`;
+            output.textContent += `| pako (JS)          | ${gzipJsTime.toFixed(2).padStart(9)} | ${formatSpeed(sizeMB, gzipJsTime).padStart(12)} | baseline  | ${(gzipJsResult.length/data.length*100).toFixed(1)}%  |\n`;
+            output.textContent += `| @addmaple (Base)   | ${gzipBaseTime.toFixed(2).padStart(9)} | ${formatSpeed(sizeMB, gzipBaseTime).padStart(12)} | ${formatSpeedup(gzipJsTime, gzipBaseTime).padStart(9)} | ${(gzipBaseResult.length/data.length*100).toFixed(1)}%  |\n`;
+            output.textContent += `| @addmaple (SIMD)   | ${gzipSimdTime.toFixed(2).padStart(9)} | ${formatSpeed(sizeMB, gzipSimdTime).padStart(12)} | ${formatSpeedup(gzipJsTime, gzipSimdTime).padStart(9)} | ${(gzipSimdResult.length/data.length*100).toFixed(1)}%  |\n`;
+            
+            // ============ BROTLI ============
+            output.textContent += `\n${'='.repeat(80)}\n`;
+            output.textContent += `  BROTLI COMPRESSION (${sizeLabel})\n`;
+            output.textContent += `${'='.repeat(80)}\n\n`;
+            
+            // Note: brotli npm package only has decoder, not encoder in browser
+            // So we'll just compare our Base vs SIMD
+            
+            status.textContent = 'Testing Brotli WASM Base...';
+            await new Promise(r => setTimeout(r, 10));
+            const brotliBaseTime = benchmark(() => wasmCompress(modules.brotliBase, data, 'compress_brotli_level_6'));
+            const brotliBaseResult = wasmCompress(modules.brotliBase, data, 'compress_brotli_level_6');
+            
+            status.textContent = 'Testing Brotli WASM SIMD...';
+            await new Promise(r => setTimeout(r, 10));
+            const brotliSimdTime = benchmark(() => wasmCompress(modules.brotliSimd, data, 'compress_brotli_level_6'));
+            const brotliSimdResult = wasmCompress(modules.brotliSimd, data, 'compress_brotli_level_6');
+            
+            output.textContent += `| Implementation     | Time (ms) | Speed        | vs Base   | Ratio  |\n`;
+            output.textContent += `|--------------------|-----------|--------------|-----------|--------|\n`;
+            output.textContent += `| brotli (JS)*       |       N/A | N/A          | N/A       | N/A    |\n`;
+            output.textContent += `| @addmaple (Base)   | ${brotliBaseTime.toFixed(2).padStart(9)} | ${formatSpeed(sizeMB, brotliBaseTime).padStart(12)} | baseline  | ${(brotliBaseResult.length/data.length*100).toFixed(1)}%  |\n`;
+            output.textContent += `| @addmaple (SIMD)   | ${brotliSimdTime.toFixed(2).padStart(9)} | ${formatSpeed(sizeMB, brotliSimdTime).padStart(12)} | ${formatSpeedup(brotliBaseTime, brotliSimdTime).padStart(9)} | ${(brotliSimdResult.length/data.length*100).toFixed(1)}%  |\n`;
+            output.textContent += `\n* brotli npm package only includes decoder for browser\n`;
+            
+            // ============ LZ4 ============
+            output.textContent += `\n${'='.repeat(80)}\n`;
+            output.textContent += `  LZ4 COMPRESSION (${sizeLabel})\n`;
+            output.textContent += `${'='.repeat(80)}\n\n`;
+            
+            // LZ4 Frame API (compatible with lz4 CLI)
+            status.textContent = 'Testing LZ4 Frame WASM Base...';
+            await new Promise(r => setTimeout(r, 10));
+            const lz4FrameBaseTime = benchmark(() => wasmCompress(modules.lz4Base, data, 'compress_lz4'));
+            const lz4FrameBaseResult = wasmCompress(modules.lz4Base, data, 'compress_lz4');
+            
+            status.textContent = 'Testing LZ4 Frame WASM SIMD...';
+            await new Promise(r => setTimeout(r, 10));
+            const lz4FrameSimdTime = benchmark(() => wasmCompress(modules.lz4Simd, data, 'compress_lz4'));
+            const lz4FrameSimdResult = wasmCompress(modules.lz4Simd, data, 'compress_lz4');
+            
+            // LZ4 Block API (raw, max speed)
+            status.textContent = 'Testing LZ4 Block WASM Base...';
+            await new Promise(r => setTimeout(r, 10));
+            const lz4BlockBaseTime = benchmark(() => wasmCompress(modules.lz4Base, data, 'compress_lz4_block'));
+            const lz4BlockBaseResult = wasmCompress(modules.lz4Base, data, 'compress_lz4_block');
+            
+            status.textContent = 'Testing LZ4 Block WASM SIMD...';
+            await new Promise(r => setTimeout(r, 10));
+            const lz4BlockSimdTime = benchmark(() => wasmCompress(modules.lz4Simd, data, 'compress_lz4_block'));
+            const lz4BlockSimdResult = wasmCompress(modules.lz4Simd, data, 'compress_lz4_block');
+            
+            output.textContent += `LZ4 Frame API (compatible with lz4 CLI, includes checksums):\n\n`;
+            output.textContent += `| Implementation     | Time (ms) | Speed        | vs Base   | Ratio  |\n`;
+            output.textContent += `|--------------------|-----------|--------------|-----------|--------|\n`;
+            output.textContent += `| @addmaple (Base)   | ${lz4FrameBaseTime.toFixed(2).padStart(9)} | ${formatSpeed(sizeMB, lz4FrameBaseTime).padStart(12)} | baseline  | ${(lz4FrameBaseResult.length/data.length*100).toFixed(1)}%  |\n`;
+            output.textContent += `| @addmaple (SIMD)   | ${lz4FrameSimdTime.toFixed(2).padStart(9)} | ${formatSpeed(sizeMB, lz4FrameSimdTime).padStart(12)} | ${formatSpeedup(lz4FrameBaseTime, lz4FrameSimdTime).padStart(9)} | ${(lz4FrameSimdResult.length/data.length*100).toFixed(1)}%  |\n`;
+            
+            output.textContent += `\nLZ4 Block API (raw format, maximum speed):\n\n`;
+            output.textContent += `| Implementation     | Time (ms) | Speed        | vs Base   | Ratio  |\n`;
+            output.textContent += `|--------------------|-----------|--------------|-----------|--------|\n`;
+            output.textContent += `| @addmaple (Base)   | ${lz4BlockBaseTime.toFixed(2).padStart(9)} | ${formatSpeed(sizeMB, lz4BlockBaseTime).padStart(12)} | baseline  | ${(lz4BlockBaseResult.length/data.length*100).toFixed(1)}%  |\n`;
+            output.textContent += `| @addmaple (SIMD)   | ${lz4BlockSimdTime.toFixed(2).padStart(9)} | ${formatSpeed(sizeMB, lz4BlockSimdTime).padStart(12)} | ${formatSpeedup(lz4BlockBaseTime, lz4BlockSimdTime).padStart(9)} | ${(lz4BlockSimdResult.length/data.length*100).toFixed(1)}%  |\n`;
+            
+            // ============ SUMMARY ============
+            output.textContent += `\n${'='.repeat(80)}\n`;
+            output.textContent += `  SUMMARY: SIMD SPEEDUPS\n`;
+            output.textContent += `${'='.repeat(80)}\n\n`;
+            
+            output.textContent += `| Codec              | Base Speed   | SIMD Speed   | SIMD Speedup |\n`;
+            output.textContent += `|--------------------|--------------|--------------|-------------|\n`;
+            output.textContent += `| Gzip L6            | ${formatSpeed(sizeMB, gzipBaseTime).padStart(12)} | ${formatSpeed(sizeMB, gzipSimdTime).padStart(12)} | ${formatSpeedup(gzipBaseTime, gzipSimdTime).padStart(12)} |\n`;
+            output.textContent += `| Brotli L6          | ${formatSpeed(sizeMB, brotliBaseTime).padStart(12)} | ${formatSpeed(sizeMB, brotliSimdTime).padStart(12)} | ${formatSpeedup(brotliBaseTime, brotliSimdTime).padStart(12)} |\n`;
+            output.textContent += `| LZ4 Frame          | ${formatSpeed(sizeMB, lz4FrameBaseTime).padStart(12)} | ${formatSpeed(sizeMB, lz4FrameSimdTime).padStart(12)} | ${formatSpeedup(lz4FrameBaseTime, lz4FrameSimdTime).padStart(12)} |\n`;
+            output.textContent += `| LZ4 Block          | ${formatSpeed(sizeMB, lz4BlockBaseTime).padStart(12)} | ${formatSpeed(sizeMB, lz4BlockSimdTime).padStart(12)} | ${formatSpeedup(lz4BlockBaseTime, lz4BlockSimdTime).padStart(12)} |\n`;
+            
+            output.textContent += `\n${'='.repeat(80)}\n`;
+            output.textContent += `  vs JAVASCRIPT LIBRARIES\n`;
+            output.textContent += `${'='.repeat(80)}\n\n`;
+            
+            output.textContent += `| Codec              | JS Speed     | SIMD Speed   | Speedup vs JS |\n`;
+            output.textContent += `|--------------------|--------------|--------------|---------------|\n`;
+            output.textContent += `| Gzip L6 vs pako    | ${formatSpeed(sizeMB, gzipJsTime).padStart(12)} | ${formatSpeed(sizeMB, gzipSimdTime).padStart(12)} | ${formatSpeedup(gzipJsTime, gzipSimdTime).padStart(13)} |\n`;
+            
+            output.textContent += `\n✅ Benchmark complete!\n`;
+            status.textContent = 'Benchmark complete!';
+        };
+        
+        init();
+    </script>
+</body>
+</html>
+

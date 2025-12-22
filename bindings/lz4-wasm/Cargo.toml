@@ -9,3 +9,4 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 codec-lz4 = { path = "../../crates/codec-lz4" }
 core-api = { path = "../../crates/core-api" }
+lz4_flex = { git = "https://github.com/addmaple/lz4_flex.git", branch = "wasm-simd", default-features = false, features = ["frame", "std"] }

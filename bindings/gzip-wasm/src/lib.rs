@@ -1,5 +1,8 @@
 use codec_gzip::GzipCompressor;
-use core_api::{CompressionOptions, Compressor};
+use core_api::{CompressionOptions, Compressor, Flush};
+use std::collections::HashMap;
+use std::sync::Mutex;
+use std::sync::LazyLock;
 
 // --- wasm-bindgen-lite bindings ---
 
@@ -15,6 +18,18 @@ pub unsafe extern "C" fn free_bytes(ptr: *mut u8, len: usize) {
     use std::alloc::{dealloc, Layout};
     let layout = Layout::from_size_align(len, std::mem::align_of::<u8>()).unwrap();
     dealloc(ptr, layout);
+}
+
+// Static storage for streaming compressors
+static COMPRESSORS: LazyLock<Mutex<HashMap<u32, GzipCompressor>>> = LazyLock::new(|| Mutex::new(HashMap::new()));
+static mut HANDLE_COUNTER: u32 = 1;
+
+fn next_handle() -> u32 {
+    unsafe {
+        let handle = HANDLE_COUNTER;
+        HANDLE_COUNTER += 1;
+        handle
+    }
 }
 
 unsafe fn compress_gzip_raw(
@@ -55,4 +70,96 @@ pub unsafe extern "C" fn compress_gzip_level_6(p: *const u8, l: usize, o: *mut u
 #[no_mangle]
 pub unsafe extern "C" fn compress_gzip_level_9(p: *const u8, l: usize, o: *mut u8, ol: usize) -> isize {
     compress_gzip_raw(p, l, o, ol, 9)
+}
+
+// ============================================================================
+// Streaming Compression API
+// ============================================================================
+
+#[no_mangle]
+pub unsafe extern "C" fn create_gzip_compressor(level: u32) -> u32 {
+    let handle = next_handle();
+    let opts = CompressionOptions {
+        level: Some(level),
+        ..Default::default()
+    };
+    match GzipCompressor::new(opts) {
+        Ok(compressor) => {
+            COMPRESSORS.lock().unwrap().insert(handle, compressor);
+            handle
+        }
+        Err(_) => 0,
+    }
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn compress_gzip_chunk(
+    handle: u32,
+    in_ptr: *const u8,
+    in_len: usize,
+    out_ptr: *mut u8,
+    out_len: usize,
+    finish: u8,
+) -> isize {
+    let mut compressors = COMPRESSORS.lock().unwrap();
+    let compressor = match compressors.get_mut(&handle) {
+        Some(c) => c,
+        None => return -1,
+    };
+
+    let input = std::slice::from_raw_parts(in_ptr, in_len);
+    let flush = if finish != 0 { Flush::Finish } else { Flush::None };
+
+    match compressor.compress_chunk(input, flush) {
+        Ok(out) => {
+            if out.is_empty() {
+                return 0;
+            }
+            if out.len() > out_len {
+                return -(out.len() as isize);
+            }
+            std::ptr::copy_nonoverlapping(out.as_ptr(), out_ptr, out.len());
+            let result = out.len() as isize;
+            if finish != 0 {
+                compressors.remove(&handle);
+            }
+            result
+        }
+        Err(_) => -1,
+    }
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn destroy_gzip_compressor(handle: u32) {
+    COMPRESSORS.lock().unwrap().remove(&handle);
+}
+
+// ============================================================================
+// Decompression API
+// ============================================================================
+
+#[no_mangle]
+pub unsafe extern "C" fn decompress_gzip(
+    in_ptr: *const u8,
+    in_len: usize,
+    out_ptr: *mut u8,
+    out_len: usize,
+) -> isize {
+    use flate2::read::GzDecoder;
+    use std::io::Read;
+    
+    let input = std::slice::from_raw_parts(in_ptr, in_len);
+    let mut decoder = GzDecoder::new(input);
+    let mut output = Vec::new();
+    
+    match decoder.read_to_end(&mut output) {
+        Ok(_) => {
+            if output.len() > out_len {
+                return -(output.len() as isize);
+            }
+            std::ptr::copy_nonoverlapping(output.as_ptr(), out_ptr, output.len());
+            output.len() as isize
+        }
+        Err(_) => -1,
+    }
 }

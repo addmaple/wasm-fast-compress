@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compression Upload Demo</title>
+  <style>
+    :root {
+      --bg: #0a0a12;
+      --surface: #12121a;
+      --border: #2a2a3a;
+      --text: #e8e8f0;
+      --muted: #888;
+      --accent: #00d4ff;
+      --success: #00ff88;
+      --lz4: #ff6b6b;
+      --gzip: #4ecdc4;
+      --brotli: #a855f7;
+    }
+    
+    * { box-sizing: border-box; }
+    
+    body {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 40px;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    
+    .subtitle {
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+    
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    
+    .card h2 {
+      margin-top: 0;
+      font-size: 1.1rem;
+      color: var(--accent);
+    }
+    
+    .codec-select {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .codec-btn {
+      padding: 10px 20px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    
+    .codec-btn.active {
+      border-color: var(--accent);
+      background: rgba(0, 212, 255, 0.1);
+    }
+    
+    .codec-btn.lz4 { border-color: var(--lz4); color: var(--lz4); }
+    .codec-btn.gzip { border-color: var(--gzip); color: var(--gzip); }
+    .codec-btn.brotli { border-color: var(--brotli); color: var(--brotli); }
+    
+    .codec-btn.active.lz4 { background: rgba(255, 107, 107, 0.1); }
+    .codec-btn.active.gzip { background: rgba(78, 205, 196, 0.1); }
+    .codec-btn.active.brotli { background: rgba(168, 85, 247, 0.1); }
+    
+    button {
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+    
+    button:hover { filter: brightness(1.1); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    
+    .stat {
+      background: var(--bg);
+      padding: 16px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: var(--success);
+    }
+    
+    .stat-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    
+    .log {
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 0.85rem;
+      max-height: 300px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+    
+    .log-entry {
+      margin-bottom: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .log-entry:last-child { border-bottom: none; }
+    
+    #status { color: var(--muted); margin-bottom: 16px; }
+    
+    .highlight { color: var(--accent); }
+    .lz4-text { color: var(--lz4); }
+    .gzip-text { color: var(--gzip); }
+    .brotli-text { color: var(--brotli); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>⚡ Compression Upload Demo</h1>
+    <p class="subtitle">Compare LZ4, Gzip, and Brotli compression in the browser</p>
+    
+    <div class="card">
+      <h2>🔧 Select Codec</h2>
+      <div class="codec-select">
+        <button class="codec-btn lz4 active" onclick="selectCodec('lz4')">LZ4 (Fastest)</button>
+        <button class="codec-btn gzip" onclick="selectCodec('gzip')">Gzip (Balanced)</button>
+        <button class="codec-btn brotli" onclick="selectCodec('brotli')">Brotli (Best Ratio)</button>
+      </div>
+      
+      <h2>📤 Generate & Upload Data</h2>
+      <p id="status">Loading WASM modules...</p>
+      
+      <button onclick="uploadData(1000)">Upload 1K Records</button>
+      <button onclick="uploadData(10000)">Upload 10K Records</button>
+      <button onclick="uploadData(100000)">Upload 100K Records</button>
+      <button onclick="verifyRoundTrip(10000)" style="background: var(--success);">🔍 Verify</button>
+      
+      <div class="stats" id="stats" style="display: none;">
+        <div class="stat">
+          <div class="stat-value" id="originalSize">-</div>
+          <div class="stat-label">Original Size</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="compressedSize">-</div>
+          <div class="stat-label">Compressed</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="ratio">-</div>
+          <div class="stat-label">Ratio</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="compressTime">-</div>
+          <div class="stat-label">Compress</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="networkTime">-</div>
+          <div class="stat-label">Network</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="serverSpeed">-</div>
+          <div class="stat-label">Server</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2>📋 Log</h2>
+      <div class="log" id="log">Waiting...</div>
+    </div>
+  </div>
+  
+  <script type="module">
+    // Import all codecs - use Frame format for interoperability
+    import { init as initLz4, compress as compressLz4 } from '/lz4/browser.js';
+    import { init as initGzip, compress as compressGzip } from '/gzip/browser.js';
+    import { init as initBrotli, compress as compressBrotli } from '/brotli/browser.js';
+    
+    let ready = false;
+    let selectedCodec = 'lz4';
+    
+    const codecs = {
+      lz4: { init: initLz4, compress: compressLz4, name: 'LZ4', color: 'lz4-text' },
+      gzip: { init: initGzip, compress: (d) => compressGzip(d, { level: 6 }), name: 'Gzip', color: 'gzip-text' },
+      brotli: { init: initBrotli, compress: (d) => compressBrotli(d, { level: 6 }), name: 'Brotli', color: 'brotli-text' }
+    };
+    
+    async function initialize() {
+      try {
+        document.getElementById('status').textContent = 'Loading LZ4...';
+        await initLz4();
+        document.getElementById('status').textContent = 'Loading Gzip...';
+        await initGzip();
+        document.getElementById('status').textContent = 'Loading Brotli...';
+        await initBrotli();
+        ready = true;
+        document.getElementById('status').innerHTML = '✅ Ready! All codecs loaded with <span class="highlight">SIMD</span>';
+      } catch (e) {
+        document.getElementById('status').textContent = '❌ Failed to load: ' + e.message;
+        console.error(e);
+      }
+    }
+    
+    window.selectCodec = function(codec) {
+      selectedCodec = codec;
+      document.querySelectorAll('.codec-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`.codec-btn.${codec}`).classList.add('active');
+      log(`Selected codec: ${codecs[codec].name}`);
+    };
+    
+    function generateData(recordCount) {
+      const names = ['Alice', 'Bob', 'Charlie', 'Diana', 'Eve', 'Frank', 'Grace', 'Henry'];
+      const cities = ['New York', 'London', 'Tokyo', 'Paris', 'Sydney', 'Berlin', 'Toronto'];
+      const departments = ['Engineering', 'Sales', 'Marketing', 'HR', 'Finance', 'Operations'];
+      
+      const records = [];
+      for (let i = 0; i < recordCount; i++) {
+        records.push({
+          id: i + 1,
+          name: names[Math.floor(Math.random() * names.length)],
+          email: `user${i}@company.com`,
+          city: cities[Math.floor(Math.random() * cities.length)],
+          department: departments[Math.floor(Math.random() * departments.length)],
+          salary: Math.floor(50000 + Math.random() * 100000),
+          active: Math.random() > 0.2,
+          joinDate: new Date(2020 + Math.floor(Math.random() * 4), Math.floor(Math.random() * 12), 1).toISOString().split('T')[0]
+        });
+      }
+      
+      return { filename: `data-${recordCount}-records.json`, timestamp: new Date().toISOString(), records };
+    }
+    
+    function formatBytes(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / 1024 / 1024).toFixed(2) + ' MB';
+    }
+    
+    function log(message) {
+      const logEl = document.getElementById('log');
+      const entry = document.createElement('div');
+      entry.className = 'log-entry';
+      entry.innerHTML = `[${new Date().toLocaleTimeString()}] ${message}`;
+      logEl.insertBefore(entry, logEl.firstChild);
+    }
+    
+    // Pack compressed data with size prefix
+    function packWithSize(originalSize, compressed) {
+      const result = new Uint8Array(4 + compressed.length);
+      const dataView = new DataView(result.buffer);
+      dataView.setUint32(0, originalSize, true);
+      result.set(compressed, 4);
+      return result;
+    }
+    
+    window.uploadData = async function(recordCount) {
+      if (!ready) { log('❌ Not ready yet'); return; }
+      
+      document.querySelectorAll('button').forEach(b => b.disabled = true);
+      const codec = codecs[selectedCodec];
+      
+      try {
+        log(`[<span class="${codec.color}">${codec.name}</span>] Generating ${recordCount.toLocaleString()} records...`);
+        const data = generateData(recordCount);
+        const jsonString = JSON.stringify(data);
+        const originalBytes = new TextEncoder().encode(jsonString);
+        
+        log(`Original size: ${formatBytes(originalBytes.length)}`);
+        
+        // Compress
+        const compressStart = performance.now();
+        const compressed = await codec.compress(originalBytes);
+        const compressTime = performance.now() - compressStart;
+        
+        const ratio = ((compressed.length / originalBytes.length) * 100).toFixed(1);
+        const compressSpeed = (originalBytes.length / 1024 / 1024) / (compressTime / 1000);
+        
+        log(`[<span class="${codec.color}">${codec.name}</span>] Compressed: ${formatBytes(compressed.length)} (${ratio}%) in ${compressTime.toFixed(1)}ms (${compressSpeed.toFixed(0)} MB/s)`);
+        
+        // Pack with size prefix
+        const packed = packWithSize(originalBytes.length, compressed);
+        
+        // Upload
+        log('Uploading to server...');
+        const uploadStart = performance.now();
+        
+        const response = await fetch(`/api/upload/${selectedCodec}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/octet-stream' },
+          body: packed
+        });
+        
+        const networkTime = performance.now() - uploadStart;
+        const result = await response.json();
+        
+        if (result.success) {
+          log(`✅ [<span class="${codec.color}">${codec.name}</span>] Server received: ${result.stats.recordCount} records`);
+          log(`   Server decompression: ${result.stats.decompressTimeMs}ms (${result.stats.speedMBps} MB/s)`);
+          
+          document.getElementById('stats').style.display = 'grid';
+          document.getElementById('originalSize').textContent = formatBytes(originalBytes.length);
+          document.getElementById('compressedSize').textContent = formatBytes(compressed.length);
+          document.getElementById('ratio').textContent = ratio + '%';
+          document.getElementById('compressTime').textContent = compressTime.toFixed(1) + 'ms';
+          document.getElementById('networkTime').textContent = networkTime.toFixed(0) + 'ms';
+          document.getElementById('serverSpeed').textContent = result.stats.speedMBps + ' MB/s';
+        } else {
+          log(`❌ Server error: ${result.error}`);
+        }
+        
+      } catch (error) {
+        log(`❌ Error: ${error.message}`);
+      } finally {
+        document.querySelectorAll('button').forEach(b => b.disabled = false);
+      }
+    };
+    
+    window.verifyRoundTrip = async function(recordCount) {
+      if (!ready) { log('❌ Not ready yet'); return; }
+      
+      document.querySelectorAll('button').forEach(b => b.disabled = true);
+      const codec = codecs[selectedCodec];
+      
+      try {
+        log(`🔍 [<span class="${codec.color}">${codec.name}</span>] Verifying round-trip...`);
+        const data = generateData(recordCount);
+        const jsonString = JSON.stringify(data);
+        const originalBytes = new TextEncoder().encode(jsonString);
+        
+        const compressed = await codec.compress(originalBytes);
+        const packed = packWithSize(originalBytes.length, compressed);
+        
+        const response = await fetch(`/api/verify/${selectedCodec}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/octet-stream' },
+          body: packed
+        });
+        
+        const result = await response.json();
+        
+        if (result.verified) {
+          log(`✅ [<span class="${codec.color}">${codec.name}</span>] VERIFIED! Round-trip successful`);
+          log(`   Hash match: ${result.hashMatch ? 'YES ✓' : 'NO ✗'}`);
+        } else {
+          log(`❌ Verification failed!`);
+        }
+        
+      } catch (error) {
+        log(`❌ Error: ${error.message}`);
+      } finally {
+        document.querySelectorAll('button').forEach(b => b.disabled = false);
+      }
+    };
+    
+    initialize();
+  </script>
+</body>
+</html>

@@ -10,7 +10,7 @@
   "emitTypes": true,
   "targets": {
     "baseline": true,
-    "simd": false
+    "simd": true
   },
   "exports": [
     {
@@ -30,6 +30,28 @@
       "name": "compress_level_9",
       "return": "bytes",
       "outSize": "len + 1024"
+    },
+    {
+      "abi": "decompress_gzip",
+      "name": "decompress_gzip",
+      "return": "bytes",
+      "outSize": "len * 10"
+    },
+    {
+      "abi": "create_gzip_compressor",
+      "name": "create_gzip_compressor",
+      "return": "u32"
+    },
+    {
+      "abi": "compress_gzip_chunk",
+      "name": "compress_gzip_chunk",
+      "return": "bytes",
+      "outSize": "len + 1024"
+    },
+    {
+      "abi": "destroy_gzip_compressor",
+      "name": "destroy_gzip_compressor"
     }
   ]
 }
+

@@ -2,6 +2,27 @@
 
 This directory contains examples of using `wasm-fast-compress` in different environments.
 
+## 🚀 LZ4 Upload Demo (Client-Server)
+
+A full Express.js example showing client-side compression with server-side decompression.
+
+```bash
+cd lz4-upload
+npm install
+npm start
+# Open http://localhost:3456
+```
+
+**Features:**
+- Client compresses JSON at 566 MB/s before sending
+- Server decompresses at 634 MB/s
+- ~5x bandwidth savings (21% compression ratio)
+- Uses packed format (size embedded, self-contained)
+
+See [lz4-upload/README.md](lz4-upload/README.md) for details.
+
+---
+
 ## Node.js
 
 Requires Node.js 20+.

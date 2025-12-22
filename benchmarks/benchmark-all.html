@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Compression Benchmark - All Codecs</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 1100px; margin: 50px auto; padding: 20px; background: #0f0f1a; color: #e0e0e0; }
+        h1 { color: #00d9ff; margin-bottom: 5px; }
+        .subtitle { color: #888; margin-bottom: 30px; }
+        .results { background: #1a1a2e; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid #333; }
+        th { color: #00d9ff; background: #16213e; }
+        .faster { color: #00ff88; font-weight: bold; }
+        button { background: #00d9ff; color: #0f0f1a; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; font-size: 16px; margin: 10px 5px 10px 0; font-weight: 600; }
+        button:hover { background: #00b8d4; }
+        button:disabled { background: #555; cursor: not-allowed; }
+        #status { margin: 10px 0; color: #aaa; min-height: 24px; }
+        .codec-header { background: #2a2a4e !important; }
+        .summary { background: #16213e; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .summary h3 { color: #00d9ff; margin-top: 0; }
+        .metric { display: inline-block; margin-right: 30px; }
+        .metric-value { font-size: 24px; font-weight: bold; color: #00ff88; }
+        .metric-label { color: #888; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h1>🚀 Compression Benchmark</h1>
+    <p class="subtitle">Compare Brotli, Gzip, and LZ4 compression performance in the browser</p>
+    
+    <button id="runBtn" onclick="runBenchmark()">Run Full Benchmark (1MB JSON)</button>
+    <button onclick="runQuickBenchmark()">Quick Benchmark (100KB)</button>
+    <div id="status">Loading modules...</div>
+    
+    <div id="summaryBox" class="summary" style="display:none;">
+        <h3>Summary</h3>
+        <div id="summaryContent"></div>
+    </div>
+    
+    <div class="results">
+        <h2>Results</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Codec</th>
+                    <th>Level</th>
+                    <th>Time (ms)</th>
+                    <th>Speed (MB/s)</th>
+                    <th>Ratio</th>
+                    <th>Output Size</th>
+                </tr>
+            </thead>
+            <tbody id="results"></tbody>
+        </table>
+    </div>
+
+    <script type="module">
+        import { init as initBrotli, compress as compressBrotli } from '../js/brotli/dist/browser.js';
+        import { init as initGzip, compress as compressGzip } from '../js/gzip/dist/browser.js';
+        import { init as initLz4, compress as compressLz4 } from '../js/lz4/dist/browser.js';
+        
+        let modulesReady = false;
+        
+        async function loadModules() {
+            const status = document.getElementById('status');
+            try {
+                status.textContent = 'Loading Brotli...';
+                await initBrotli();
+                status.textContent = 'Loading Gzip...';
+                await initGzip();
+                status.textContent = 'Loading LZ4...';
+                await initLz4();
+                status.textContent = 'All modules loaded. Ready to benchmark.';
+                modulesReady = true;
+            } catch (e) {
+                status.textContent = 'Error loading modules: ' + e.message;
+                console.error(e);
+            }
+        }
+        
+        function generateTestData(size) {
+            // Generate realistic JSON data
+            const items = [];
+            const names = ['Alice', 'Bob', 'Charlie', 'Diana', 'Eve', 'Frank'];
+            const cities = ['New York', 'London', 'Tokyo', 'Paris', 'Sydney', 'Berlin'];
+            
+            while (JSON.stringify(items).length < size) {
+                items.push({
+                    id: Math.floor(Math.random() * 1000000),
+                    name: names[Math.floor(Math.random() * names.length)],
+                    email: `user${items.length}@example.com`,
+                    city: cities[Math.floor(Math.random() * cities.length)],
+                    score: Math.random() * 100,
+                    active: Math.random() > 0.5,
+                    tags: ['tag1', 'tag2', 'tag3'],
+                    metadata: {
+                        created: new Date().toISOString(),
+                        version: '1.0.0'
+                    }
+                });
+            }
+            
+            const jsonStr = JSON.stringify(items);
+            return new TextEncoder().encode(jsonStr.slice(0, size));
+        }
+        
+        async function benchmarkCodec(name, compressFn, data, level, runs = 5) {
+            // Warmup
+            for (let i = 0; i < 2; i++) {
+                await compressFn(data, { level });
+            }
+            
+            const times = [];
+            let compressed;
+            
+            for (let i = 0; i < runs; i++) {
+                const start = performance.now();
+                compressed = await compressFn(data, { level });
+                const end = performance.now();
+                times.push(end - start);
+            }
+            
+            // Get median
+            times.sort((a, b) => a - b);
+            const medianTime = times[Math.floor(times.length / 2)];
+            
+            return {
+                codec: name,
+                level,
+                time: medianTime,
+                speed: (data.length / 1024 / 1024) / (medianTime / 1000),
+                ratio: (data.length / compressed.length).toFixed(2),
+                outputSize: compressed.length
+            };
+        }
+        
+        function formatSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / 1024 / 1024).toFixed(2) + ' MB';
+        }
+        
+        async function runBenchmarkWithSize(size) {
+            if (!modulesReady) {
+                await loadModules();
+            }
+            
+            const status = document.getElementById('status');
+            const results = document.getElementById('results');
+            results.innerHTML = '';
+            
+            status.textContent = `Generating ${formatSize(size)} test data...`;
+            const data = generateTestData(size);
+            status.textContent = `Running benchmark on ${formatSize(data.length)} of JSON data...`;
+            
+            const allResults = [];
+            
+            // Brotli levels
+            const brotliLevels = [1, 4, 6, 9, 11];
+            for (const level of brotliLevels) {
+                status.textContent = `Benchmarking Brotli level ${level}...`;
+                const result = await benchmarkCodec('Brotli', compressBrotli, data, level);
+                allResults.push(result);
+                addResultRow(result);
+            }
+            
+            // Gzip levels
+            const gzipLevels = [1, 4, 6, 9];
+            for (const level of gzipLevels) {
+                status.textContent = `Benchmarking Gzip level ${level}...`;
+                const result = await benchmarkCodec('Gzip', compressGzip, data, level);
+                allResults.push(result);
+                addResultRow(result);
+            }
+            
+            // LZ4 (single level)
+            status.textContent = `Benchmarking LZ4...`;
+            const lz4Result = await benchmarkCodec('LZ4', compressLz4, data, 1);
+            allResults.push(lz4Result);
+            addResultRow(lz4Result);
+            
+            // Show summary
+            showSummary(allResults, data.length);
+            status.textContent = 'Benchmark complete!';
+        }
+        
+        function addResultRow(result) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${result.codec}</td>
+                <td>${result.level}</td>
+                <td>${result.time.toFixed(2)}</td>
+                <td class="faster">${result.speed.toFixed(1)}</td>
+                <td>${result.ratio}x</td>
+                <td>${formatSize(result.outputSize)}</td>
+            `;
+            document.getElementById('results').appendChild(row);
+        }
+        
+        function showSummary(results, inputSize) {
+            const box = document.getElementById('summaryBox');
+            const content = document.getElementById('summaryContent');
+            
+            // Find fastest and best ratio
+            const fastest = results.reduce((a, b) => a.speed > b.speed ? a : b);
+            const bestRatio = results.reduce((a, b) => parseFloat(a.ratio) > parseFloat(b.ratio) ? a : b);
+            
+            content.innerHTML = `
+                <div class="metric">
+                    <div class="metric-value">${formatSize(inputSize)}</div>
+                    <div class="metric-label">Input Size</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">${fastest.codec} L${fastest.level}</div>
+                    <div class="metric-label">Fastest (${fastest.speed.toFixed(0)} MB/s)</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">${bestRatio.codec} L${bestRatio.level}</div>
+                    <div class="metric-label">Best Ratio (${bestRatio.ratio}x)</div>
+                </div>
+            `;
+            box.style.display = 'block';
+        }
+        
+        window.runBenchmark = () => runBenchmarkWithSize(1024 * 1024);
+        window.runQuickBenchmark = () => runBenchmarkWithSize(100 * 1024);
+        
+        // Load modules on page load
+        loadModules();
+    </script>
+</body>
+</html>
+

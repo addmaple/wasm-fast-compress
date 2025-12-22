@@ -9,6 +9,7 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 codec-brotli = { path = "../../crates/codec-brotli" }
 core-api = { path = "../../crates/core-api" }
+brotli = { git = "https://github.com/addmaple/rust-brotli.git", branch = "wasm-simd" }
 
 [features]
 # Base build remains stable-friendly. This feature opts into upstream `brotli/simd`

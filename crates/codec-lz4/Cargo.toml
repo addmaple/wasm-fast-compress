@@ -5,7 +5,9 @@ edition.workspace = true
 
 [dependencies]
 core-api = { path = "../core-api" }
-lz4_flex = { version = "0.12", default-features = false, features = ["frame", "std"] }
+# Use SIMD-optimized lz4_flex fork
+# IMPORTANT: default-features = false disables safe-encode, enabling SIMD optimizations
+lz4_flex = { git = "https://github.com/addmaple/lz4_flex.git", branch = "wasm-simd", default-features = false, features = ["frame", "std", "checked-decode"] }
 
 
 

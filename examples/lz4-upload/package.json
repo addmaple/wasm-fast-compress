@@ -1,0 +1,15 @@
+{
+  "name": "compression-upload-example",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node --watch server.mjs"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "@addmaple/lz4": "file:../../js/lz4",
+    "@addmaple/gzip": "file:../../js/gzip",
+    "@addmaple/brotli": "file:../../js/brotli"
+  }
+}

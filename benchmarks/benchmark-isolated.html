@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Isolated Codec Benchmarks</title>
+    <style>
+        body { font-family: system-ui, sans-serif; background: #0f0f1a; color: #e0e0e0; padding: 40px; max-width: 1000px; margin: 0 auto; }
+        h1 { color: #00d9ff; }
+        .subtitle { color: #888; margin-bottom: 30px; }
+        button { background: #00d9ff; color: #0f0f1a; border: none; padding: 12px 24px; 
+                 border-radius: 4px; cursor: pointer; font-size: 16px; margin: 10px 5px 10px 0; font-weight: 600; }
+        button:hover { background: #00b8d4; }
+        pre { background: #1a1a2e; padding: 20px; border-radius: 8px; font-size: 13px; }
+        .note { background: #2a2a4e; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #00d9ff; }
+        iframe { display: none; }
+    </style>
+</head>
+<body>
+    <h1>🔬 Isolated Codec Benchmarks</h1>
+    <p class="subtitle">Each codec runs in isolation to avoid JIT interference</p>
+    
+    <div class="note">
+        <strong>Why isolated?</strong> V8's JIT compiler has limited optimization budget. 
+        When multiple WASM modules compete for optimization, SIMD code (which requires more optimization) 
+        may not get fully optimized. Running each codec in isolation gives accurate results.
+    </div>
+    
+    <h2>Quick Links (Each Opens in New Tab)</h2>
+    <p>
+        <a href="benchmark-lz4-browser.html" target="_blank"><button>LZ4 Benchmark</button></a>
+        <a href="benchmark-gzip-browser.html" target="_blank"><button>Gzip Benchmark</button></a>
+        <a href="benchmark-brotli-browser.html" target="_blank"><button>Brotli Benchmark</button></a>
+    </p>
+    
+    <h2>Or Run All Sequentially</h2>
+    <button onclick="runAll()">Run All (Sequential, with page reload)</button>
+    <pre id="output">Click "Run All" to benchmark each codec in isolation.</pre>
+    
+    <script>
+        async function runAll() {
+            const output = document.getElementById('output');
+            output.textContent = 'Running benchmarks sequentially...\n\n';
+            output.textContent += 'Open each benchmark in a separate tab for best results:\n';
+            output.textContent += '• benchmark-lz4-browser.html\n';
+            output.textContent += '• benchmark-gzip-browser.html\n';
+            output.textContent += '• benchmark-brotli-browser.html\n';
+        }
+    </script>
+</body>
+</html>
+

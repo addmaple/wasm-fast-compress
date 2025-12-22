@@ -9,3 +9,4 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 codec-gzip = { path = "../../crates/codec-gzip" }
 core-api = { path = "../../crates/core-api" }
+flate2 = "1.0"
