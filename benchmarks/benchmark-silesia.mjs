@@ -33,7 +33,10 @@ const SILESIA_DIR = join(__dirname, '..', 'test-data', 'silesia');
 // Compression levels to test
 const gzipLevels = [1, 3, 6, 9];
 const brotliLevels = [1, 4, 6, 9, 11];
-const lz4Levels = [1, 4, 9, 16];
+// LZ4 doesn't have "levels" like gzip/brotli. `lz4js` exposes an `acceleration`
+// knob; our WASM LZ4 implementation is fixed-speed. We still benchmark against
+// multiple `lz4js` acceleration settings for comparison.
+const lz4Accelerations = [1, 4, 9, 16];
 
 /**
  * Format bytes to human readable
@@ -150,19 +153,19 @@ async function testBrotli(data, level) {
 /**
  * Test lz4 compression
  */
-async function testLz4(data, level) {
+async function testLz4(data, acceleration) {
   await initLz4();
   
   const wfc = await benchmarkCompression(
-    `@addmaple/lz4 (level ${level})`,
-    (d) => compressLz4(d, { level }),
+    `@addmaple/lz4 (fixed)`,
+    (d) => compressLz4(d),
     data
   );
   
   const js = await benchmarkCompression(
-    `lz4js (accel ${level})`,
+    `lz4js (accel ${acceleration})`,
     (d) => {
-      const result = lz4jsCompress(d, { acceleration: level });
+      const result = lz4jsCompress(d, { acceleration });
       return result instanceof Uint8Array ? result : new Uint8Array(result);
     },
     data
@@ -221,11 +224,11 @@ async function testFile(filePath, fileName) {
   // Test LZ4
   console.log('\n📦 LZ4:');
   console.log('-'.repeat(100));
-  for (const level of lz4Levels) {
-    const { wfc, js } = await testLz4(data, level);
-    results.lz4[level] = { wfc, js };
+  for (const acceleration of lz4Accelerations) {
+    const { wfc, js } = await testLz4(data, acceleration);
+    results.lz4[acceleration] = { wfc, js };
     
-    console.log(`\nLevel ${level}:`);
+    console.log(`\nAccel ${acceleration}:`);
     console.log(`  @addmaple/lz4: ${formatTime(wfc.avgTime)} | ${wfc.throughput.toFixed(2)} MB/s | ${wfc.compressionRatio}% ratio | ${formatBytes(wfc.avgSize)}`);
     console.log(`  lz4js:    ${formatTime(js.avgTime)} | ${js.throughput.toFixed(2)} MB/s | ${js.compressionRatio}% ratio | ${formatBytes(js.avgSize)}`);
     const speedup = js.avgTime / wfc.avgTime;
@@ -278,15 +281,15 @@ function generateSummary(allResults) {
       }
     }
     
-    // LZ4 averages
-    for (const level of lz4Levels) {
-      if (result.lz4[level]) {
-        totals.lz4.wfc.time += result.lz4[level].wfc.avgTime;
-        totals.lz4.wfc.throughput += result.lz4[level].wfc.throughput;
-        totals.lz4.wfc.ratio += parseFloat(result.lz4[level].wfc.compressionRatio);
-        totals.lz4.js.time += result.lz4[level].js.avgTime;
-        totals.lz4.js.throughput += result.lz4[level].js.throughput;
-        totals.lz4.js.ratio += parseFloat(result.lz4[level].js.compressionRatio);
+    // LZ4 averages (WASM fixed-speed vs lz4js acceleration settings)
+    for (const acceleration of lz4Accelerations) {
+      if (result.lz4[acceleration]) {
+        totals.lz4.wfc.time += result.lz4[acceleration].wfc.avgTime;
+        totals.lz4.wfc.throughput += result.lz4[acceleration].wfc.throughput;
+        totals.lz4.wfc.ratio += parseFloat(result.lz4[acceleration].wfc.compressionRatio);
+        totals.lz4.js.time += result.lz4[acceleration].js.avgTime;
+        totals.lz4.js.throughput += result.lz4[acceleration].js.throughput;
+        totals.lz4.js.ratio += parseFloat(result.lz4[acceleration].js.compressionRatio);
       }
     }
   }
@@ -294,7 +297,7 @@ function generateSummary(allResults) {
   const levelCounts = {
     gzip: gzipLevels.length,
     brotli: brotliLevels.length,
-    lz4: lz4Levels.length
+    lz4: lz4Accelerations.length
   };
 
   console.log('\n📊 Average Performance Across All Files:');
