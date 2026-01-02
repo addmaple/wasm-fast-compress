@@ -3,6 +3,7 @@
     "build": "./scripts/build-all.sh",
     "test": "node benchmarks/benchmark-brotli-minimal.mjs",
     "test:interop": "node tests/interop.mjs",
+    "test:stream-helpers": "node tests/stream-helpers.mjs",
     "benchmark": "node benchmarks/benchmark-silesia.mjs"
   },
   "devDependencies": {
