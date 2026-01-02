@@ -1,6 +1,6 @@
 {
   "name": "@addmaple/gzip",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "main": "./dist/node.js",
   "browser": "./dist/browser.js",
@@ -26,13 +26,16 @@
     "directory": "js/gzip"
   },
   "homepage": "https://github.com/addmaple/wasm-fast-compress#readme",
-  "scripts": {
-  },
+  "scripts": {},
   "dependencies": {
     "pako": "^2.1.0"
   },
   "description": "Fast gzip compression in the browser using Rust + WASM",
-  "keywords": ["gzip", "compression", "wasm", "browser"],
+  "keywords": [
+    "gzip",
+    "compression",
+    "wasm",
+    "browser"
+  ],
   "license": "MIT"
 }
-
