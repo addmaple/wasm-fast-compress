@@ -7,25 +7,25 @@
   "total_ops": 34138,
   "overall_simd_density": 0.008582810943816275,
   "opcode_summary": {
-    "i64x2.extract_lane": 1,
+    "v128.not": 1,
+    "i32x4.shl": 12,
     "v128.and": 1,
-    "i32x4.shr_u": 12,
-    "i32x4.mul": 24,
-    "i32x4.extract_lane": 4,
     "i8x16.eq": 4,
-    "i64x2.add": 1,
-    "i32x4.add": 12,
-    "v128.store": 85,
-    "v128.or": 13,
-    "v128.const": 39,
+    "v128.load": 74,
     "i8x16.bitmask": 4,
     "i32x4.splat": 1,
     "i32x4.max_u": 2,
+    "i32x4.add": 12,
+    "i32x4.mul": 24,
+    "i32x4.extract_lane": 4,
+    "v128.const": 39,
+    "v128.or": 13,
     "i32x4.sub": 2,
-    "v128.load": 74,
-    "v128.not": 1,
-    "i32x4.shl": 12,
-    "i64x2.shr_u": 1
+    "i64x2.shr_u": 1,
+    "i64x2.add": 1,
+    "i64x2.extract_lane": 1,
+    "i32x4.shr_u": 12,
+    "v128.store": 85
   },
   "functions": [
     {
@@ -37,8 +37,8 @@
       "total_ops": 4,
       "simd_density": 0.5,
       "op_breakdown": {
-        "v128.store": 1,
-        "v128.const": 1
+        "v128.const": 1,
+        "v128.store": 1
       }
     },
     {
@@ -50,9 +50,9 @@
       "total_ops": 40,
       "simd_density": 0.225,
       "op_breakdown": {
+        "i32x4.max_u": 2,
         "i32x4.splat": 1,
         "v128.load": 2,
-        "i32x4.max_u": 2,
         "i32x4.sub": 2,
         "v128.store": 2
       }
@@ -80,14 +80,14 @@
       "total_ops": 249,
       "simd_density": 0.10843373493975904,
       "op_breakdown": {
-        "v128.store": 1,
-        "i32x4.add": 3,
-        "i32x4.shl": 3,
-        "v128.or": 3,
-        "i32x4.mul": 6,
         "v128.load": 4,
+        "i32x4.mul": 6,
+        "i32x4.add": 3,
         "v128.const": 4,
-        "i32x4.shr_u": 3
+        "v128.store": 1,
+        "v128.or": 3,
+        "i32x4.shr_u": 3,
+        "i32x4.shl": 3
       }
     },
     {
@@ -99,10 +99,10 @@
       "total_ops": 249,
       "simd_density": 0.10843373493975904,
       "op_breakdown": {
-        "i32x4.mul": 6,
-        "i32x4.add": 3,
-        "v128.const": 4,
         "v128.store": 1,
+        "v128.const": 4,
+        "i32x4.add": 3,
+        "i32x4.mul": 6,
         "v128.or": 3,
         "i32x4.shr_u": 3,
         "i32x4.shl": 3,
@@ -131,14 +131,14 @@
       "total_ops": 1215,
       "simd_density": 0.04938271604938271,
       "op_breakdown": {
-        "v128.store": 2,
         "i32x4.extract_lane": 4,
-        "i32x4.mul": 12,
-        "i32x4.shr_u": 6,
         "i32x4.shl": 6,
+        "v128.load": 8,
+        "i32x4.shr_u": 6,
+        "v128.store": 2,
+        "i32x4.mul": 12,
         "i32x4.add": 6,
         "v128.or": 6,
-        "v128.load": 8,
         "v128.const": 10
       }
     },
@@ -177,9 +177,9 @@
       "total_ops": 256,
       "simd_density": 0.03125,
       "op_breakdown": {
+        "v128.store": 5,
         "v128.load": 1,
-        "v128.const": 2,
-        "v128.store": 5
+        "v128.const": 2
       }
     },
     {
@@ -191,8 +191,8 @@
       "total_ops": 259,
       "simd_density": 0.023166023166023165,
       "op_breakdown": {
-        "v128.store": 4,
-        "v128.const": 2
+        "v128.const": 2,
+        "v128.store": 4
       }
     },
     {
@@ -205,13 +205,13 @@
       "simd_density": 0.023017902813299233,
       "op_breakdown": {
         "v128.store": 1,
-        "v128.or": 1,
-        "v128.const": 2,
-        "v128.load": 1,
         "i64x2.shr_u": 1,
         "v128.and": 1,
+        "i64x2.add": 1,
+        "v128.load": 1,
+        "v128.const": 2,
         "v128.not": 1,
-        "i64x2.add": 1
+        "v128.or": 1
       }
     },
     {
@@ -223,8 +223,8 @@
       "total_ops": 96,
       "simd_density": 0.020833333333333332,
       "op_breakdown": {
-        "v128.store": 1,
-        "v128.load": 1
+        "v128.load": 1,
+        "v128.store": 1
       }
     },
     {
@@ -249,9 +249,9 @@
       "total_ops": 542,
       "simd_density": 0.016605166051660517,
       "op_breakdown": {
-        "v128.store": 5,
         "v128.load": 2,
-        "v128.const": 2
+        "v128.const": 2,
+        "v128.store": 5
       }
     },
     {
@@ -263,9 +263,9 @@
       "total_ops": 444,
       "simd_density": 0.015765765765765764,
       "op_breakdown": {
+        "v128.store": 4,
         "v128.load": 1,
-        "v128.const": 2,
-        "v128.store": 4
+        "v128.const": 2
       }
     },
     {
@@ -303,8 +303,8 @@
       "total_ops": 414,
       "simd_density": 0.014492753623188406,
       "op_breakdown": {
-        "v128.store": 3,
-        "v128.load": 3
+        "v128.load": 3,
+        "v128.store": 3
       }
     },
     {
@@ -316,8 +316,8 @@
       "total_ops": 419,
       "simd_density": 0.011933174224343675,
       "op_breakdown": {
-        "v128.store": 3,
-        "v128.const": 2
+        "v128.const": 2,
+        "v128.store": 3
       }
     },
     {
@@ -330,9 +330,9 @@
       "simd_density": 0.011126564673157162,
       "op_breakdown": {
         "v128.load": 4,
+        "v128.store": 2,
         "i8x16.eq": 1,
-        "i8x16.bitmask": 1,
-        "v128.store": 2
+        "i8x16.bitmask": 1
       }
     },
     {
@@ -344,10 +344,10 @@
       "total_ops": 719,
       "simd_density": 0.011126564673157162,
       "op_breakdown": {
+        "v128.store": 2,
         "i8x16.eq": 1,
-        "v128.load": 4,
         "i8x16.bitmask": 1,
-        "v128.store": 2
+        "v128.load": 4
       }
     },
     {
@@ -359,10 +359,10 @@
       "total_ops": 719,
       "simd_density": 0.011126564673157162,
       "op_breakdown": {
-        "v128.load": 4,
+        "i8x16.bitmask": 1,
         "i8x16.eq": 1,
         "v128.store": 2,
-        "i8x16.bitmask": 1
+        "v128.load": 4
       }
     },
     {
@@ -387,10 +387,10 @@
       "total_ops": 786,
       "simd_density": 0.010178117048346057,
       "op_breakdown": {
-        "v128.load": 4,
-        "i8x16.bitmask": 1,
         "i8x16.eq": 1,
-        "v128.store": 2
+        "v128.store": 2,
+        "i8x16.bitmask": 1,
+        "v128.load": 4
       }
     },
     {
@@ -402,8 +402,8 @@
       "total_ops": 197,
       "simd_density": 0.01015228426395939,
       "op_breakdown": {
-        "v128.store": 1,
-        "v128.load": 1
+        "v128.load": 1,
+        "v128.store": 1
       }
     },
     {
@@ -415,8 +415,8 @@
       "total_ops": 202,
       "simd_density": 0.009900990099009901,
       "op_breakdown": {
-        "v128.store": 1,
-        "v128.load": 1
+        "v128.load": 1,
+        "v128.store": 1
       }
     },
     {
@@ -428,8 +428,8 @@
       "total_ops": 695,
       "simd_density": 0.008633093525179856,
       "op_breakdown": {
-        "v128.store": 4,
-        "v128.const": 2
+        "v128.const": 2,
+        "v128.store": 4
       }
     },
     {
@@ -455,8 +455,8 @@
       "total_ops": 980,
       "simd_density": 0.00510204081632653,
       "op_breakdown": {
-        "v128.store": 3,
-        "v128.const": 2
+        "v128.const": 2,
+        "v128.store": 3
       }
     },
     {
@@ -481,8 +481,8 @@
       "total_ops": 621,
       "simd_density": 0.00322061191626409,
       "op_breakdown": {
-        "v128.load": 1,
-        "v128.store": 1
+        "v128.store": 1,
+        "v128.load": 1
       }
     },
     {
@@ -494,8 +494,8 @@
       "total_ops": 645,
       "simd_density": 0.0031007751937984496,
       "op_breakdown": {
-        "v128.load": 1,
-        "v128.store": 1
+        "v128.store": 1,
+        "v128.load": 1
       }
     }
   ],

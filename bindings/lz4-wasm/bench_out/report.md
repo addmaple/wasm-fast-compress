@@ -1,7 +1,7 @@
 # SIMD Analysis Report
 
 **Crate:** lz4-wasm  
-**Generated:** 2025-12-28T08:39:30.501Z
+**Generated:** 2026-01-02T13:30:14.395Z
 
 ## Build Variants
 
@@ -27,14 +27,14 @@
 
 | Variant | Throughput | Speedup vs Scalar |
 |---------|------------|-------------------|
-| scalar | ? MB/s | 1.00x (baseline) |
-| autovec | ? MB/s | 1.00x (baseline) |
+| scalar | 10020.8 MB/s | 1.00x (baseline) |
+| autovec | 21122.7 MB/s | 2.11x |
 
 ## Speedup by Data Size
 
 Shows how SIMD benefits scale with input size.
 
-| Variant | 64 KB |
-|---------|------|
-| scalar | 1.00x |
-| autovec | 1.0x |
+| Variant | 64 KB | 256 KB | 1 MB |
+|---------|------|------|------|
+| scalar | 1.00x | 1.00x | 1.00x |
+| autovec | 1.9x | 2.0x | 2.1x |

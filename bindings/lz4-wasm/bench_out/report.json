@@ -1,7 +1,7 @@
 {
-  "generated": "2025-12-28T08:39:30.501Z",
+  "generated": "2026-01-02T13:30:14.395Z",
   "manifest": {
-    "generated": "2025-12-28T08:39:29.303Z",
+    "generated": "2026-01-02T13:30:13.292Z",
     "crate": "lz4-wasm",
     "variants": [
       {
@@ -46,25 +46,25 @@
       "total_ops": 34138,
       "overall_simd_density": 0.008582810943816275,
       "opcode_summary": {
-        "i64x2.extract_lane": 1,
+        "v128.not": 1,
+        "i32x4.shl": 12,
         "v128.and": 1,
-        "i32x4.shr_u": 12,
-        "i32x4.mul": 24,
-        "i32x4.extract_lane": 4,
         "i8x16.eq": 4,
-        "i64x2.add": 1,
-        "i32x4.add": 12,
-        "v128.store": 85,
-        "v128.or": 13,
-        "v128.const": 39,
+        "v128.load": 74,
         "i8x16.bitmask": 4,
         "i32x4.splat": 1,
         "i32x4.max_u": 2,
+        "i32x4.add": 12,
+        "i32x4.mul": 24,
+        "i32x4.extract_lane": 4,
+        "v128.const": 39,
+        "v128.or": 13,
         "i32x4.sub": 2,
-        "v128.load": 74,
-        "v128.not": 1,
-        "i32x4.shl": 12,
-        "i64x2.shr_u": 1
+        "i64x2.shr_u": 1,
+        "i64x2.add": 1,
+        "i64x2.extract_lane": 1,
+        "i32x4.shr_u": 12,
+        "v128.store": 85
       },
       "functions": [
         {
@@ -76,8 +76,8 @@
           "total_ops": 4,
           "simd_density": 0.5,
           "op_breakdown": {
-            "v128.store": 1,
-            "v128.const": 1
+            "v128.const": 1,
+            "v128.store": 1
           }
         },
         {
@@ -89,9 +89,9 @@
           "total_ops": 40,
           "simd_density": 0.225,
           "op_breakdown": {
+            "i32x4.max_u": 2,
             "i32x4.splat": 1,
             "v128.load": 2,
-            "i32x4.max_u": 2,
             "i32x4.sub": 2,
             "v128.store": 2
           }
@@ -119,14 +119,14 @@
           "total_ops": 249,
           "simd_density": 0.10843373493975904,
           "op_breakdown": {
-            "v128.store": 1,
-            "i32x4.add": 3,
-            "i32x4.shl": 3,
-            "v128.or": 3,
-            "i32x4.mul": 6,
             "v128.load": 4,
+            "i32x4.mul": 6,
+            "i32x4.add": 3,
             "v128.const": 4,
-            "i32x4.shr_u": 3
+            "v128.store": 1,
+            "v128.or": 3,
+            "i32x4.shr_u": 3,
+            "i32x4.shl": 3
           }
         },
         {
@@ -138,10 +138,10 @@
           "total_ops": 249,
           "simd_density": 0.10843373493975904,
           "op_breakdown": {
-            "i32x4.mul": 6,
-            "i32x4.add": 3,
-            "v128.const": 4,
             "v128.store": 1,
+            "v128.const": 4,
+            "i32x4.add": 3,
+            "i32x4.mul": 6,
             "v128.or": 3,
             "i32x4.shr_u": 3,
             "i32x4.shl": 3,
@@ -170,14 +170,14 @@
           "total_ops": 1215,
           "simd_density": 0.04938271604938271,
           "op_breakdown": {
-            "v128.store": 2,
             "i32x4.extract_lane": 4,
-            "i32x4.mul": 12,
-            "i32x4.shr_u": 6,
             "i32x4.shl": 6,
+            "v128.load": 8,
+            "i32x4.shr_u": 6,
+            "v128.store": 2,
+            "i32x4.mul": 12,
             "i32x4.add": 6,
             "v128.or": 6,
-            "v128.load": 8,
             "v128.const": 10
           }
         },
@@ -216,9 +216,9 @@
           "total_ops": 256,
           "simd_density": 0.03125,
           "op_breakdown": {
+            "v128.store": 5,
             "v128.load": 1,
-            "v128.const": 2,
-            "v128.store": 5
+            "v128.const": 2
           }
         },
         {
@@ -230,8 +230,8 @@
           "total_ops": 259,
           "simd_density": 0.023166023166023165,
           "op_breakdown": {
-            "v128.store": 4,
-            "v128.const": 2
+            "v128.const": 2,
+            "v128.store": 4
           }
         },
         {
@@ -244,13 +244,13 @@
           "simd_density": 0.023017902813299233,
           "op_breakdown": {
             "v128.store": 1,
-            "v128.or": 1,
-            "v128.const": 2,
-            "v128.load": 1,
             "i64x2.shr_u": 1,
             "v128.and": 1,
+            "i64x2.add": 1,
+            "v128.load": 1,
+            "v128.const": 2,
             "v128.not": 1,
-            "i64x2.add": 1
+            "v128.or": 1
           }
         },
         {
@@ -262,8 +262,8 @@
           "total_ops": 96,
           "simd_density": 0.020833333333333332,
           "op_breakdown": {
-            "v128.store": 1,
-            "v128.load": 1
+            "v128.load": 1,
+            "v128.store": 1
           }
         },
         {
@@ -288,9 +288,9 @@
           "total_ops": 542,
           "simd_density": 0.016605166051660517,
           "op_breakdown": {
-            "v128.store": 5,
             "v128.load": 2,
-            "v128.const": 2
+            "v128.const": 2,
+            "v128.store": 5
           }
         },
         {
@@ -302,9 +302,9 @@
           "total_ops": 444,
           "simd_density": 0.015765765765765764,
           "op_breakdown": {
+            "v128.store": 4,
             "v128.load": 1,
-            "v128.const": 2,
-            "v128.store": 4
+            "v128.const": 2
           }
         },
         {
@@ -342,8 +342,8 @@
           "total_ops": 414,
           "simd_density": 0.014492753623188406,
           "op_breakdown": {
-            "v128.store": 3,
-            "v128.load": 3
+            "v128.load": 3,
+            "v128.store": 3
           }
         },
         {
@@ -355,8 +355,8 @@
           "total_ops": 419,
           "simd_density": 0.011933174224343675,
           "op_breakdown": {
-            "v128.store": 3,
-            "v128.const": 2
+            "v128.const": 2,
+            "v128.store": 3
           }
         },
         {
@@ -369,9 +369,9 @@
           "simd_density": 0.011126564673157162,
           "op_breakdown": {
             "v128.load": 4,
+            "v128.store": 2,
             "i8x16.eq": 1,
-            "i8x16.bitmask": 1,
-            "v128.store": 2
+            "i8x16.bitmask": 1
           }
         },
         {
@@ -383,10 +383,10 @@
           "total_ops": 719,
           "simd_density": 0.011126564673157162,
           "op_breakdown": {
+            "v128.store": 2,
             "i8x16.eq": 1,
-            "v128.load": 4,
             "i8x16.bitmask": 1,
-            "v128.store": 2
+            "v128.load": 4
           }
         },
         {
@@ -398,10 +398,10 @@
           "total_ops": 719,
           "simd_density": 0.011126564673157162,
           "op_breakdown": {
-            "v128.load": 4,
+            "i8x16.bitmask": 1,
             "i8x16.eq": 1,
             "v128.store": 2,
-            "i8x16.bitmask": 1
+            "v128.load": 4
           }
         },
         {
@@ -426,10 +426,10 @@
           "total_ops": 786,
           "simd_density": 0.010178117048346057,
           "op_breakdown": {
-            "v128.load": 4,
-            "i8x16.bitmask": 1,
             "i8x16.eq": 1,
-            "v128.store": 2
+            "v128.store": 2,
+            "i8x16.bitmask": 1,
+            "v128.load": 4
           }
         },
         {
@@ -441,8 +441,8 @@
           "total_ops": 197,
           "simd_density": 0.01015228426395939,
           "op_breakdown": {
-            "v128.store": 1,
-            "v128.load": 1
+            "v128.load": 1,
+            "v128.store": 1
           }
         },
         {
@@ -454,8 +454,8 @@
           "total_ops": 202,
           "simd_density": 0.009900990099009901,
           "op_breakdown": {
-            "v128.store": 1,
-            "v128.load": 1
+            "v128.load": 1,
+            "v128.store": 1
           }
         },
         {
@@ -467,8 +467,8 @@
           "total_ops": 695,
           "simd_density": 0.008633093525179856,
           "op_breakdown": {
-            "v128.store": 4,
-            "v128.const": 2
+            "v128.const": 2,
+            "v128.store": 4
           }
         },
         {
@@ -494,8 +494,8 @@
           "total_ops": 980,
           "simd_density": 0.00510204081632653,
           "op_breakdown": {
-            "v128.store": 3,
-            "v128.const": 2
+            "v128.const": 2,
+            "v128.store": 3
           }
         },
         {
@@ -520,8 +520,8 @@
           "total_ops": 621,
           "simd_density": 0.00322061191626409,
           "op_breakdown": {
-            "v128.load": 1,
-            "v128.store": 1
+            "v128.store": 1,
+            "v128.load": 1
           }
         },
         {
@@ -533,8 +533,8 @@
           "total_ops": 645,
           "simd_density": 0.0031007751937984496,
           "op_breakdown": {
-            "v128.load": 1,
-            "v128.store": 1
+            "v128.store": 1,
+            "v128.load": 1
           }
         }
       ],
@@ -550,59 +550,213 @@
         "compress_lz4_block": {
           "sizes": {
             "65536": {
-              "mean": 0.005548198355568782,
-              "median": 0.004805533091227213,
-              "min": 0.004149993260701497,
-              "max": 0.020944396654764812,
-              "p5": 0.004333337148030599,
-              "p95": 0.008452796936035156,
-              "stddev": 0.0024581374826910373,
-              "throughputMBps": 13005.841144679136,
+              "mean": 0.007110227783107094,
+              "median": 0.006137500082453092,
+              "min": 0.005624999975164731,
+              "max": 0.021488933265209197,
+              "p5": 0.005838866780201594,
+              "p95": 0.016111066689093907,
+              "stddev": 0.003108148750977771,
+              "throughputMBps": 10183.299252196415,
               "samples": 60,
               "batchSize": 15,
               "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 0.023478466666614014,
+              "median": 0.022985400073230265,
+              "min": 0.020983400009572505,
+              "max": 0.04028750006109476,
+              "p5": 0.02191249988973141,
+              "p95": 0.024587499909102917,
+              "stddev": 0.002840505849125455,
+              "throughputMBps": 10876.469376365574,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 0.09047306001496815,
+              "median": 0.09000834999606014,
+              "min": 0.08564999997615814,
+              "max": 0.10168750006705522,
+              "p5": 0.08665000014007092,
+              "p95": 0.10019590016454458,
+              "stddev": 0.003131534873969153,
+              "throughputMBps": 11110.08034303231,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
             }
           }
         },
-        "decompress_lz4_block": {
+        "compress_lz4": {
+          "sizes": {
+            "65536": {
+              "mean": 0.008479907769295907,
+              "median": 0.008022200005749863,
+              "min": 0.00739446667333444,
+              "max": 0.01909166673819224,
+              "p5": 0.007430600002408028,
+              "p95": 0.017063866679867108,
+              "stddev": 0.002284788626164963,
+              "throughputMBps": 7790.8803015636,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 0.028117360000809034,
+              "median": 0.02797290002927184,
+              "min": 0.025958400033414365,
+              "max": 0.033979200012981894,
+              "p5": 0.026387500017881392,
+              "p95": 0.030820799991488457,
+              "stddev": 0.0013718903318916508,
+              "throughputMBps": 8937.221372771186,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 0.11248645499659081,
+              "median": 0.1119625000283122,
+              "min": 0.10586660001426935,
+              "max": 0.1315582999959588,
+              "p5": 0.10734170004725456,
+              "p95": 0.12331249993294477,
+              "stddev": 0.004576985879433475,
+              "throughputMBps": 8931.561904629923,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
+            }
+          }
+        },
+        "decompress_lz4": {
           "sizes": {}
         }
-      }
+      },
+      "avgThroughputMBps": 10020.821123831116
     },
     "autovec": {
       "functions": {
         "compress_lz4_block": {
           "sizes": {
             "65536": {
-              "mean": 0.005167675150765313,
-              "median": 0.004813869794209799,
-              "min": 0.004263861974080404,
-              "max": 0.008844470977783203,
-              "p5": 0.004288872083028157,
-              "p95": 0.007963871955871582,
-              "stddev": 0.0010646530858874651,
-              "throughputMBps": 12983.317512072308,
+              "mean": 0.003651201108263599,
+              "median": 0.0028763999541600548,
+              "min": 0.0025944666316111884,
+              "max": 0.010641666625936826,
+              "p5": 0.002605533351500829,
+              "p95": 0.009516666581233343,
+              "stddev": 0.00222264154860615,
+              "throughputMBps": 21728.549922137234,
               "samples": 60,
               "batchSize": 15,
               "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 0.010158745013177395,
+              "median": 0.010116649977862834,
+              "min": 0.009158300049602986,
+              "max": 0.020491600036621094,
+              "p5": 0.009170899912714959,
+              "p95": 0.011116600036621094,
+              "stddev": 0.0014277734397876386,
+              "throughputMBps": 24711.73763519029,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 0.039314091658840575,
+              "median": 0.038989599980413917,
+              "min": 0.035695799998939036,
+              "max": 0.048508300073444845,
+              "p5": 0.037387500144541265,
+              "p95": 0.04293329995125532,
+              "stddev": 0.0018094408715689768,
+              "throughputMBps": 25647.86508459541,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
             }
           }
         },
-        "decompress_lz4_block": {
+        "compress_lz4": {
+          "sizes": {
+            "65536": {
+              "mean": 0.0053907766731248995,
+              "median": 0.004654133319854736,
+              "min": 0.0041110667089621225,
+              "max": 0.01229166661699613,
+              "p5": 0.004250000044703483,
+              "p95": 0.01200273334980011,
+              "stddev": 0.0022241391989767105,
+              "throughputMBps": 13428.923433149685,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 0.01569402001487712,
+              "median": 0.01553749991580844,
+              "min": 0.014462500065565109,
+              "max": 0.019133299961686133,
+              "p5": 0.014483300037682056,
+              "p95": 0.01815840005874634,
+              "stddev": 0.0009581405535093438,
+              "throughputMBps": 16090.104672865713,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 0.061324016662935396,
+              "median": 0.060250000003725296,
+              "min": 0.05722090005874634,
+              "max": 0.09644590001553296,
+              "p5": 0.058216599933803084,
+              "p95": 0.06711249984800816,
+              "stddev": 0.005224312827014008,
+              "throughputMBps": 16597.510372417746,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
+            }
+          }
+        },
+        "decompress_lz4": {
           "sizes": {}
         }
       },
+      "avgThroughputMBps": 21122.68772850658,
       "speedups": {
         "compress_lz4_block": {
-          "65536": 0.9982681910107719
+          "65536": 2.133743631019254,
+          "262144": 2.2720367041981997,
+          "1048576": 2.308522017185994
         },
-        "decompress_lz4_block": {}
-      }
+        "compress_lz4": {
+          "65536": 1.7236721542820457,
+          "262144": 1.800347557898369,
+          "1048576": 1.858298755541734
+        },
+        "decompress_lz4": {}
+      },
+      "speedupVsScalar": 2.107879929946404
     }
   },
   "sizeSummary": {
     "65536": {
-      "autovec": 0.9982681910107719
+      "autovec": 1.92870789265065
+    },
+    "262144": {
+      "autovec": 2.0361921310482844
+    },
+    "1048576": {
+      "autovec": 2.083410386363864
     }
   }
 }

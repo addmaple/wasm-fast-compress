@@ -31,7 +31,8 @@
       "abi": "decompress_lz4_block",
       "name": "decompress_lz4_block",
       "return": "bytes",
-      "outSize": "outLen"
+      "outSize": "outLen",
+      "bench": false
     },
     {
       "abi": "compress_lz4",

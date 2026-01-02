@@ -30,7 +30,7 @@
 </head>
 <body>
   <h1>SIMD Analysis Report</h1>
-  <p class="subtitle">Crate: lz4-wasm • Generated: 2025-12-28T08:39:30.501Z</p>
+  <p class="subtitle">Crate: lz4-wasm • Generated: 2026-01-02T13:30:14.395Z</p>
   
   <h2>Variants</h2>
   <table>
@@ -85,14 +85,14 @@
         
           <tr>
             <td class="variant">scalar</td>
-            <td>? MB/s</td>
+            <td>10020.8 MB/s</td>
             <td class="">1.00x (baseline)</td>
           </tr>
         
           <tr>
             <td class="variant">autovec</td>
-            <td>? MB/s</td>
-            <td class="">1.00x (baseline)</td>
+            <td>21122.7 MB/s</td>
+            <td class="speedup">2.11x</td>
           </tr>
         
       </tbody>
@@ -105,18 +105,18 @@
       <thead>
         <tr>
           <th>Variant</th>
-          <th>64 KB</th>
+          <th>64 KB</th><th>256 KB</th><th>1 MB</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td class="variant">scalar</td>
-          <td class="baseline">1.00x</td>
+          <td class="baseline">1.00x</td><td class="baseline">1.00x</td><td class="baseline">1.00x</td>
         </tr>
         
           <tr>
             <td class="variant">autovec</td>
-            <td class="">1.0x</td>
+            <td class="speedup">1.9x</td><td class="speedup">2.0x</td><td class="speedup">2.1x</td>
           </tr>
         
       </tbody>
@@ -134,15 +134,60 @@
               
                   <tr>
                     <td>64 KB</td>
-                    <td>0.005 ms</td>
-                    <td>13005.8 MB/s</td>
+                    <td>0.006 ms</td>
+                    <td>10183.3 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.023 ms</td>
+                    <td>10876.5 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>0.090 ms</td>
+                    <td>11110.1 MB/s</td>
                     <td class="">1.00x</td>
                   </tr>
                 
             </tbody>
           </table>
         
-          <h4>scalar → decompress_lz4_block</h4>
+          <h4>scalar → compress_lz4</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>64 KB</td>
+                    <td>0.008 ms</td>
+                    <td>7790.9 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.028 ms</td>
+                    <td>8937.2 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>0.112 ms</td>
+                    <td>8931.6 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+          <h4>scalar → decompress_lz4</h4>
           <table>
             <thead>
               <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
@@ -161,15 +206,60 @@
               
                   <tr>
                     <td>64 KB</td>
-                    <td>0.005 ms</td>
-                    <td>12983.3 MB/s</td>
-                    <td class="">1.00x</td>
+                    <td>0.003 ms</td>
+                    <td>21728.5 MB/s</td>
+                    <td class="speedup">2.13x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.010 ms</td>
+                    <td>24711.7 MB/s</td>
+                    <td class="speedup">2.27x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>0.039 ms</td>
+                    <td>25647.9 MB/s</td>
+                    <td class="speedup">2.31x</td>
                   </tr>
                 
             </tbody>
           </table>
         
-          <h4>autovec → decompress_lz4_block</h4>
+          <h4>autovec → compress_lz4</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>64 KB</td>
+                    <td>0.005 ms</td>
+                    <td>13428.9 MB/s</td>
+                    <td class="speedup">1.72x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.016 ms</td>
+                    <td>16090.1 MB/s</td>
+                    <td class="speedup">1.80x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>0.060 ms</td>
+                    <td>16597.5 MB/s</td>
+                    <td class="speedup">1.86x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+          <h4>autovec → decompress_lz4</h4>
           <table>
             <thead>
               <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
