@@ -8,6 +8,18 @@
   "emitNode": true,
   "emitBrowser": true,
   "emitTypes": true,
+  "targets": {
+    "baseline": true,
+    "simd": true
+  },
+  "simd": {
+    "features": {},
+    "allFeature": null
+  },
+  "bench": {
+    "outputDir": "bench_out",
+    "dataSizes": [65536, 262144, 1048576]
+  },
   "exports": [
     {
       "abi": "compress_lz4_block",
@@ -30,17 +42,20 @@
     {
       "abi": "create_compressor",
       "name": "create_compressor",
-      "return": "u32"
+      "return": "u32",
+      "bench": false
     },
     {
       "abi": "compress_chunk",
       "name": "compress_chunk",
       "return": "bytes",
-      "outSize": "len + 1024"
+      "outSize": "len + 1024",
+      "bench": false
     },
     {
       "abi": "destroy_compressor",
-      "name": "destroy_compressor"
+      "name": "destroy_compressor",
+      "bench": false
     },
     {
       "abi": "decompress_lz4",
@@ -51,17 +66,20 @@
     {
       "abi": "create_decompressor",
       "name": "create_decompressor",
-      "return": "u32"
+      "return": "u32",
+      "bench": false
     },
     {
       "abi": "decompress_chunk",
       "name": "decompress_chunk",
       "return": "bytes",
-      "outSize": "len * 4"
+      "outSize": "len * 4",
+      "bench": false
     },
     {
       "abi": "destroy_decompressor",
-      "name": "destroy_decompressor"
+      "name": "destroy_decompressor",
+      "bench": false
     }
   ]
 }

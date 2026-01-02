@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SIMD Analysis Report</title>
+  <style>
+    :root { --bg: #0a0a0a; --surface: #141414; --border: #2a2a2a; --text: #e8e8e8; --dim: #777; --accent: #ff6b35; --green: #4ade80; --purple: #c084fc; --orange: #fb923c; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'SF Mono', monospace; background: var(--bg); color: var(--text); padding: 2rem; line-height: 1.6; }
+    h1 { color: var(--accent); margin-bottom: 0.5rem; }
+    h2 { margin: 2rem 0 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+    h3 { color: var(--accent); margin: 1.5rem 0 0.75rem; font-size: 1rem; }
+    table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: 8px; overflow: hidden; font-size: 0.85rem; margin-bottom: 1rem; }
+    th, td { padding: 0.6rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: rgba(255,107,53,0.1); color: var(--accent); font-size: 0.75rem; text-transform: uppercase; }
+    .variant { font-weight: 500; }
+    .compiler { color: var(--orange); }
+    .explicit { color: var(--purple); }
+    .speedup { color: var(--green); }
+    .speedup-high { color: var(--green); font-weight: bold; background: rgba(74,222,128,0.1); }
+    .baseline { color: var(--dim); }
+    .note { color: var(--dim); font-size: 0.75rem; margin-bottom: 0.5rem; }
+    h4 { color: var(--dim); margin: 1rem 0 0.5rem; font-size: 0.85rem; }
+    pre { background: var(--surface); padding: 1rem; border-radius: 8px; overflow-x: auto; font-size: 0.75rem; color: var(--dim); }
+    .subtitle { color: var(--dim); font-size: 0.85rem; margin-bottom: 2rem; }
+    details { margin-top: 1.5rem; }
+    summary { cursor: pointer; color: var(--accent); font-weight: 500; margin-bottom: 1rem; }
+    summary:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>SIMD Analysis Report</h1>
+  <p class="subtitle">Crate: brotli-wasm • Generated: 2025-12-28T08:44:26.984Z</p>
+  
+  <h2>Variants</h2>
+  <table>
+    <thead><tr><th>Name</th><th>Description</th><th>Features</th><th>Size</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="variant">scalar</td>
+        <td>Scalar baseline (no SIMD)</td>
+        <td>none</td>
+        <td>1417.3 KB</td>
+      </tr><tr>
+        <td class="variant">autovec</td>
+        <td>LLVM autovectorization (+simd128)</td>
+        <td>none</td>
+        <td>1420.7 KB</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <h2>SIMD Analysis</h2>
+  
+    <h3>SIMD Instruction Analysis</h3>
+    <table>
+      <thead>
+        <tr><th>Variant</th><th>Total Ops</th><th>SIMD Ops</th><th>Density</th><th>Size</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td class="variant">scalar</td>
+            <td>313247</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>1417.3 KB</td>
+          </tr><tr>
+            <td class="variant">autovec</td>
+            <td>308702</td>
+            <td>4207</td>
+            <td>1.4%</td>
+            <td>1420.7 KB</td>
+          </tr>
+      </tbody>
+    </table>
+  
+  
+  
+    <h3>Performance Summary (Largest Size)</h3>
+    <table>
+      <thead>
+        <tr><th>Variant</th><th>Avg Throughput</th><th>Speedup vs Scalar</th></tr>
+      </thead>
+      <tbody>
+        
+          <tr>
+            <td class="variant">scalar</td>
+            <td>97223.3 MB/s</td>
+            <td class="">1.00x (baseline)</td>
+          </tr>
+        
+          <tr>
+            <td class="variant">autovec</td>
+            <td>94813.4 MB/s</td>
+            <td class="">0.98x</td>
+          </tr>
+        
+      </tbody>
+    </table>
+    
+    
+    <h3>Speedup by Data Size</h3>
+    <p class="note">Shows how SIMD benefits scale with input size</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Variant</th>
+          <th>1 KB</th><th>16 KB</th><th>64 KB</th><th>256 KB</th><th>1 MB</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="variant">scalar</td>
+          <td class="baseline">1.00x</td><td class="baseline">1.00x</td><td class="baseline">1.00x</td><td class="baseline">1.00x</td><td class="baseline">1.00x</td>
+        </tr>
+        
+          <tr>
+            <td class="variant">autovec</td>
+            <td class="">1.1x</td><td class="">1.0x</td><td class="">0.9x</td><td class="">1.0x</td><td class="">1.0x</td>
+          </tr>
+        
+      </tbody>
+    </table>
+    
+    <details>
+      <summary>Detailed Results by Function & Size</summary>
+      
+          <h4>scalar → compress_level_1</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>1 KB</td>
+                    <td>0.012 ms</td>
+                    <td>82.3 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>16 KB</td>
+                    <td>0.065 ms</td>
+                    <td>241.0 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>64 KB</td>
+                    <td>0.023 ms</td>
+                    <td>2661.6 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.070 ms</td>
+                    <td>3589.1 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>0.254 ms</td>
+                    <td>3936.6 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+          <h4>scalar → compress_level_4</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>1 KB</td>
+                    <td>0.023 ms</td>
+                    <td>41.6 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>16 KB</td>
+                    <td>0.141 ms</td>
+                    <td>111.1 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>64 KB</td>
+                    <td>0.141 ms</td>
+                    <td>444.7 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.335 ms</td>
+                    <td>745.4 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>1.149 ms</td>
+                    <td>870.0 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+          <h4>scalar → compress_level_6</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>1 KB</td>
+                    <td>0.035 ms</td>
+                    <td>28.2 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>16 KB</td>
+                    <td>0.155 ms</td>
+                    <td>101.0 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>64 KB</td>
+                    <td>0.182 ms</td>
+                    <td>342.8 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.514 ms</td>
+                    <td>486.0 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>2.532 ms</td>
+                    <td>394.9 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+          <h4>scalar → compress_level_9</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>1 KB</td>
+                    <td>0.335 ms</td>
+                    <td>2.9 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>16 KB</td>
+                    <td>0.466 ms</td>
+                    <td>33.5 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>64 KB</td>
+                    <td>0.445 ms</td>
+                    <td>140.5 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>1.015 ms</td>
+                    <td>246.4 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>3.821 ms</td>
+                    <td>261.7 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+          <h4>scalar → decompress_brotli</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>1 KB</td>
+                    <td>0.002 ms</td>
+                    <td>390.7 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.038 ms</td>
+                    <td>6584.0 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+          <h4>scalar → create_brotli_compressor</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>1 KB</td>
+                    <td>0.001 ms</td>
+                    <td>715.5 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>16 KB</td>
+                    <td>0.002 ms</td>
+                    <td>7126.2 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>64 KB</td>
+                    <td>0.002 ms</td>
+                    <td>40035.0 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.002 ms</td>
+                    <td>147963.4 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>0.001 ms</td>
+                    <td>668516.2 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+          <h4>scalar → compress_brotli_chunk</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+            </tbody>
+          </table>
+        
+          <h4>scalar → destroy_brotli_compressor</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>1 KB</td>
+                    <td>0.000 ms</td>
+                    <td>0.0 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>16 KB</td>
+                    <td>0.000 ms</td>
+                    <td>0.0 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>64 KB</td>
+                    <td>0.000 ms</td>
+                    <td>0.0 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.000 ms</td>
+                    <td>0.0 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>0.000 ms</td>
+                    <td>0.0 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+          <h4>autovec → compress_level_1</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>1 KB</td>
+                    <td>0.012 ms</td>
+                    <td>81.3 MB/s</td>
+                    <td class="">0.99x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>16 KB</td>
+                    <td>0.066 ms</td>
+                    <td>237.1 MB/s</td>
+                    <td class="">0.98x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>64 KB</td>
+                    <td>0.024 ms</td>
+                    <td>2630.7 MB/s</td>
+                    <td class="">0.99x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.070 ms</td>
+                    <td>3569.1 MB/s</td>
+                    <td class="">0.99x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>0.252 ms</td>
+                    <td>3964.4 MB/s</td>
+                    <td class="">1.01x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+          <h4>autovec → compress_level_4</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>1 KB</td>
+                    <td>0.022 ms</td>
+                    <td>44.1 MB/s</td>
+                    <td class="">1.06x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>16 KB</td>
+                    <td>0.137 ms</td>
+                    <td>113.8 MB/s</td>
+                    <td class="">1.02x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>64 KB</td>
+                    <td>0.139 ms</td>
+                    <td>451.2 MB/s</td>
+                    <td class="">1.01x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.331 ms</td>
+                    <td>754.2 MB/s</td>
+                    <td class="">1.01x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>1.142 ms</td>
+                    <td>875.6 MB/s</td>
+                    <td class="">1.01x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+          <h4>autovec → compress_level_6</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>1 KB</td>
+                    <td>0.034 ms</td>
+                    <td>29.0 MB/s</td>
+                    <td class="">1.03x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>16 KB</td>
+                    <td>0.152 ms</td>
+                    <td>102.6 MB/s</td>
+                    <td class="">1.02x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>64 KB</td>
+                    <td>0.180 ms</td>
+                    <td>348.0 MB/s</td>
+                    <td class="">1.02x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.508 ms</td>
+                    <td>492.1 MB/s</td>
+                    <td class="">1.01x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>2.505 ms</td>
+                    <td>399.3 MB/s</td>
+                    <td class="">1.01x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+          <h4>autovec → compress_level_9</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>1 KB</td>
+                    <td>0.336 ms</td>
+                    <td>2.9 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>16 KB</td>
+                    <td>0.464 ms</td>
+                    <td>33.6 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>64 KB</td>
+                    <td>0.448 ms</td>
+                    <td>139.6 MB/s</td>
+                    <td class="">0.99x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>1.024 ms</td>
+                    <td>244.1 MB/s</td>
+                    <td class="">0.99x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>3.847 ms</td>
+                    <td>259.9 MB/s</td>
+                    <td class="">0.99x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+          <h4>autovec → decompress_brotli</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+            </tbody>
+          </table>
+        
+          <h4>autovec → create_brotli_compressor</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>1 KB</td>
+                    <td>0.001 ms</td>
+                    <td>1102.9 MB/s</td>
+                    <td class="speedup">1.54x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>16 KB</td>
+                    <td>0.003 ms</td>
+                    <td>6109.8 MB/s</td>
+                    <td class="">0.86x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>64 KB</td>
+                    <td>0.003 ms</td>
+                    <td>24154.9 MB/s</td>
+                    <td class="">0.60x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.002 ms</td>
+                    <td>136362.4 MB/s</td>
+                    <td class="">0.92x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>0.002 ms</td>
+                    <td>563381.4 MB/s</td>
+                    <td class="">0.84x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+          <h4>autovec → compress_brotli_chunk</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+            </tbody>
+          </table>
+        
+          <h4>autovec → destroy_brotli_compressor</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>1 KB</td>
+                    <td>0.000 ms</td>
+                    <td>0.0 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>16 KB</td>
+                    <td>0.000 ms</td>
+                    <td>0.0 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>64 KB</td>
+                    <td>0.000 ms</td>
+                    <td>0.0 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.000 ms</td>
+                    <td>0.0 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>0.000 ms</td>
+                    <td>0.0 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+    </details>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "generated": "2025-12-28T08:43:09.657Z",
+  "crate": "brotli-wasm",
+  "variants": [
+    {
+      "name": "scalar",
+      "description": "Scalar baseline (no SIMD)",
+      "path": "scalar.wasm",
+      "hash": "ead798e2a5d64136",
+      "size": 1451304,
+      "features": [],
+      "simd": false
+    },
+    {
+      "name": "autovec",
+      "description": "LLVM autovectorization (+simd128)",
+      "path": "autovec.wasm",
+      "hash": "7764afee85d92886",
+      "size": 1454765,
+      "features": [],
+      "simd": true
+    }
+  ]
+}

@@ -1,0 +1,3315 @@
+{
+  "generated": "2025-12-28T08:44:26.984Z",
+  "manifest": {
+    "generated": "2025-12-28T08:43:09.657Z",
+    "crate": "brotli-wasm",
+    "variants": [
+      {
+        "name": "scalar",
+        "description": "Scalar baseline (no SIMD)",
+        "path": "scalar.wasm",
+        "hash": "ead798e2a5d64136",
+        "size": 1451304,
+        "features": [],
+        "simd": false
+      },
+      {
+        "name": "autovec",
+        "description": "LLVM autovectorization (+simd128)",
+        "path": "autovec.wasm",
+        "hash": "7764afee85d92886",
+        "size": 1454765,
+        "features": [],
+        "simd": true
+      }
+    ]
+  },
+  "simdReports": {
+    "scalar": {
+      "variant": "scalar",
+      "wasm_path": "/Users/addmaple/sites/wasm-fast-compress/bindings/brotli-wasm/bench_out/dist/scalar.wasm",
+      "wasm_hash": "ead798e2a5d64136",
+      "wasm_size": 1451304,
+      "total_simd_ops": 0,
+      "total_ops": 313247,
+      "overall_simd_density": 0,
+      "opcode_summary": {},
+      "functions": [],
+      "lines": []
+    },
+    "autovec": {
+      "variant": "autovec",
+      "wasm_path": "/Users/addmaple/sites/wasm-fast-compress/bindings/brotli-wasm/bench_out/dist/autovec.wasm",
+      "wasm_hash": "7764afee85d92886",
+      "wasm_size": 1454765,
+      "total_simd_ops": 4207,
+      "total_ops": 308702,
+      "overall_simd_density": 0.013628029620799348,
+      "opcode_summary": {
+        "i32x4.extract_lane": 80,
+        "i64x2.splat": 7,
+        "i64x2.replace_lane": 7,
+        "i16x8.add": 123,
+        "i16x8.splat": 23,
+        "i32x4.sub": 1,
+        "v128.load32_lane": 207,
+        "i32x4.splat": 20,
+        "i32x4.shl": 10,
+        "f32x4.extract_lane": 72,
+        "i32x4.ne": 1,
+        "i64x2.add": 13,
+        "i32x4.min_u": 4,
+        "v128.load": 868,
+        "i8x16.splat": 4,
+        "i8x16.sub": 6,
+        "v128.store": 1033,
+        "i32x4.eq": 7,
+        "i16x8.shr_u": 2,
+        "f32x4.add": 22,
+        "i32x4.add": 304,
+        "i64x2.shr_u": 1,
+        "v128.not": 1,
+        "v128.load32x2_u": 1,
+        "i8x16.shuffle": 222,
+        "f32x4.replace_lane": 42,
+        "i16x8.replace_lane": 67,
+        "i16x8.shr_s": 72,
+        "f32x4.sub": 64,
+        "i32x4.max_u": 3,
+        "i32x4.gt_s": 7,
+        "v128.load64_zero": 2,
+        "i16x8.extract_lane_u": 1,
+        "f32x4.lt": 14,
+        "i8x16.lt_u": 4,
+        "v128.bitselect": 90,
+        "v128.load16_lane": 15,
+        "v128.or": 41,
+        "i32x4.gt_u": 4,
+        "i32x4.replace_lane": 4,
+        "i8x16.eq": 7,
+        "i32x4.bitmask": 7,
+        "v128.load32_zero": 75,
+        "f32x4.pmin": 60,
+        "f32x4.ge": 48,
+        "v128.load16_splat": 2,
+        "i16x8.extend_low_i8x16_s": 4,
+        "v128.store32_lane": 9,
+        "i8x16.bitmask": 7,
+        "v128.and": 6,
+        "i16x8.shl": 11,
+        "v128.const": 359,
+        "i64x2.extract_lane": 25,
+        "i32x4.extend_low_i16x8_s": 2,
+        "v128.load32_splat": 1,
+        "i16x8.sub": 68,
+        "i8x16.add": 7,
+        "i64x2.extend_low_i32x4_u": 2,
+        "f32x4.splat": 38
+      },
+      "functions": [
+        {
+          "index": 292,
+          "name": "_ZN4core5error5Error7type_id17h44e6dffbfebb2d90E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 4,
+          "simd_density": 0.5,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 385,
+          "name": "_ZN6brotli3enc10prior_eval9init_cdfs17h6410367d702229a7E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 22,
+          "total_ops": 142,
+          "simd_density": 0.15492957746478872,
+          "op_breakdown": {
+            "v128.const": 4,
+            "v128.store": 18
+          }
+        },
+        {
+          "index": 389,
+          "name": "_ZN6brotli3enc11stride_eval3CDF6update17hcfbf0137c5052f2dE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 23,
+          "total_ops": 155,
+          "simd_density": 0.14838709677419354,
+          "op_breakdown": {
+            "i16x8.splat": 1,
+            "i16x8.sub": 2,
+            "v128.const": 2,
+            "v128.load32_splat": 1,
+            "i8x16.shuffle": 1,
+            "v128.store": 4,
+            "i16x8.add": 4,
+            "v128.load": 3,
+            "i16x8.shr_u": 2,
+            "i16x8.replace_lane": 1,
+            "v128.load16_lane": 1,
+            "v128.load64_zero": 1
+          }
+        },
+        {
+          "index": 256,
+          "name": "_ZN6brotli3enc6encode37BrotliEncoderStateStruct$LT$Alloc$GT$3new17h2641a266ae3b3be0E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 21,
+          "total_ops": 145,
+          "simd_density": 0.14482758620689656,
+          "op_breakdown": {
+            "v128.const": 6,
+            "v128.store": 15
+          }
+        },
+        {
+          "index": 139,
+          "name": "_ZN6brotli3enc10prior_eval22PriorEval$LT$Alloc$GT$16update_cost_base17h90ac5d472463a8d6E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 332,
+          "total_ops": 2394,
+          "simd_density": 0.13868003341687551,
+          "op_breakdown": {
+            "i8x16.lt_u": 2,
+            "v128.load": 35,
+            "f32x4.replace_lane": 18,
+            "i8x16.shuffle": 4,
+            "i16x8.sub": 31,
+            "i32x4.extract_lane": 4,
+            "i16x8.replace_lane": 33,
+            "i16x8.shr_s": 36,
+            "i32x4.extend_low_i16x8_s": 1,
+            "f32x4.add": 4,
+            "v128.const": 34,
+            "f32x4.splat": 6,
+            "v128.bitselect": 9,
+            "i16x8.add": 58,
+            "i16x8.splat": 11,
+            "i8x16.splat": 2,
+            "v128.store": 35,
+            "i16x8.extend_low_i8x16_s": 2,
+            "f32x4.sub": 2,
+            "i16x8.shl": 5
+          }
+        },
+        {
+          "index": 282,
+          "name": "_ZN6brotli3enc10prior_eval22PriorEval$LT$Alloc$GT$16update_cost_base17hd75d7a19c464420dE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 332,
+          "total_ops": 2394,
+          "simd_density": 0.13868003341687551,
+          "op_breakdown": {
+            "f32x4.splat": 6,
+            "i16x8.shr_s": 36,
+            "i16x8.add": 58,
+            "i32x4.extend_low_i16x8_s": 1,
+            "v128.const": 34,
+            "i16x8.shl": 5,
+            "i8x16.splat": 2,
+            "i32x4.extract_lane": 4,
+            "v128.load": 35,
+            "f32x4.replace_lane": 18,
+            "f32x4.add": 4,
+            "v128.store": 35,
+            "v128.bitselect": 9,
+            "f32x4.sub": 2,
+            "i16x8.replace_lane": 33,
+            "i16x8.sub": 31,
+            "i16x8.splat": 11,
+            "i8x16.lt_u": 2,
+            "i16x8.extend_low_i8x16_s": 2,
+            "i8x16.shuffle": 4
+          }
+        },
+        {
+          "index": 383,
+          "name": "_ZN6brotli3enc7command7Command25distance_index_and_offset17hde453effcefd05e5E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 16,
+          "total_ops": 117,
+          "simd_density": 0.13675213675213677,
+          "op_breakdown": {
+            "v128.store": 8,
+            "v128.const": 8
+          }
+        },
+        {
+          "index": 93,
+          "name": "_ZN6brotli3enc17compress_fragment30BuildAndStoreLiteralPrefixCode17h74d1daf0298b2722E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 41,
+          "total_ops": 309,
+          "simd_density": 0.13268608414239483,
+          "op_breakdown": {
+            "i32x4.shl": 4,
+            "v128.store": 4,
+            "i32x4.gt_u": 2,
+            "i32x4.add": 10,
+            "v128.bitselect": 2,
+            "v128.or": 2,
+            "i32x4.replace_lane": 2,
+            "v128.const": 6,
+            "v128.load": 4,
+            "i32x4.min_u": 2,
+            "i8x16.shuffle": 2,
+            "i32x4.extract_lane": 1
+          }
+        },
+        {
+          "index": 300,
+          "name": "_ZN6brotli3enc17compress_fragment30BuildAndStoreLiteralPrefixCode17hbc262a16867e9a25E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 41,
+          "total_ops": 309,
+          "simd_density": 0.13268608414239483,
+          "op_breakdown": {
+            "v128.bitselect": 2,
+            "v128.or": 2,
+            "v128.store": 4,
+            "i32x4.min_u": 2,
+            "i8x16.shuffle": 2,
+            "i32x4.add": 10,
+            "i32x4.extract_lane": 1,
+            "v128.const": 6,
+            "i32x4.replace_lane": 2,
+            "v128.load": 4,
+            "i32x4.shl": 4,
+            "i32x4.gt_u": 2
+          }
+        },
+        {
+          "index": 142,
+          "name": "_ZN6brotli3enc11stride_eval23StrideEval$LT$Alloc$GT$13choose_stride17hefd7975466e1b613E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 85,
+          "total_ops": 652,
+          "simd_density": 0.1303680981595092,
+          "op_breakdown": {
+            "f32x4.add": 7,
+            "i32x4.shl": 1,
+            "v128.and": 1,
+            "i32x4.extract_lane": 4,
+            "v128.store32_lane": 1,
+            "f32x4.lt": 7,
+            "v128.load32_zero": 8,
+            "v128.const": 11,
+            "v128.load32_lane": 24,
+            "v128.bitselect": 12,
+            "i8x16.shuffle": 7,
+            "i32x4.add": 2
+          }
+        },
+        {
+          "index": 293,
+          "name": "_ZN6brotli3enc11stride_eval23StrideEval$LT$Alloc$GT$13choose_stride17h1aef155c40a3365fE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 85,
+          "total_ops": 652,
+          "simd_density": 0.1303680981595092,
+          "op_breakdown": {
+            "v128.bitselect": 12,
+            "f32x4.add": 7,
+            "v128.and": 1,
+            "v128.load32_lane": 24,
+            "v128.const": 11,
+            "i32x4.add": 2,
+            "i32x4.shl": 1,
+            "v128.load32_zero": 8,
+            "i32x4.extract_lane": 4,
+            "i8x16.shuffle": 7,
+            "f32x4.lt": 7,
+            "v128.store32_lane": 1
+          }
+        },
+        {
+          "index": 114,
+          "name": "_ZN4core3ops8function6FnOnce9call_once17he8ebee6fd9d508a2E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 6,
+          "total_ops": 51,
+          "simd_density": 0.11764705882352941,
+          "op_breakdown": {
+            "v128.store": 2,
+            "i64x2.extract_lane": 1,
+            "v128.load": 3
+          }
+        },
+        {
+          "index": 377,
+          "name": "_ZN6brotli3enc14block_splitter13CountLiterals17h1a33adada87875d0E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 11,
+          "total_ops": 113,
+          "simd_density": 0.09734513274336283,
+          "op_breakdown": {
+            "v128.load32_zero": 1,
+            "v128.load32_lane": 3,
+            "i32x4.add": 3,
+            "i8x16.shuffle": 2,
+            "i32x4.extract_lane": 1,
+            "v128.const": 1
+          }
+        },
+        {
+          "index": 386,
+          "name": "_ZN6brotli3enc11stride_eval15local_init_cdfs17h6370f31b50753f19E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 9,
+          "total_ops": 95,
+          "simd_density": 0.09473684210526316,
+          "op_breakdown": {
+            "i16x8.shl": 1,
+            "v128.const": 4,
+            "v128.and": 1,
+            "i16x8.add": 2,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 276,
+          "name": "_ZN71_$LT$codec_brotli..BrotliCompressor$u20$as$u20$core_api..Compressor$GT$3new17h984ad2197a5cb7f3E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 8,
+          "total_ops": 90,
+          "simd_density": 0.08888888888888889,
+          "op_breakdown": {
+            "v128.const": 4,
+            "v128.store": 4
+          }
+        },
+        {
+          "index": 101,
+          "name": "_ZN111_$LT$alloc_stdlib..std_alloc..StandardAlloc$u20$as$u20$alloc_no_stdlib..stack_allocator..Allocator$LT$T$GT$$GT$10alloc_cell17h3de9e63efdd1caccE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 13,
+          "total_ops": 158,
+          "simd_density": 0.08227848101265822,
+          "op_breakdown": {
+            "v128.const": 3,
+            "v128.store": 10
+          }
+        },
+        {
+          "index": 258,
+          "name": "_ZN111_$LT$alloc_stdlib..std_alloc..StandardAlloc$u20$as$u20$alloc_no_stdlib..stack_allocator..Allocator$LT$T$GT$$GT$10alloc_cell17h2c04da64bc453a49E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 13,
+          "total_ops": 158,
+          "simd_density": 0.08227848101265822,
+          "op_breakdown": {
+            "v128.const": 3,
+            "v128.store": 10
+          }
+        },
+        {
+          "index": 69,
+          "name": "_ZN6brotli3enc19backward_references2hq29ZopfliCostModel$LT$AllocF$GT$22set_from_literal_costs17h9b0090070ef2095eE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 29,
+          "total_ops": 383,
+          "simd_density": 0.07571801566579635,
+          "op_breakdown": {
+            "i8x16.shuffle": 1,
+            "i64x2.extract_lane": 8,
+            "i64x2.replace_lane": 2,
+            "f32x4.replace_lane": 3,
+            "f32x4.splat": 1,
+            "i32x4.extract_lane": 1,
+            "i64x2.add": 4,
+            "v128.store": 1,
+            "v128.const": 4,
+            "v128.bitselect": 1,
+            "v128.load": 1,
+            "i64x2.splat": 2
+          }
+        },
+        {
+          "index": 165,
+          "name": "_ZN6brotli3enc19backward_references2hq29ZopfliCostModel$LT$AllocF$GT$22set_from_literal_costs17hd14bc13097e7c174E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 29,
+          "total_ops": 383,
+          "simd_density": 0.07571801566579635,
+          "op_breakdown": {
+            "i64x2.add": 4,
+            "i64x2.splat": 2,
+            "i64x2.replace_lane": 2,
+            "i8x16.shuffle": 1,
+            "v128.store": 1,
+            "v128.bitselect": 1,
+            "f32x4.splat": 1,
+            "v128.const": 4,
+            "i32x4.extract_lane": 1,
+            "i64x2.extract_lane": 8,
+            "v128.load": 1,
+            "f32x4.replace_lane": 3
+          }
+        },
+        {
+          "index": 353,
+          "name": "_ZN6brotli3enc6encode22InitCommandPrefixCodes17h1a9a1961eb9f1038E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 6,
+          "total_ops": 84,
+          "simd_density": 0.07142857142857142,
+          "op_breakdown": {
+            "v128.store": 3,
+            "v128.load": 3
+          }
+        },
+        {
+          "index": 444,
+          "name": "_ZN19brotli_decompressor10bit_reader15BrotliCopyBytes17h0f842caa7879c131E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 26,
+          "total_ops": 388,
+          "simd_density": 0.06701030927835051,
+          "op_breakdown": {
+            "v128.store32_lane": 1,
+            "v128.load": 1,
+            "i64x2.splat": 3,
+            "i64x2.replace_lane": 2,
+            "i32x4.add": 2,
+            "i32x4.splat": 1,
+            "i64x2.extend_low_i32x4_u": 2,
+            "v128.and": 1,
+            "i64x2.extract_lane": 6,
+            "i32x4.extract_lane": 1,
+            "v128.store": 1,
+            "i8x16.shuffle": 2,
+            "v128.const": 3
+          }
+        },
+        {
+          "index": 344,
+          "name": "_ZN6brotli3enc19context_map_entropy21compute_combined_cost17hc9dc82d7779366a1E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 16,
+          "total_ops": 257,
+          "simd_density": 0.0622568093385214,
+          "op_breakdown": {
+            "v128.load": 8,
+            "v128.store": 6,
+            "i16x8.sub": 2
+          }
+        },
+        {
+          "index": 367,
+          "name": "_ZN6brotli3enc19backward_references2hq13StartPosQueue4push17h3c6fa6281373fae0E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 30,
+          "total_ops": 567,
+          "simd_density": 0.05291005291005291,
+          "op_breakdown": {
+            "v128.store": 15,
+            "v128.load": 15
+          }
+        },
+        {
+          "index": 415,
+          "name": "_ZN6brotli3enc17compress_fragment30BuildAndStoreCommandPrefixCode17he95ff666174d5644E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 22,
+          "total_ops": 423,
+          "simd_density": 0.05200945626477541,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 12,
+            "v128.load": 9
+          }
+        },
+        {
+          "index": 368,
+          "name": "_ZN6brotli3enc19backward_references2hq7SetCost17h6642d0f368ca6723E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 18,
+          "total_ops": 348,
+          "simd_density": 0.05172413793103448,
+          "op_breakdown": {
+            "v128.const": 4,
+            "v128.load32x2_u": 1,
+            "i8x16.shuffle": 3,
+            "v128.and": 1,
+            "v128.load64_zero": 1,
+            "i64x2.add": 4,
+            "i64x2.replace_lane": 1,
+            "i32x4.eq": 1,
+            "i64x2.extract_lane": 2
+          }
+        },
+        {
+          "index": 430,
+          "name": "_ZN19brotli_decompressor6decode23BrotliMaxDistanceSymbol17h5973f160354953e1E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 4,
+          "total_ops": 85,
+          "simd_density": 0.047058823529411764,
+          "op_breakdown": {
+            "v128.store": 2,
+            "v128.const": 2
+          }
+        },
+        {
+          "index": 85,
+          "name": "_ZN6brotli3enc19backward_references19hash_to_binary_tree14initialize_h1017h75772e8675bdb760E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 7,
+          "total_ops": 152,
+          "simd_density": 0.046052631578947366,
+          "op_breakdown": {
+            "v128.load": 1,
+            "i32x4.splat": 1,
+            "v128.store": 5
+          }
+        },
+        {
+          "index": 296,
+          "name": "_ZN6brotli3enc19backward_references19hash_to_binary_tree14initialize_h1017he52f0edc92940156E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 7,
+          "total_ops": 152,
+          "simd_density": 0.046052631578947366,
+          "op_breakdown": {
+            "v128.store": 5,
+            "v128.load": 1,
+            "i32x4.splat": 1
+          }
+        },
+        {
+          "index": 336,
+          "name": "_ZN6brotli3enc26compress_fragment_two_pass30BuildAndStoreCommandPrefixCode17h0561e960a27f1a06E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 16,
+          "total_ops": 379,
+          "simd_density": 0.04221635883905013,
+          "op_breakdown": {
+            "v128.load": 6,
+            "v128.store": 9,
+            "v128.const": 1
+          }
+        },
+        {
+          "index": 60,
+          "name": "_ZN6brotli3enc7cluster27BrotliCompareAndPushToQueue17h41ff0b176ed80a2fE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 18,
+          "total_ops": 458,
+          "simd_density": 0.039301310043668124,
+          "op_breakdown": {
+            "i32x4.add": 4,
+            "v128.load": 9,
+            "v128.store": 5
+          }
+        },
+        {
+          "index": 62,
+          "name": "_ZN6brotli3enc7cluster27BrotliCompareAndPushToQueue17hb0644c14a5d43b63E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 18,
+          "total_ops": 458,
+          "simd_density": 0.039301310043668124,
+          "op_breakdown": {
+            "v128.load": 9,
+            "i32x4.add": 4,
+            "v128.store": 5
+          }
+        },
+        {
+          "index": 64,
+          "name": "_ZN6brotli3enc7cluster27BrotliCompareAndPushToQueue17h6e12cfa58375d8ffE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 18,
+          "total_ops": 458,
+          "simd_density": 0.039301310043668124,
+          "op_breakdown": {
+            "v128.load": 9,
+            "v128.store": 5,
+            "i32x4.add": 4
+          }
+        },
+        {
+          "index": 226,
+          "name": "_ZN6brotli3enc7cluster27BrotliCompareAndPushToQueue17h953e290962a13b40E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 18,
+          "total_ops": 458,
+          "simd_density": 0.039301310043668124,
+          "op_breakdown": {
+            "v128.load": 9,
+            "v128.store": 5,
+            "i32x4.add": 4
+          }
+        },
+        {
+          "index": 228,
+          "name": "_ZN6brotli3enc7cluster27BrotliCompareAndPushToQueue17h5a824460f77252e4E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 18,
+          "total_ops": 458,
+          "simd_density": 0.039301310043668124,
+          "op_breakdown": {
+            "v128.load": 9,
+            "v128.store": 5,
+            "i32x4.add": 4
+          }
+        },
+        {
+          "index": 230,
+          "name": "_ZN6brotli3enc7cluster27BrotliCompareAndPushToQueue17ha3e89233ebf069c3E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 18,
+          "total_ops": 458,
+          "simd_density": 0.039301310043668124,
+          "op_breakdown": {
+            "i32x4.add": 4,
+            "v128.store": 5,
+            "v128.load": 9
+          }
+        },
+        {
+          "index": 52,
+          "name": "_ZN6brotli3enc9metablock24BlockSplitterFinishBlock17h004f6a22f3b7302fE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 32,
+          "total_ops": 824,
+          "simd_density": 0.038834951456310676,
+          "op_breakdown": {
+            "i32x4.add": 8,
+            "v128.store": 8,
+            "v128.load": 16
+          }
+        },
+        {
+          "index": 53,
+          "name": "_ZN6brotli3enc9metablock24BlockSplitterFinishBlock17hd0a0074cf092a711E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 32,
+          "total_ops": 824,
+          "simd_density": 0.038834951456310676,
+          "op_breakdown": {
+            "v128.load": 16,
+            "i32x4.add": 8,
+            "v128.store": 8
+          }
+        },
+        {
+          "index": 54,
+          "name": "_ZN6brotli3enc9metablock24BlockSplitterFinishBlock17hff98793afcbf8e20E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 32,
+          "total_ops": 824,
+          "simd_density": 0.038834951456310676,
+          "op_breakdown": {
+            "i32x4.add": 8,
+            "v128.load": 16,
+            "v128.store": 8
+          }
+        },
+        {
+          "index": 235,
+          "name": "_ZN6brotli3enc9metablock24BlockSplitterFinishBlock17h7cfe2d06b9e60521E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 32,
+          "total_ops": 824,
+          "simd_density": 0.038834951456310676,
+          "op_breakdown": {
+            "v128.load": 16,
+            "i32x4.add": 8,
+            "v128.store": 8
+          }
+        },
+        {
+          "index": 236,
+          "name": "_ZN6brotli3enc9metablock24BlockSplitterFinishBlock17hd2d2d279aee3be44E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 32,
+          "total_ops": 824,
+          "simd_density": 0.038834951456310676,
+          "op_breakdown": {
+            "v128.load": 16,
+            "v128.store": 8,
+            "i32x4.add": 8
+          }
+        },
+        {
+          "index": 237,
+          "name": "_ZN6brotli3enc9metablock24BlockSplitterFinishBlock17hfe00131bc37f1fcbE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 32,
+          "total_ops": 824,
+          "simd_density": 0.038834951456310676,
+          "op_breakdown": {
+            "v128.load": 16,
+            "i32x4.add": 8,
+            "v128.store": 8
+          }
+        },
+        {
+          "index": 76,
+          "name": "_ZN19brotli_decompressor5state47BrotliState$LT$AllocU8$C$AllocU32$C$AllocHC$GT$26new_with_custom_dictionary17h01d16095b7989196E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 28,
+          "total_ops": 738,
+          "simd_density": 0.037940379403794036,
+          "op_breakdown": {
+            "v128.const": 2,
+            "v128.store": 18,
+            "v128.load": 8
+          }
+        },
+        {
+          "index": 301,
+          "name": "_ZN6brotli3enc11static_dict24FindMatchLengthWithLimit17h6fb31206ece8d512E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 4,
+          "total_ops": 109,
+          "simd_density": 0.03669724770642202,
+          "op_breakdown": {
+            "i8x16.eq": 1,
+            "i8x16.bitmask": 1,
+            "v128.load": 2
+          }
+        },
+        {
+          "index": 231,
+          "name": "_ZN6brotli3enc7cluster23BrotliClusterHistograms17h3ae20d5b938528a9E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 60,
+          "total_ops": 1675,
+          "simd_density": 0.03582089552238806,
+          "op_breakdown": {
+            "v128.const": 5,
+            "i32x4.add": 14,
+            "v128.load": 24,
+            "v128.store": 16,
+            "i32x4.splat": 1
+          }
+        },
+        {
+          "index": 232,
+          "name": "_ZN6brotli3enc7cluster23BrotliClusterHistograms17ha9dfecf5e9fd5887E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 60,
+          "total_ops": 1675,
+          "simd_density": 0.03582089552238806,
+          "op_breakdown": {
+            "v128.load": 24,
+            "v128.const": 5,
+            "i32x4.add": 14,
+            "i32x4.splat": 1,
+            "v128.store": 16
+          }
+        },
+        {
+          "index": 110,
+          "name": "_ZN3std3sys4sync4once10no_threads4Once4call17hbcaaa56b8f4f95bdE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 4,
+          "total_ops": 115,
+          "simd_density": 0.034782608695652174,
+          "op_breakdown": {
+            "v128.store": 2,
+            "v128.load": 2
+          }
+        },
+        {
+          "index": 233,
+          "name": "_ZN6brotli3enc14block_splitter16BrotliSplitBlock17h25194d6125148d76E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 651,
+          "total_ops": 19727,
+          "simd_density": 0.03300045622750545,
+          "op_breakdown": {
+            "f32x4.ge": 24,
+            "f32x4.pmin": 30,
+            "i32x4.add": 39,
+            "i8x16.sub": 3,
+            "v128.bitselect": 21,
+            "v128.store32_lane": 3,
+            "v128.load16_lane": 7,
+            "v128.or": 18,
+            "v128.load16_splat": 1,
+            "v128.const": 36,
+            "v128.load32_zero": 27,
+            "v128.store": 124,
+            "v128.load": 78,
+            "i8x16.shuffle": 87,
+            "f32x4.sub": 30,
+            "v128.load32_lane": 72,
+            "f32x4.splat": 12,
+            "f32x4.extract_lane": 36,
+            "i8x16.add": 3
+          }
+        },
+        {
+          "index": 19,
+          "name": "_ZN6brotli3enc14block_splitter16BrotliSplitBlock17ha39cba334a43e561E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 651,
+          "total_ops": 19784,
+          "simd_density": 0.03290537808329964,
+          "op_breakdown": {
+            "i8x16.add": 3,
+            "v128.load16_splat": 1,
+            "v128.load16_lane": 7,
+            "v128.or": 18,
+            "f32x4.sub": 30,
+            "i32x4.add": 39,
+            "v128.bitselect": 21,
+            "v128.load32_lane": 72,
+            "i8x16.sub": 3,
+            "v128.load": 78,
+            "v128.store": 124,
+            "v128.const": 36,
+            "f32x4.splat": 12,
+            "f32x4.pmin": 30,
+            "i8x16.shuffle": 87,
+            "f32x4.ge": 24,
+            "f32x4.extract_lane": 36,
+            "v128.store32_lane": 3,
+            "v128.load32_zero": 27
+          }
+        },
+        {
+          "index": 278,
+          "name": "_ZN71_$LT$codec_brotli..BrotliCompressor$u20$as$u20$core_api..Compressor$GT$12compress_all17h6cd7133f48c36f92E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 8,
+          "total_ops": 249,
+          "simd_density": 0.0321285140562249,
+          "op_breakdown": {
+            "v128.store": 4,
+            "v128.const": 4
+          }
+        },
+        {
+          "index": 65,
+          "name": "_ZN6brotli3enc7cluster23BrotliClusterHistograms17ha0f57439e92d8ca4E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 60,
+          "total_ops": 1915,
+          "simd_density": 0.031331592689295036,
+          "op_breakdown": {
+            "i32x4.add": 14,
+            "i32x4.splat": 1,
+            "v128.const": 5,
+            "v128.load": 24,
+            "v128.store": 16
+          }
+        },
+        {
+          "index": 66,
+          "name": "_ZN6brotli3enc7cluster23BrotliClusterHistograms17hdfc4385467e5cf76E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 60,
+          "total_ops": 1915,
+          "simd_density": 0.031331592689295036,
+          "op_breakdown": {
+            "v128.const": 5,
+            "i32x4.add": 14,
+            "i32x4.splat": 1,
+            "v128.store": 16,
+            "v128.load": 24
+          }
+        },
+        {
+          "index": 59,
+          "name": "_ZN6brotli3enc7cluster22BrotliHistogramCombine17h1e502eb35d03c829E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 29,
+          "total_ops": 1030,
+          "simd_density": 0.02815533980582524,
+          "op_breakdown": {
+            "v128.store": 7,
+            "i32x4.add": 4,
+            "i32x4.splat": 1,
+            "v128.load": 12,
+            "i32x4.eq": 1,
+            "i32x4.extract_lane": 4
+          }
+        },
+        {
+          "index": 61,
+          "name": "_ZN6brotli3enc7cluster22BrotliHistogramCombine17h413073d8bf2c8147E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 29,
+          "total_ops": 1030,
+          "simd_density": 0.02815533980582524,
+          "op_breakdown": {
+            "v128.store": 7,
+            "v128.load": 12,
+            "i32x4.splat": 1,
+            "i32x4.eq": 1,
+            "i32x4.extract_lane": 4,
+            "i32x4.add": 4
+          }
+        },
+        {
+          "index": 63,
+          "name": "_ZN6brotli3enc7cluster22BrotliHistogramCombine17h41f0f234d643a199E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 29,
+          "total_ops": 1030,
+          "simd_density": 0.02815533980582524,
+          "op_breakdown": {
+            "i32x4.splat": 1,
+            "v128.load": 12,
+            "v128.store": 7,
+            "i32x4.eq": 1,
+            "i32x4.extract_lane": 4,
+            "i32x4.add": 4
+          }
+        },
+        {
+          "index": 225,
+          "name": "_ZN6brotli3enc7cluster22BrotliHistogramCombine17h572516b593c1ab07E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 29,
+          "total_ops": 1030,
+          "simd_density": 0.02815533980582524,
+          "op_breakdown": {
+            "i32x4.add": 4,
+            "i32x4.eq": 1,
+            "i32x4.extract_lane": 4,
+            "v128.load": 12,
+            "v128.store": 7,
+            "i32x4.splat": 1
+          }
+        },
+        {
+          "index": 227,
+          "name": "_ZN6brotli3enc7cluster22BrotliHistogramCombine17h57feea52923f6086E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 29,
+          "total_ops": 1030,
+          "simd_density": 0.02815533980582524,
+          "op_breakdown": {
+            "i32x4.add": 4,
+            "v128.load": 12,
+            "i32x4.extract_lane": 4,
+            "v128.store": 7,
+            "i32x4.splat": 1,
+            "i32x4.eq": 1
+          }
+        },
+        {
+          "index": 229,
+          "name": "_ZN6brotli3enc7cluster22BrotliHistogramCombine17hed9e98cb4c417d56E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 29,
+          "total_ops": 1030,
+          "simd_density": 0.02815533980582524,
+          "op_breakdown": {
+            "i32x4.add": 4,
+            "i32x4.extract_lane": 4,
+            "v128.store": 7,
+            "v128.load": 12,
+            "i32x4.splat": 1,
+            "i32x4.eq": 1
+          }
+        },
+        {
+          "index": 360,
+          "name": "_ZN6brotli3enc14entropy_encode14BrotliSetDepth17hccfb292e3e03c196E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 4,
+          "total_ops": 179,
+          "simd_density": 0.0223463687150838,
+          "op_breakdown": {
+            "v128.store": 3,
+            "v128.const": 1
+          }
+        },
+        {
+          "index": 95,
+          "name": "_ZN6brotli3enc19context_map_entropy30ContextMapEntropy$LT$Alloc$GT$3new17h6f92de9abbc3361fE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 10,
+          "total_ops": 451,
+          "simd_density": 0.022172949002217297,
+          "op_breakdown": {
+            "v128.store": 5,
+            "v128.load": 5
+          }
+        },
+        {
+          "index": 161,
+          "name": "_ZN6brotli3enc19context_map_entropy30ContextMapEntropy$LT$Alloc$GT$3new17h93125e0bdd361baeE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 10,
+          "total_ops": 451,
+          "simd_density": 0.022172949002217297,
+          "op_breakdown": {
+            "v128.load": 5,
+            "v128.store": 5
+          }
+        },
+        {
+          "index": 81,
+          "name": "_ZN6brotli3enc11find_stride30EntropyPyramid$LT$AllocU32$GT$20disabled_placeholder17h79fa27c43445d769E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 96,
+          "simd_density": 0.020833333333333332,
+          "op_breakdown": {
+            "v128.store": 1,
+            "v128.const": 1
+          }
+        },
+        {
+          "index": 190,
+          "name": "_ZN6brotli3enc11find_stride30EntropyPyramid$LT$AllocU32$GT$20disabled_placeholder17h43c31068c98feeabE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 96,
+          "simd_density": 0.020833333333333332,
+          "op_breakdown": {
+            "v128.store": 1,
+            "v128.const": 1
+          }
+        },
+        {
+          "index": 316,
+          "name": "_ZN6brotli3enc17brotli_bit_stream20MoveToFrontTransform17hf81955dc8938b11dE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 8,
+          "total_ops": 385,
+          "simd_density": 0.02077922077922078,
+          "op_breakdown": {
+            "i8x16.shuffle": 2,
+            "i32x4.max_u": 3,
+            "v128.load": 1,
+            "i32x4.extract_lane": 1,
+            "i32x4.splat": 1
+          }
+        },
+        {
+          "index": 369,
+          "name": "_ZN6brotli3enc8bit_cost15shannon_entropy17hde0c4151e2a4143dE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 8,
+          "total_ops": 391,
+          "simd_density": 0.020460358056265986,
+          "op_breakdown": {
+            "i32x4.extract_lane": 5,
+            "v128.const": 1,
+            "i32x4.add": 1,
+            "v128.load": 1
+          }
+        },
+        {
+          "index": 75,
+          "name": "_ZN19brotli_decompressor5state47BrotliState$LT$AllocU8$C$AllocU32$C$AllocHC$GT$25BrotliStateMetablockBegin17hc4994ee95b3efce8E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 4,
+          "total_ops": 202,
+          "simd_density": 0.019801980198019802,
+          "op_breakdown": {
+            "v128.const": 2,
+            "v128.store": 2
+          }
+        },
+        {
+          "index": 345,
+          "name": "_ZN6brotli3enc19context_map_entropy12compute_cost17h76bda115f7427b7fE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 17,
+          "total_ops": 862,
+          "simd_density": 0.019721577726218097,
+          "op_breakdown": {
+            "i16x8.sub": 2,
+            "v128.load": 8,
+            "v128.store": 6,
+            "i16x8.extract_lane_u": 1
+          }
+        },
+        {
+          "index": 68,
+          "name": "_ZN6brotli3enc19backward_references2hq17FindAllMatchesH1017h28eb6fe54eb85485E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 10,
+          "total_ops": 514,
+          "simd_density": 0.019455252918287938,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 9
+          }
+        },
+        {
+          "index": 164,
+          "name": "_ZN6brotli3enc19backward_references2hq17FindAllMatchesH1017h29b370654e74fcf9E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 10,
+          "total_ops": 514,
+          "simd_density": 0.019455252918287938,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 9
+          }
+        },
+        {
+          "index": 112,
+          "name": "_ZN9hashbrown3raw21RawTable$LT$T$C$A$GT$14reserve_rehash17h16325be344127258E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 25,
+          "total_ops": 1368,
+          "simd_density": 0.01827485380116959,
+          "op_breakdown": {
+            "v128.store": 9,
+            "i64x2.shr_u": 1,
+            "v128.or": 1,
+            "v128.load": 9,
+            "v128.and": 1,
+            "v128.not": 1,
+            "i64x2.add": 1,
+            "v128.const": 2
+          }
+        },
+        {
+          "index": 372,
+          "name": "_ZN6brotli3enc9metablock24BrotliInitDistanceParams17h3184395d82039d14E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 110,
+          "simd_density": 0.01818181818181818,
+          "op_breakdown": {
+            "v128.store": 1,
+            "v128.const": 1
+          }
+        },
+        {
+          "index": 46,
+          "name": "_ZN6brotli3enc6encode37BrotliEncoderStateStruct$LT$Alloc$GT$18ensure_initialized17had6b6b0563b04579E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 6,
+          "total_ops": 339,
+          "simd_density": 0.017699115044247787,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 5
+          }
+        },
+        {
+          "index": 247,
+          "name": "_ZN6brotli3enc6encode37BrotliEncoderStateStruct$LT$Alloc$GT$18ensure_initialized17h18d792c9326613ecE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 6,
+          "total_ops": 339,
+          "simd_density": 0.017699115044247787,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 5
+          }
+        },
+        {
+          "index": 140,
+          "name": "_ZN6brotli3enc10prior_eval22PriorEval$LT$Alloc$GT$3new17h0100c5dc5da503d5E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 10,
+          "total_ops": 574,
+          "simd_density": 0.017421602787456445,
+          "op_breakdown": {
+            "v128.load": 5,
+            "v128.store": 5
+          }
+        },
+        {
+          "index": 283,
+          "name": "_ZN6brotli3enc10prior_eval22PriorEval$LT$Alloc$GT$3new17h8701c5744108ea06E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 10,
+          "total_ops": 574,
+          "simd_density": 0.017421602787456445,
+          "op_breakdown": {
+            "v128.load": 5,
+            "v128.store": 5
+          }
+        },
+        {
+          "index": 398,
+          "name": "_ZN6brotli3enc19backward_references24TestStaticDictionaryItem17h1ece755d1eb402bdE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 4,
+          "total_ops": 233,
+          "simd_density": 0.017167381974248927,
+          "op_breakdown": {
+            "i8x16.eq": 1,
+            "v128.load": 2,
+            "i8x16.bitmask": 1
+          }
+        },
+        {
+          "index": 425,
+          "name": "_ZN19brotli_decompressor6decode27InverseMoveToFrontTransform17h798a0ce5d699a921E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 4,
+          "total_ops": 242,
+          "simd_density": 0.01652892561983471,
+          "op_breakdown": {
+            "v128.const": 2,
+            "v128.store": 1,
+            "i8x16.add": 1
+          }
+        },
+        {
+          "index": 302,
+          "name": "_ZN6brotli3enc11static_dict28FindMatchLengthWithLimitMin417hf10a61c7e3502219E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 20,
+          "total_ops": 1213,
+          "simd_density": 0.016488046166529265,
+          "op_breakdown": {
+            "v128.store": 10,
+            "v128.load": 10
+          }
+        },
+        {
+          "index": 106,
+          "name": "_ZN3std2io19default_read_to_end16small_probe_read17he52f61d6a7806976E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 3,
+          "total_ops": 187,
+          "simd_density": 0.016042780748663103,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 2
+          }
+        },
+        {
+          "index": 303,
+          "name": "_ZN6brotli3enc11static_dict7IsMatch17h85e8e6f779abef0bE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 8,
+          "total_ops": 500,
+          "simd_density": 0.016,
+          "op_breakdown": {
+            "v128.load": 4,
+            "i8x16.bitmask": 2,
+            "i8x16.eq": 2
+          }
+        },
+        {
+          "index": 434,
+          "name": "_ZN19brotli_decompressor7huffman29BrotliBuildSimpleHuffmanTable17h56aee6182cb2ee84E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 16,
+          "total_ops": 1014,
+          "simd_density": 0.015779092702169626,
+          "op_breakdown": {
+            "i32x4.add": 4,
+            "i32x4.extract_lane": 8,
+            "v128.const": 3,
+            "i32x4.splat": 1
+          }
+        },
+        {
+          "index": 241,
+          "name": "_ZN6brotli3enc9metablock31ContextBlockSplitterFinishBlock17h48d4a6fb564f389cE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 36,
+          "total_ops": 2390,
+          "simd_density": 0.01506276150627615,
+          "op_breakdown": {
+            "v128.store": 11,
+            "v128.const": 1,
+            "v128.load": 16,
+            "i32x4.add": 8
+          }
+        },
+        {
+          "index": 58,
+          "name": "_ZN6brotli3enc9metablock31ContextBlockSplitterFinishBlock17hd8e332e66e0043bcE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 36,
+          "total_ops": 2391,
+          "simd_density": 0.015056461731493099,
+          "op_breakdown": {
+            "v128.store": 11,
+            "i32x4.add": 8,
+            "v128.load": 16,
+            "v128.const": 1
+          }
+        },
+        {
+          "index": 359,
+          "name": "_ZN6brotli3enc6encode20ChooseDistanceParams17h05cefcccd4578d10E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 138,
+          "simd_density": 0.014492753623188406,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 56,
+          "name": "_ZN6brotli3enc9metablock26BrotliBuildMetaBlockGreedy17h1a23c5671d37c10dE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 29,
+          "total_ops": 2134,
+          "simd_density": 0.01358950328022493,
+          "op_breakdown": {
+            "v128.const": 4,
+            "i32x4.extract_lane": 1,
+            "v128.load": 4,
+            "i32x4.add": 3,
+            "v128.load32_lane": 3,
+            "v128.load32_zero": 1,
+            "i8x16.shuffle": 2,
+            "v128.store": 11
+          }
+        },
+        {
+          "index": 239,
+          "name": "_ZN6brotli3enc9metablock26BrotliBuildMetaBlockGreedy17h0f4eda52afdd4fbdE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 29,
+          "total_ops": 2134,
+          "simd_density": 0.01358950328022493,
+          "op_breakdown": {
+            "v128.load": 4,
+            "i8x16.shuffle": 2,
+            "v128.load32_lane": 3,
+            "v128.const": 4,
+            "v128.load32_zero": 1,
+            "v128.store": 11,
+            "i32x4.extract_lane": 1,
+            "i32x4.add": 3
+          }
+        },
+        {
+          "index": 433,
+          "name": "_ZN19brotli_decompressor7huffman23BrotliBuildHuffmanTable17hd33afa4c03fa2d20E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 16,
+          "total_ops": 1212,
+          "simd_density": 0.013201320132013201,
+          "op_breakdown": {
+            "i32x4.extract_lane": 8,
+            "i32x4.add": 4,
+            "v128.const": 3,
+            "i32x4.splat": 1
+          }
+        },
+        {
+          "index": 57,
+          "name": "_ZN6brotli3enc9metablock34BrotliBuildMetaBlockGreedyInternal17hf023fc91d2cb8b37E.llvm.2507730912798296657",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 41,
+          "total_ops": 3187,
+          "simd_density": 0.012864763100094132,
+          "op_breakdown": {
+            "i8x16.shuffle": 2,
+            "i32x4.add": 4,
+            "i32x4.extract_lane": 1,
+            "v128.load32_zero": 1,
+            "v128.load": 6,
+            "v128.load32_lane": 3,
+            "v128.const": 6,
+            "v128.store": 17,
+            "i32x4.splat": 1
+          }
+        },
+        {
+          "index": 240,
+          "name": "_ZN6brotli3enc9metablock34BrotliBuildMetaBlockGreedyInternal17h38084bae2a41752cE.llvm.11883262426827990952",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 41,
+          "total_ops": 3187,
+          "simd_density": 0.012864763100094132,
+          "op_breakdown": {
+            "v128.load": 6,
+            "v128.load32_lane": 3,
+            "i8x16.shuffle": 2,
+            "i32x4.splat": 1,
+            "v128.const": 6,
+            "v128.store": 17,
+            "i32x4.add": 4,
+            "v128.load32_zero": 1,
+            "i32x4.extract_lane": 1
+          }
+        },
+        {
+          "index": 202,
+          "name": "_ZN6brotli3enc17brotli_bit_stream21process_command_queue17h744a4a2746f65f8aE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 19,
+          "total_ops": 1578,
+          "simd_density": 0.012040557667934094,
+          "op_breakdown": {
+            "v128.store": 10,
+            "v128.const": 1,
+            "v128.load": 8
+          }
+        },
+        {
+          "index": 203,
+          "name": "_ZN6brotli3enc17brotli_bit_stream21process_command_queue17h17e8f146d08fe7caE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 19,
+          "total_ops": 1578,
+          "simd_density": 0.012040557667934094,
+          "op_breakdown": {
+            "v128.store": 10,
+            "v128.load": 8,
+            "v128.const": 1
+          }
+        },
+        {
+          "index": 207,
+          "name": "_ZN6brotli3enc17brotli_bit_stream21process_command_queue17h0767e988d21391acE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 19,
+          "total_ops": 1578,
+          "simd_density": 0.012040557667934094,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.load": 8,
+            "v128.store": 10
+          }
+        },
+        {
+          "index": 370,
+          "name": "_ZN6brotli3enc8bit_cost20BrotliPopulationCost17ha56dcb620ae752d3E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 7,
+          "total_ops": 615,
+          "simd_density": 0.011382113821138212,
+          "op_breakdown": {
+            "v128.const": 2,
+            "v128.load": 1,
+            "v128.store": 1,
+            "i32x4.gt_s": 1,
+            "i32x4.bitmask": 1,
+            "i32x4.extract_lane": 1
+          }
+        },
+        {
+          "index": 277,
+          "name": "_ZN71_$LT$codec_brotli..BrotliCompressor$u20$as$u20$core_api..Compressor$GT$14compress_chunk17h413158fe21ab6876E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 177,
+          "simd_density": 0.011299435028248588,
+          "op_breakdown": {
+            "v128.load": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 122,
+          "name": "_ZN6brotli3enc8bit_cost20BrotliPopulationCost17h2693456be2a313efE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 7,
+          "total_ops": 620,
+          "simd_density": 0.01129032258064516,
+          "op_breakdown": {
+            "v128.const": 2,
+            "i32x4.gt_s": 1,
+            "v128.store": 1,
+            "i32x4.extract_lane": 1,
+            "i32x4.bitmask": 1,
+            "v128.load": 1
+          }
+        },
+        {
+          "index": 123,
+          "name": "_ZN6brotli3enc8bit_cost20BrotliPopulationCost17h59afe6d1a01d4719E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 7,
+          "total_ops": 620,
+          "simd_density": 0.01129032258064516,
+          "op_breakdown": {
+            "v128.store": 1,
+            "i32x4.gt_s": 1,
+            "v128.const": 2,
+            "i32x4.bitmask": 1,
+            "i32x4.extract_lane": 1,
+            "v128.load": 1
+          }
+        },
+        {
+          "index": 124,
+          "name": "_ZN6brotli3enc8bit_cost20BrotliPopulationCost17he0aeb73de1ee16ceE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 7,
+          "total_ops": 620,
+          "simd_density": 0.01129032258064516,
+          "op_breakdown": {
+            "v128.const": 2,
+            "i32x4.bitmask": 1,
+            "i32x4.extract_lane": 1,
+            "v128.load": 1,
+            "i32x4.gt_s": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 154,
+          "name": "_ZN6brotli3enc8bit_cost20BrotliPopulationCost17h8ef3ea4ec4ff8d14E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 7,
+          "total_ops": 620,
+          "simd_density": 0.01129032258064516,
+          "op_breakdown": {
+            "v128.const": 2,
+            "v128.store": 1,
+            "i32x4.bitmask": 1,
+            "v128.load": 1,
+            "i32x4.extract_lane": 1,
+            "i32x4.gt_s": 1
+          }
+        },
+        {
+          "index": 155,
+          "name": "_ZN6brotli3enc8bit_cost20BrotliPopulationCost17ha22043c83ceb7ca4E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 7,
+          "total_ops": 620,
+          "simd_density": 0.01129032258064516,
+          "op_breakdown": {
+            "v128.store": 1,
+            "v128.const": 2,
+            "v128.load": 1,
+            "i32x4.bitmask": 1,
+            "i32x4.extract_lane": 1,
+            "i32x4.gt_s": 1
+          }
+        },
+        {
+          "index": 156,
+          "name": "_ZN6brotli3enc8bit_cost20BrotliPopulationCost17hd95c6f09af47df02E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 7,
+          "total_ops": 620,
+          "simd_density": 0.01129032258064516,
+          "op_breakdown": {
+            "v128.store": 1,
+            "i32x4.gt_s": 1,
+            "v128.load": 1,
+            "i32x4.bitmask": 1,
+            "i32x4.extract_lane": 1,
+            "v128.const": 2
+          }
+        },
+        {
+          "index": 135,
+          "name": "_ZN5alloc3vec16Vec$LT$T$C$A$GT$11extend_with17hd352a01a98838aedE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 178,
+          "simd_density": 0.011235955056179775,
+          "op_breakdown": {
+            "v128.store": 1,
+            "v128.load": 1
+          }
+        },
+        {
+          "index": 162,
+          "name": "_ZN5alloc3vec16Vec$LT$T$C$A$GT$11extend_with17hd97622f0fbdab8f5E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 178,
+          "simd_density": 0.011235955056179775,
+          "op_breakdown": {
+            "v128.load": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 362,
+          "name": "_ZN6brotli3enc14entropy_encode33BrotliOptimizeHuffmanCountsForRle17h3f3bd8f693ade359E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 9,
+          "total_ops": 838,
+          "simd_density": 0.010739856801909307,
+          "op_breakdown": {
+            "v128.const": 1,
+            "i8x16.shuffle": 2,
+            "i32x4.ne": 1,
+            "i32x4.add": 2,
+            "i32x4.extract_lane": 1,
+            "i32x4.sub": 1,
+            "v128.load": 1
+          }
+        },
+        {
+          "index": 380,
+          "name": "_ZN6brotli3enc14block_splitter13RemapBlockIds17h1ebb6ba33bb58343E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 204,
+          "simd_density": 0.00980392156862745,
+          "op_breakdown": {
+            "v128.store": 1,
+            "v128.const": 1
+          }
+        },
+        {
+          "index": 80,
+          "name": "_ZN6brotli3enc11find_stride30EntropyPyramid$LT$AllocU32$GT$14populate_entry17h4e5924a2337d8e68E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 13,
+          "total_ops": 1441,
+          "simd_density": 0.009021512838306732,
+          "op_breakdown": {
+            "v128.store": 6,
+            "v128.load": 4,
+            "v128.const": 1,
+            "i32x4.add": 2
+          }
+        },
+        {
+          "index": 189,
+          "name": "_ZN6brotli3enc11find_stride30EntropyPyramid$LT$AllocU32$GT$14populate_entry17h7b99f5f1252dff97E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 13,
+          "total_ops": 1441,
+          "simd_density": 0.009021512838306732,
+          "op_breakdown": {
+            "i32x4.add": 2,
+            "v128.store": 6,
+            "v128.const": 1,
+            "v128.load": 4
+          }
+        },
+        {
+          "index": 22,
+          "name": "_ZN6brotli3enc17brotli_bit_stream12LogMetaBlock17h580c70f84fe9f4a7E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 72,
+          "total_ops": 9829,
+          "simd_density": 0.00732526197985553,
+          "op_breakdown": {
+            "v128.store": 38,
+            "v128.load": 30,
+            "v128.const": 4
+          }
+        },
+        {
+          "index": 208,
+          "name": "_ZN6brotli3enc17brotli_bit_stream21process_command_queue17h6b5507df8f240979E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 15,
+          "total_ops": 2050,
+          "simd_density": 0.007317073170731708,
+          "op_breakdown": {
+            "v128.store": 8,
+            "v128.const": 1,
+            "v128.load": 6
+          }
+        },
+        {
+          "index": 138,
+          "name": "_ZN6brotli3enc10prior_eval22PriorEval$LT$Alloc$GT$14choose_bitmask17h1093812518582941E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 3,
+          "total_ops": 419,
+          "simd_density": 0.007159904534606206,
+          "op_breakdown": {
+            "v128.store": 2,
+            "v128.const": 1
+          }
+        },
+        {
+          "index": 281,
+          "name": "_ZN6brotli3enc10prior_eval22PriorEval$LT$Alloc$GT$14choose_bitmask17h972dbafe32697048E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 3,
+          "total_ops": 419,
+          "simd_density": 0.007159904534606206,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 2
+          }
+        },
+        {
+          "index": 364,
+          "name": "_ZN6brotli3enc14entropy_encode31BrotliConvertBitDepthsToSymbols17hf12cc50474b8099fE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 3,
+          "total_ops": 430,
+          "simd_density": 0.0069767441860465115,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 2
+          }
+        },
+        {
+          "index": 137,
+          "name": "_ZN110_$LT$brotli..enc..stride_eval..StrideEval$LT$Alloc$GT$$u20$as$u20$brotli..enc..ir_interpret..IRInterpreter$GT$17update_block_type17h09d68c15260503adE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 295,
+          "simd_density": 0.006779661016949152,
+          "op_breakdown": {
+            "v128.load": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 286,
+          "name": "_ZN110_$LT$brotli..enc..stride_eval..StrideEval$LT$Alloc$GT$$u20$as$u20$brotli..enc..ir_interpret..IRInterpreter$GT$17update_block_type17h1c64ca4e3f3e5d3aE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 295,
+          "simd_density": 0.006779661016949152,
+          "op_breakdown": {
+            "v128.store": 1,
+            "v128.load": 1
+          }
+        },
+        {
+          "index": 143,
+          "name": "_ZN6brotli3enc11stride_eval23StrideEval$LT$Alloc$GT$3new17h607c0db22e1da98bE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 323,
+          "simd_density": 0.006191950464396285,
+          "op_breakdown": {
+            "v128.store": 1,
+            "v128.load": 1
+          }
+        },
+        {
+          "index": 294,
+          "name": "_ZN6brotli3enc11stride_eval23StrideEval$LT$Alloc$GT$3new17hf786b9ed544fe4b4E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 323,
+          "simd_density": 0.006191950464396285,
+          "op_breakdown": {
+            "v128.store": 1,
+            "v128.load": 1
+          }
+        },
+        {
+          "index": 82,
+          "name": "_ZN6brotli3enc11find_stride30EntropyPyramid$LT$AllocU32$GT$3new17h6a8f6c3f1541b220E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 352,
+          "simd_density": 0.005681818181818182,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 191,
+          "name": "_ZN6brotli3enc11find_stride30EntropyPyramid$LT$AllocU32$GT$3new17h9807f68862ae422bE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 352,
+          "simd_density": 0.005681818181818182,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 366,
+          "name": "_ZN6brotli3enc19backward_references2hq20ComputeDistanceCache17h400c2186e9f9e473E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 409,
+          "simd_density": 0.004889975550122249,
+          "op_breakdown": {
+            "v128.load": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 12,
+          "name": "_ZN122_$LT$brotli..enc..backward_references..UnionHasher$LT$Alloc$GT$$u20$as$u20$brotli..enc..backward_references..AnyHasher$GT$7Prepare17hb2590ae97cc97483E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 6,
+          "total_ops": 1249,
+          "simd_density": 0.004803843074459567,
+          "op_breakdown": {
+            "v128.const": 2,
+            "v128.store": 3,
+            "i32x4.splat": 1
+          }
+        },
+        {
+          "index": 180,
+          "name": "_ZN122_$LT$brotli..enc..backward_references..UnionHasher$LT$Alloc$GT$$u20$as$u20$brotli..enc..backward_references..AnyHasher$GT$7Prepare17h39c63ab409d20cf4E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 6,
+          "total_ops": 1249,
+          "simd_density": 0.004803843074459567,
+          "op_breakdown": {
+            "v128.store": 3,
+            "i32x4.splat": 1,
+            "v128.const": 2
+          }
+        },
+        {
+          "index": 308,
+          "name": "_ZN6brotli3enc17brotli_bit_stream22BrotliStoreHuffmanTree17h1b2f3702d7bf40acE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 4,
+          "total_ops": 849,
+          "simd_density": 0.004711425206124852,
+          "op_breakdown": {
+            "v128.store": 3,
+            "v128.const": 1
+          }
+        },
+        {
+          "index": 71,
+          "name": "_ZN6brotli3enc19backward_references2hq38BrotliCreateHqZopfliBackwardReferences17hb9fd9aad62faec2cE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 10,
+          "total_ops": 2138,
+          "simd_density": 0.004677268475210477,
+          "op_breakdown": {
+            "v128.load": 3,
+            "v128.const": 2,
+            "v128.store": 5
+          }
+        },
+        {
+          "index": 167,
+          "name": "_ZN6brotli3enc19backward_references2hq38BrotliCreateHqZopfliBackwardReferences17hfb1ecefab9ad3605E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 10,
+          "total_ops": 2138,
+          "simd_density": 0.004677268475210477,
+          "op_breakdown": {
+            "v128.load": 3,
+            "v128.const": 2,
+            "v128.store": 5
+          }
+        },
+        {
+          "index": 315,
+          "name": "_ZN6brotli3enc17brotli_bit_stream22StoreTrivialContextMap17ha7a761d9b1132a6cE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 440,
+          "simd_density": 0.004545454545454545,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 234,
+          "name": "_ZN6brotli3enc9metablock20BrotliBuildMetaBlock17ha8dcb34b8cc3cf75E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 10,
+          "total_ops": 2248,
+          "simd_density": 0.004448398576512456,
+          "op_breakdown": {
+            "v128.load": 5,
+            "v128.store": 5
+          }
+        },
+        {
+          "index": 246,
+          "name": "_ZN6brotli3enc6encode37BrotliEncoderStateStruct$LT$Alloc$GT$11encode_data17h5b08e17c9fd3f03eE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 10,
+          "total_ops": 2272,
+          "simd_density": 0.0044014084507042256,
+          "op_breakdown": {
+            "v128.load": 3,
+            "v128.store": 5,
+            "v128.const": 2
+          }
+        },
+        {
+          "index": 249,
+          "name": "_ZN6brotli3enc6encode37BrotliEncoderStateStruct$LT$Alloc$GT$11encode_data17h6f8110d06809880cE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 10,
+          "total_ops": 2272,
+          "simd_density": 0.0044014084507042256,
+          "op_breakdown": {
+            "v128.store": 5,
+            "v128.const": 2,
+            "v128.load": 3
+          }
+        },
+        {
+          "index": 51,
+          "name": "_ZN6brotli3enc9metablock20BrotliBuildMetaBlock17hb1a2eede729ac292E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 10,
+          "total_ops": 2308,
+          "simd_density": 0.004332755632582322,
+          "op_breakdown": {
+            "v128.store": 5,
+            "v128.load": 5
+          }
+        },
+        {
+          "index": 312,
+          "name": "_ZN6brotli3enc17brotli_bit_stream24BuildAndStoreHuffmanTree17hd8a490ee00a51b4aE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 496,
+          "simd_density": 0.004032258064516129,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 33,
+          "name": "_ZN19brotli_decompressor6decode15ReadHuffmanCode17he4d95072ed630d4bE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 5,
+          "total_ops": 1404,
+          "simd_density": 0.0035612535612535613,
+          "op_breakdown": {
+            "v128.store": 3,
+            "v128.const": 2
+          }
+        },
+        {
+          "index": 357,
+          "name": "_ZN6brotli3enc6encode32DecideOverLiteralContextModeling17h2f945443ef6d77e0E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 3,
+          "total_ops": 843,
+          "simd_density": 0.0035587188612099642,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 2
+          }
+        },
+        {
+          "index": 201,
+          "name": "_ZN6brotli3enc17brotli_bit_stream12LogMetaBlock17h6567aba8d4d1ba25E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 8,
+          "total_ops": 2356,
+          "simd_density": 0.003395585738539898,
+          "op_breakdown": {
+            "v128.store": 4,
+            "v128.load": 4
+          }
+        },
+        {
+          "index": 332,
+          "name": "_ZN6brotli3enc26compress_fragment_two_pass14CreateCommands17h655a100da273d7c6E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 8,
+          "total_ops": 2386,
+          "simd_density": 0.003352891869237217,
+          "op_breakdown": {
+            "i8x16.eq": 2,
+            "v128.load": 4,
+            "i8x16.bitmask": 2
+          }
+        },
+        {
+          "index": 45,
+          "name": "_ZN6brotli3enc6encode37BrotliEncoderStateStruct$LT$Alloc$GT$11encode_data17h620e61907364c760E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 12,
+          "total_ops": 3731,
+          "simd_density": 0.0032162958992227285,
+          "op_breakdown": {
+            "v128.store": 6,
+            "v128.load": 4,
+            "v128.const": 2
+          }
+        },
+        {
+          "index": 431,
+          "name": "_ZN19brotli_decompressor9transform23TransformDictionaryWord17h1ea5b742fa39e3cbE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 660,
+          "simd_density": 0.0030303030303030303,
+          "op_breakdown": {
+            "v128.load": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 346,
+          "name": "_ZN6brotli3enc19context_map_entropy10update_cdf17h74747b53a7c515a8E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 4,
+          "total_ops": 1409,
+          "simd_density": 0.0028388928317956,
+          "op_breakdown": {
+            "v128.load": 1,
+            "v128.store": 1,
+            "v128.const": 1,
+            "i16x8.add": 1
+          }
+        },
+        {
+          "index": 29,
+          "name": "_ZN6brotli3enc17brotli_bit_stream34BrotliBuildAndStoreHuffmanTreeFast17h9f36d7b46749a98bE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 3,
+          "total_ops": 1203,
+          "simd_density": 0.0024937655860349127,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 2
+          }
+        },
+        {
+          "index": 218,
+          "name": "_ZN6brotli3enc17brotli_bit_stream34BrotliBuildAndStoreHuffmanTreeFast17h1990d03791bd43aaE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 3,
+          "total_ops": 1203,
+          "simd_density": 0.0024937655860349127,
+          "op_breakdown": {
+            "v128.store": 2,
+            "v128.const": 1
+          }
+        },
+        {
+          "index": 70,
+          "name": "_ZN6brotli3enc19backward_references2hq36BrotliCreateZopfliBackwardReferences17h2b2579af8b5d7ec6E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 1000,
+          "simd_density": 0.002,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 166,
+          "name": "_ZN6brotli3enc19backward_references2hq36BrotliCreateZopfliBackwardReferences17h818d34d70cdab474E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 1000,
+          "simd_density": 0.002,
+          "op_breakdown": {
+            "v128.store": 1,
+            "v128.const": 1
+          }
+        },
+        {
+          "index": 243,
+          "name": "_ZN6brotli3enc6encode12hasher_setup17h1a94932a27c72399E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 1276,
+          "simd_density": 0.001567398119122257,
+          "op_breakdown": {
+            "v128.store": 1,
+            "v128.load": 1
+          }
+        },
+        {
+          "index": 210,
+          "name": "_ZN6brotli3enc17brotli_bit_stream16store_meta_block17h7a68789c8c0b9967E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 1364,
+          "simd_density": 0.001466275659824047,
+          "op_breakdown": {
+            "v128.load": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 18,
+          "name": "_ZN6brotli3enc19backward_references30BrotliCreateBackwardReferences17hb6d435f91501719fE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 18,
+          "total_ops": 13700,
+          "simd_density": 0.001313868613138686,
+          "op_breakdown": {
+            "v128.load": 9,
+            "v128.store": 9
+          }
+        },
+        {
+          "index": 186,
+          "name": "_ZN6brotli3enc19backward_references30BrotliCreateBackwardReferences17h28b1b6e1402b0951E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 18,
+          "total_ops": 13700,
+          "simd_density": 0.001313868613138686,
+          "op_breakdown": {
+            "v128.store": 9,
+            "v128.load": 9
+          }
+        },
+        {
+          "index": 67,
+          "name": "_ZN6brotli3enc19backward_references2hq11UpdateNodes17h2240cee55c719778E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 1547,
+          "simd_density": 0.001292824822236587,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 163,
+          "name": "_ZN6brotli3enc19backward_references2hq11UpdateNodes17h634c796370e14948E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 1547,
+          "simd_density": 0.001292824822236587,
+          "op_breakdown": {
+            "v128.store": 1,
+            "v128.const": 1
+          }
+        },
+        {
+          "index": 36,
+          "name": "_ZN19brotli_decompressor6decode22BrotliDecompressStream17h52b1ecaa70a39505E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 3,
+          "total_ops": 3262,
+          "simd_density": 0.0009196811771919068,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 2
+          }
+        },
+        {
+          "index": 38,
+          "name": "_ZN19brotli_decompressor6decode23ProcessCommandsInternal17h5533713658b64bffE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 4,
+          "total_ops": 4353,
+          "simd_density": 0.0009189065012634965,
+          "op_breakdown": {
+            "v128.load": 2,
+            "v128.store": 2
+          }
+        },
+        {
+          "index": 26,
+          "name": "_ZN6brotli3enc17brotli_bit_stream16store_meta_block17h22a920ecf0463c40E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 2397,
+          "simd_density": 0.0008343763037129745,
+          "op_breakdown": {
+            "v128.store": 1,
+            "v128.load": 1
+          }
+        },
+        {
+          "index": 304,
+          "name": "_ZN6brotli3enc11static_dict36BrotliFindAllStaticDictionaryMatches17hdefedb49964d4d5fE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 4,
+          "total_ops": 4892,
+          "simd_density": 0.0008176614881439084,
+          "op_breakdown": {
+            "v128.load": 2,
+            "i8x16.bitmask": 1,
+            "i8x16.eq": 1
+          }
+        }
+      ],
+      "lines": []
+    }
+  },
+  "provenance": {
+    "summary": {}
+  },
+  "benchResults": {
+    "scalar": {
+      "functions": {
+        "compress_level_1": {
+          "sizes": {
+            "1024": {
+              "mean": 0.011903143521459377,
+              "median": 0.0118648605879213,
+              "min": 0.011623677293785283,
+              "max": 0.01355592527839004,
+              "p5": 0.011690019461952273,
+              "p95": 0.012113729461294706,
+              "stddev": 0.00026527819365433755,
+              "throughputMBps": 82.30711964657748,
+              "samples": 60,
+              "batchSize": 976,
+              "actualInputSize": 1024
+            },
+            "16384": {
+              "mean": 0.06537933636232804,
+              "median": 0.06484494346087097,
+              "min": 0.06405054154943247,
+              "max": 0.06974521230478756,
+              "p5": 0.06415095094774591,
+              "p95": 0.06806421279907227,
+              "stddev": 0.0012383018463943288,
+              "throughputMBps": 240.95942052025242,
+              "samples": 60,
+              "batchSize": 61,
+              "actualInputSize": 16384
+            },
+            "65536": {
+              "mean": 0.023951343165503604,
+              "median": 0.02348196506500244,
+              "min": 0.02322500546773275,
+              "max": 0.03341112931569417,
+              "p5": 0.02330000400543213,
+              "p95": 0.025330527623494466,
+              "stddev": 0.0016142633646250633,
+              "throughputMBps": 2661.6171102796716,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 0.07031527022520703,
+              "median": 0.06965619921684266,
+              "min": 0.06864581108093262,
+              "max": 0.08632500171661377,
+              "p5": 0.0687250018119812,
+              "p95": 0.07486250400543212,
+              "stddev": 0.0026048626464172577,
+              "throughputMBps": 3589.056003784237,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 0.26057589948177334,
+              "median": 0.25402920246124266,
+              "min": 0.2465499997138977,
+              "max": 0.31967079639434814,
+              "p5": 0.24890830516815185,
+              "p95": 0.304516589641571,
+              "stddev": 0.01607654160315195,
+              "throughputMBps": 3936.555286995283,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
+            }
+          }
+        },
+        "compress_level_4": {
+          "sizes": {
+            "1024": {
+              "mean": 0.02387341406053859,
+              "median": 0.023452549134610128,
+              "min": 0.02321917624747167,
+              "max": 0.03506113417813035,
+              "p5": 0.023244236702801752,
+              "p95": 0.025807761266583303,
+              "stddev": 0.0019775900359322576,
+              "throughputMBps": 41.639929817217045,
+              "samples": 60,
+              "batchSize": 976,
+              "actualInputSize": 1024
+            },
+            "16384": {
+              "mean": 0.1488772438523548,
+              "median": 0.14067281269636311,
+              "min": 0.1382964419536903,
+              "max": 0.41046242635758196,
+              "p5": 0.13842827765668025,
+              "p95": 0.2253647554116171,
+              "stddev": 0.040061635146031685,
+              "throughputMBps": 111.0733460183665,
+              "samples": 60,
+              "batchSize": 61,
+              "actualInputSize": 16384
+            },
+            "65536": {
+              "mean": 0.1425299102730221,
+              "median": 0.14053473472595215,
+              "min": 0.136941663424174,
+              "max": 0.1565610647201538,
+              "p5": 0.13717500368754068,
+              "p95": 0.1537389357884725,
+              "stddev": 0.005213902293639057,
+              "throughputMBps": 444.72991052267093,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 0.3375695147116978,
+              "median": 0.3353958487510681,
+              "min": 0.3243624925613403,
+              "max": 0.39184590578079226,
+              "p5": 0.32505409717559813,
+              "p95": 0.36166670322418215,
+              "stddev": 0.012090138256154999,
+              "throughputMBps": 745.3878780281233,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 1.1490454812844593,
+              "median": 1.1494791507720947,
+              "min": 1.1107874989509583,
+              "max": 1.1977625012397766,
+              "p5": 1.1175707936286927,
+              "p95": 1.1834499955177307,
+              "stddev": 0.01871504448276252,
+              "throughputMBps": 869.9592326910054,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
+            }
+          }
+        },
+        "compress_level_6": {
+          "sizes": {
+            "1024": {
+              "mean": 0.03459453840480477,
+              "median": 0.034584037898505324,
+              "min": 0.03405810342948945,
+              "max": 0.03508183921946854,
+              "p5": 0.034194928334384665,
+              "p95": 0.03498932780300985,
+              "stddev": 0.0001976086595702484,
+              "throughputMBps": 28.237376528037107,
+              "samples": 60,
+              "batchSize": 976,
+              "actualInputSize": 1024
+            },
+            "16384": {
+              "mean": 0.15457573992307064,
+              "median": 0.15472609000127824,
+              "min": 0.15143511529828682,
+              "max": 0.1589412630581465,
+              "p5": 0.152226770510439,
+              "p95": 0.15710109765412378,
+              "stddev": 0.001395593718837004,
+              "throughputMBps": 100.98490823280623,
+              "samples": 60,
+              "batchSize": 61,
+              "actualInputSize": 16384
+            },
+            "65536": {
+              "mean": 0.18486994809574553,
+              "median": 0.18234860102335612,
+              "min": 0.17606666882832844,
+              "max": 0.20099440415700276,
+              "p5": 0.17978060245513916,
+              "p95": 0.1976138671239217,
+              "stddev": 0.005897192414806855,
+              "throughputMBps": 342.75009322388325,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 0.5186860440174738,
+              "median": 0.5143832981586456,
+              "min": 0.5065458059310913,
+              "max": 0.5696125030517578,
+              "p5": 0.5078791975975037,
+              "p95": 0.5423375010490418,
+              "stddev": 0.011802964108753517,
+              "throughputMBps": 486.0188907667357,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 2.536141173839569,
+              "median": 2.532166600227356,
+              "min": 2.4971207976341248,
+              "max": 2.589858388900757,
+              "p5": 2.504050004482269,
+              "p95": 2.589220905303955,
+              "stddev": 0.02339450395527127,
+              "throughputMBps": 394.91872292692466,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
+            }
+          }
+        },
+        "compress_level_9": {
+          "sizes": {
+            "1024": {
+              "mean": 0.3362145413690414,
+              "median": 0.33545385087366963,
+              "min": 0.3340307377645227,
+              "max": 0.3450315492074998,
+              "p5": 0.33423932690600877,
+              "p95": 0.34252681045747196,
+              "stddev": 0.0022832898558160972,
+              "throughputMBps": 2.911167951885486,
+              "samples": 60,
+              "batchSize": 976,
+              "actualInputSize": 1024
+            },
+            "16384": {
+              "mean": 0.46746392347773563,
+              "median": 0.4660925493865717,
+              "min": 0.4577786883369821,
+              "max": 0.4849870165840524,
+              "p5": 0.4614289686328075,
+              "p95": 0.4781086054004607,
+              "stddev": 0.004574261796291197,
+              "throughputMBps": 33.52338504566141,
+              "samples": 60,
+              "batchSize": 61,
+              "actualInputSize": 16384
+            },
+            "65536": {
+              "mean": 0.4481952277819317,
+              "median": 0.4446889003117879,
+              "min": 0.42456940015157063,
+              "max": 0.5365610678990682,
+              "p5": 0.43089719613393146,
+              "p95": 0.4752221981684367,
+              "stddev": 0.017526651208615313,
+              "throughputMBps": 140.54769515537473,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 1.0173530562718713,
+              "median": 1.0145457983016968,
+              "min": 0.9824374914169312,
+              "max": 1.0716042041778564,
+              "p5": 0.9905209064483642,
+              "p95": 1.0598874926567077,
+              "stddev": 0.01967219232040278,
+              "throughputMBps": 246.41568711682464,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 3.8197076380252835,
+              "median": 3.82132710814476,
+              "min": 3.71741669178009,
+              "max": 3.9377750039100645,
+              "p5": 3.751029109954834,
+              "p95": 3.9048833012580872,
+              "stddev": 0.0495827983374725,
+              "throughputMBps": 261.68919113692317,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
+            }
+          }
+        },
+        "decompress_brotli": {
+          "sizes": {
+            "1024": {
+              "mean": 0.002557155789166201,
+              "median": 0.0024992316106303794,
+              "min": 0.0024801916519149405,
+              "max": 0.004090163917815099,
+              "p5": 0.002482453941321764,
+              "p95": 0.002715676290089967,
+              "stddev": 0.00021095558112177817,
+              "throughputMBps": 390.7450977517375,
+              "samples": 60,
+              "batchSize": 976,
+              "actualInputSize": 1024
+            },
+            "262144": {
+              "mean": 0.03837200959523519,
+              "median": 0.03797079920768738,
+              "min": 0.0374750018119812,
+              "max": 0.0538707971572876,
+              "p5": 0.037629199028015134,
+              "p95": 0.039687490463256835,
+              "stddev": 0.0020820497909088092,
+              "throughputMBps": 6584.00679513183,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            }
+          }
+        },
+        "create_brotli_compressor": {
+          "sizes": {
+            "1024": {
+              "mean": 0.004817050158000383,
+              "median": 0.0013647751241433817,
+              "min": 0.0007393278303693552,
+              "max": 0.11917388219325269,
+              "p5": 0.0008793125142816637,
+              "p95": 0.013635886252903547,
+              "stddev": 0.017222831804975875,
+              "throughputMBps": 715.5482853726189,
+              "samples": 60,
+              "batchSize": 976,
+              "actualInputSize": 1024
+            },
+            "16384": {
+              "mean": 0.002334141177557856,
+              "median": 0.002192623302584789,
+              "min": 0.0017322301864624023,
+              "max": 0.005054639988258237,
+              "p5": 0.0018510974821497183,
+              "p95": 0.0031448211826261927,
+              "stddev": 0.0005402570014709101,
+              "throughputMBps": 7126.167081039575,
+              "samples": 60,
+              "batchSize": 61,
+              "actualInputSize": 16384
+            },
+            "65536": {
+              "mean": 0.001647362841500176,
+              "median": 0.001561133066813151,
+              "min": 0.001219463348388672,
+              "max": 0.003641668955485026,
+              "p5": 0.0013944705327351887,
+              "p95": 0.002144463857014974,
+              "stddev": 0.00034277141334168495,
+              "throughputMBps": 40035.024129996535,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 0.0018921494483947754,
+              "median": 0.0016896069049835206,
+              "min": 0.0012542009353637695,
+              "max": 0.007350003719329834,
+              "p5": 0.0014250040054321288,
+              "p95": 0.0027166008949279785,
+              "stddev": 0.0009337150372284349,
+              "throughputMBps": 147963.4104611086,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 0.0015233222643534342,
+              "median": 0.0014958500862121582,
+              "min": 0.0010416984558105468,
+              "max": 0.003541600704193115,
+              "p5": 0.0012666940689086913,
+              "p95": 0.0017499923706054688,
+              "stddev": 0.00030242507996525473,
+              "throughputMBps": 668516.1897020267,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
+            }
+          }
+        },
+        "compress_brotli_chunk": {
+          "sizes": {}
+        },
+        "destroy_brotli_compressor": {
+          "sizes": {
+            "1024": {
+              "mean": 0.00002112434820724967,
+              "median": 0.000013533307880651757,
+              "min": 0.000012038916837973672,
+              "max": 0.00014344260829393982,
+              "p5": 0.000012080933226913703,
+              "p95": 0.00005353474226154265,
+              "stddev": 0.000021011428740741463,
+              "throughputMBps": 0,
+              "samples": 60,
+              "batchSize": 976,
+              "actualInputSize": 1024
+            },
+            "16384": {
+              "mean": 0.000013319065010612783,
+              "median": 0.000012968407302606302,
+              "min": 0.000012294190828917456,
+              "max": 0.000016392254438556607,
+              "p5": 0.000012294190828917456,
+              "p95": 0.00001572194646616451,
+              "stddev": 0.0000013160635610614417,
+              "throughputMBps": 0,
+              "samples": 60,
+              "batchSize": 61,
+              "actualInputSize": 16384
+            },
+            "65536": {
+              "mean": 0.000014122194714016396,
+              "median": 0.000013868014017740885,
+              "min": 0.00001113414764404297,
+              "max": 0.00001666545867919922,
+              "p5": 0.000013860066731770833,
+              "p95": 0.00001666545867919922,
+              "stddev": 9.186119442048227e-7,
+              "throughputMBps": 0,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 0.000015976826349894227,
+              "median": 0.000016701221466064452,
+              "min": 0.000012493133544921875,
+              "max": 0.000020897388458251954,
+              "p5": 0.000012493133544921875,
+              "p95": 0.000016701221466064452,
+              "stddev": 0.0000017337547147735834,
+              "throughputMBps": 0,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 0.00001917004585266115,
+              "median": 0.000016701221466064452,
+              "min": 0.000012493133544921875,
+              "max": 0.0001999974250793457,
+              "p5": 0.000012493133544921875,
+              "p95": 0.000016701221466064452,
+              "stddev": 0.000023596442946528478,
+              "throughputMBps": 0,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
+            }
+          }
+        }
+      },
+      "avgThroughputMBps": 97223.33127584409
+    },
+    "autovec": {
+      "functions": {
+        "compress_level_1": {
+          "sizes": {
+            "1024": {
+              "mean": 0.01204997795160676,
+              "median": 0.012016222369475443,
+              "min": 0.01179841185202364,
+              "max": 0.013766223412068164,
+              "p5": 0.011840676186514682,
+              "p95": 0.01244582480094472,
+              "stddev": 0.0002639255656321603,
+              "throughputMBps": 81.27034187389384,
+              "samples": 60,
+              "batchSize": 976,
+              "actualInputSize": 1024
+            },
+            "16384": {
+              "mean": 0.06627666227153091,
+              "median": 0.06589856597243762,
+              "min": 0.0647984899458338,
+              "max": 0.0685997380584967,
+              "p5": 0.06518101496774642,
+              "p95": 0.06829508210791917,
+              "stddev": 0.001042724592746827,
+              "throughputMBps": 237.10682879708227,
+              "samples": 60,
+              "batchSize": 61,
+              "actualInputSize": 16384
+            },
+            "65536": {
+              "mean": 0.023925177653630572,
+              "median": 0.02375830014546712,
+              "min": 0.023152740796407063,
+              "max": 0.030605530738830565,
+              "p5": 0.023319403330485027,
+              "p95": 0.0250499963760376,
+              "stddev": 0.0009742121238061438,
+              "throughputMBps": 2630.6595849587525,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 0.07103180627028148,
+              "median": 0.07004585266113281,
+              "min": 0.06792089939117432,
+              "max": 0.09380419254302978,
+              "p5": 0.06806659698486328,
+              "p95": 0.08761669397354126,
+              "stddev": 0.004730313350077823,
+              "throughputMBps": 3569.0906813490838,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 0.25565055509408313,
+              "median": 0.252247953414917,
+              "min": 0.2482917070388794,
+              "max": 0.2841166019439697,
+              "p5": 0.24858750104904176,
+              "p95": 0.27386250495910647,
+              "stddev": 0.00806101215205726,
+              "throughputMBps": 3964.3532740783926,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
+            }
+          }
+        },
+        "compress_level_4": {
+          "sizes": {
+            "1024": {
+              "mean": 0.02239750191121479,
+              "median": 0.02212781813301024,
+              "min": 0.021843365836338918,
+              "max": 0.03345205732544915,
+              "p5": 0.021937799258310287,
+              "p95": 0.02351528284002523,
+              "stddev": 0.0014824141206502266,
+              "throughputMBps": 44.13279674163472,
+              "samples": 60,
+              "batchSize": 976,
+              "actualInputSize": 1024
+            },
+            "16384": {
+              "mean": 0.13744023250100387,
+              "median": 0.13735997579136833,
+              "min": 0.13550136128409965,
+              "max": 0.1407581958614412,
+              "p5": 0.13567622958636674,
+              "p95": 0.13967418084379102,
+              "stddev": 0.0012893857790665937,
+              "throughputMBps": 113.75220408987487,
+              "samples": 60,
+              "batchSize": 61,
+              "actualInputSize": 16384
+            },
+            "65536": {
+              "mean": 0.14061991122033862,
+              "median": 0.13851803143819172,
+              "min": 0.1347861369450887,
+              "max": 0.15257500012715658,
+              "p5": 0.1365556001663208,
+              "p95": 0.15123613675435385,
+              "stddev": 0.004698577822730411,
+              "throughputMBps": 451.20479515252276,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 0.33500256915887194,
+              "median": 0.33149789571762084,
+              "min": 0.32160420417785646,
+              "max": 0.359404194355011,
+              "p5": 0.3246749997138977,
+              "p95": 0.3513916015625,
+              "stddev": 0.008316185917992673,
+              "throughputMBps": 754.1526001509131,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 1.1450987474123635,
+              "median": 1.1420728981494905,
+              "min": 1.0991291046142577,
+              "max": 1.2189249992370605,
+              "p5": 1.1025624990463256,
+              "p95": 1.191516602039337,
+              "stddev": 0.024408720404288282,
+              "throughputMBps": 875.6008496658204,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
+            }
+          }
+        },
+        "compress_level_6": {
+          "sizes": {
+            "1024": {
+              "mean": 0.033760905611873324,
+              "median": 0.03372474845315589,
+              "min": 0.03313370903984445,
+              "max": 0.03480434539865275,
+              "p5": 0.03349274189257231,
+              "p95": 0.034118127138888246,
+              "stddev": 0.00022673582861460831,
+              "throughputMBps": 28.95685052644523,
+              "samples": 60,
+              "batchSize": 976,
+              "actualInputSize": 1024
+            },
+            "16384": {
+              "mean": 0.1522248749524518,
+              "median": 0.1522950813418529,
+              "min": 0.14906557270737944,
+              "max": 0.15787226059397713,
+              "p5": 0.1504965883786561,
+              "p95": 0.15436065587841097,
+              "stddev": 0.001442749372096237,
+              "throughputMBps": 102.59687878511953,
+              "samples": 60,
+              "batchSize": 61,
+              "actualInputSize": 16384
+            },
+            "65536": {
+              "mean": 0.1812925051318275,
+              "median": 0.1795722325642904,
+              "min": 0.1721333344777425,
+              "max": 0.2002221981684367,
+              "p5": 0.17280279795328776,
+              "p95": 0.19723060131072997,
+              "stddev": 0.0070360623459129355,
+              "throughputMBps": 348.04935655975527,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 0.5114115969340006,
+              "median": 0.5079791963100433,
+              "min": 0.49679999351501464,
+              "max": 0.5453125,
+              "p5": 0.4993208050727844,
+              "p95": 0.5319458961486816,
+              "stddev": 0.010728747499395688,
+              "throughputMBps": 492.14613869228884,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 2.509955348372459,
+              "median": 2.504566651582718,
+              "min": 2.4691457986831664,
+              "max": 2.5881083965301515,
+              "p5": 2.481854200363159,
+              "p95": 2.562349998950958,
+              "stddev": 0.02490284916218287,
+              "throughputMBps": 399.27066798883834,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
+            }
+          }
+        },
+        "compress_level_9": {
+          "sizes": {
+            "1024": {
+              "mean": 0.34377589083678745,
+              "median": 0.33626349074918715,
+              "min": 0.33312922642856346,
+              "max": 0.465203979464828,
+              "p5": 0.3335977632735596,
+              "p95": 0.427122737662714,
+              "stddev": 0.02395199259934916,
+              "throughputMBps": 2.9041585746470475,
+              "samples": 60,
+              "batchSize": 976,
+              "actualInputSize": 1024
+            },
+            "16384": {
+              "mean": 0.4649880119685919,
+              "median": 0.46436441042384163,
+              "min": 0.4592862129211426,
+              "max": 0.4767622947692871,
+              "p5": 0.4602827869477819,
+              "p95": 0.4753429010266163,
+              "stddev": 0.0037693363249334663,
+              "throughputMBps": 33.64814281468839,
+              "samples": 60,
+              "batchSize": 61,
+              "actualInputSize": 16384
+            },
+            "65536": {
+              "mean": 0.44845787498686057,
+              "median": 0.44756946961085003,
+              "min": 0.42466946442921955,
+              "max": 0.49194166660308836,
+              "p5": 0.4276638666788737,
+              "p95": 0.47796107133229576,
+              "stddev": 0.01361555452334791,
+              "throughputMBps": 139.64312636056727,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 1.0313494431972503,
+              "median": 1.024099999666214,
+              "min": 0.9880083084106446,
+              "max": 1.1058500051498412,
+              "p5": 1.0019333004951476,
+              "p95": 1.1010833978652954,
+              "stddev": 0.025048726500677444,
+              "throughputMBps": 244.1167855497342,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 3.871911185383796,
+              "median": 3.847466695308685,
+              "min": 3.729541599750519,
+              "max": 4.214887499809265,
+              "p5": 3.748604106903076,
+              "p95": 4.10060830116272,
+              "stddev": 0.09374360945086797,
+              "throughputMBps": 259.9112816803134,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
+            }
+          }
+        },
+        "decompress_brotli": {
+          "sizes": {}
+        },
+        "create_brotli_compressor": {
+          "sizes": {
+            "1024": {
+              "mean": 0.004065093436772055,
+              "median": 0.0008854164940411927,
+              "min": 0.0007637469250647748,
+              "max": 0.14873783302600266,
+              "p5": 0.0007888062811288678,
+              "p95": 0.011101989838920657,
+              "stddev": 0.019075490659422704,
+              "throughputMBps": 1102.9413915058226,
+              "samples": 60,
+              "batchSize": 976,
+              "actualInputSize": 1024
+            },
+            "16384": {
+              "mean": 0.002600489939496817,
+              "median": 0.002557376369101102,
+              "min": 0.0021577858534015592,
+              "max": 0.003963114785366371,
+              "p5": 0.0023066899815543753,
+              "p95": 0.0030956229225533906,
+              "stddev": 0.0002725158348680012,
+              "throughputMBps": 6109.777265789026,
+              "samples": 60,
+              "batchSize": 61,
+              "actualInputSize": 16384
+            },
+            "65536": {
+              "mean": 0.002579352590772841,
+              "median": 0.0025874654452006022,
+              "min": 0.001752797762552897,
+              "max": 0.004947201410929362,
+              "p5": 0.0018721977869669596,
+              "p95": 0.00323333740234375,
+              "stddev": 0.00046826639730932087,
+              "throughputMBps": 24154.911949038404,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 0.0019622941811879477,
+              "median": 0.0018333494663238525,
+              "min": 0.001504194736480713,
+              "max": 0.0060791015625,
+              "p5": 0.0015292048454284668,
+              "p95": 0.002408301830291748,
+              "stddev": 0.0005987999544861928,
+              "throughputMBps": 136362.4363996944,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 0.0018104179700215663,
+              "median": 0.0017749965190887451,
+              "min": 0.0013583064079284667,
+              "max": 0.002491605281829834,
+              "p5": 0.001504206657409668,
+              "p95": 0.0023540973663330076,
+              "stddev": 0.00024803241418557746,
+              "throughputMBps": 563381.3865242868,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
+            }
+          }
+        },
+        "compress_brotli_chunk": {
+          "sizes": {}
+        },
+        "destroy_brotli_compressor": {
+          "sizes": {
+            "1024": {
+              "mean": 0.000022351682756116482,
+              "median": 0.000012210035910371875,
+              "min": 0.00001148464249782875,
+              "max": 0.00016060447106595898,
+              "p5": 0.000011611668789973025,
+              "p95": 0.000057932416923710556,
+              "stddev": 0.000024040250830691534,
+              "throughputMBps": 0,
+              "samples": 60,
+              "batchSize": 976,
+              "actualInputSize": 1024
+            },
+            "16384": {
+              "mean": 0.000012294777104111967,
+              "median": 0.000012294190828917456,
+              "min": 0.000011606294600689997,
+              "max": 0.000015032095987288679,
+              "p5": 0.000011606294600689997,
+              "p95": 0.00001298404130779329,
+              "stddev": 4.844905303491316e-7,
+              "throughputMBps": 0,
+              "samples": 60,
+              "batchSize": 61,
+              "actualInputSize": 16384
+            },
+            "65536": {
+              "mean": 0.000014445516798231347,
+              "median": 0.000013868014017740885,
+              "min": 0.000013860066731770833,
+              "max": 0.000016673405965169272,
+              "p5": 0.000013860066731770833,
+              "p95": 0.00001666545867919922,
+              "stddev": 0.0000011110073340430148,
+              "throughputMBps": 0,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 0.00001882056395212808,
+              "median": 0.00001874566078186035,
+              "min": 0.000012493133544921875,
+              "max": 0.000033295154571533204,
+              "p5": 0.00001659393310546875,
+              "p95": 0.000020897388458251954,
+              "stddev": 0.000002992413652958442,
+              "throughputMBps": 0,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 0.000016048550605773946,
+              "median": 0.000016701221466064452,
+              "min": 0.000012493133544921875,
+              "max": 0.000020897388458251954,
+              "p5": 0.000012493133544921875,
+              "p95": 0.000016701221466064452,
+              "stddev": 0.0000018397301337603729,
+              "throughputMBps": 0,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
+            }
+          }
+        }
+      },
+      "avgThroughputMBps": 94813.42043295004,
+      "speedups": {
+        "compress_level_1": {
+          "1024": 0.987403546896848,
+          "16384": 0.9840114500821255,
+          "65536": 0.988368903550644,
+          "262144": 0.9944371660921139,
+          "1048576": 1.0070615004887502
+        },
+        "compress_level_4": {
+          "1024": 1.0598672220476928,
+          "16384": 1.02411791998294,
+          "65536": 1.014559139101398,
+          "262144": 1.0117586056617616,
+          "1048576": 1.006484921089192
+        },
+        "compress_level_6": {
+          "1024": 1.0254794916126062,
+          "16384": 1.0159624896484247,
+          "65536": 1.01546101209201,
+          "262144": 1.012607015986327,
+          "1048576": 1.0110198499318022
+        },
+        "compress_level_9": {
+          "1024": 0.997592245671055,
+          "16384": 1.0037215146637801,
+          "65536": 0.9935639727580914,
+          "262144": 0.9906706362975969,
+          "1048576": 0.9932060263976301
+        },
+        "decompress_brotli": {},
+        "create_brotli_compressor": {
+          "1024": 1.541393381903599,
+          "16384": 0.857372160420595,
+          "65536": 0.6033445083136633,
+          "262144": 0.9215956564851993,
+          "1048576": 0.8427340956026795
+        },
+        "compress_brotli_chunk": {},
+        "destroy_brotli_compressor": {}
+      },
+      "speedupVsScalar": 0.9752126283756252
+    }
+  },
+  "sizeSummary": {
+    "1024": {
+      "autovec": 1.12234717762636
+    },
+    "16384": {
+      "autovec": 0.9770371069595731
+    },
+    "65536": {
+      "autovec": 0.9230595071631612
+    },
+    "262144": {
+      "autovec": 0.9862138161045998
+    },
+    "1048576": {
+      "autovec": 0.9721012787020108
+    }
+  }
+}

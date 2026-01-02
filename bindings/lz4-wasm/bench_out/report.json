@@ -1,0 +1,608 @@
+{
+  "generated": "2025-12-28T08:39:30.501Z",
+  "manifest": {
+    "generated": "2025-12-28T08:39:29.303Z",
+    "crate": "lz4-wasm",
+    "variants": [
+      {
+        "name": "scalar",
+        "description": "Scalar baseline (no SIMD)",
+        "path": "scalar.wasm",
+        "hash": "07472df249a0a7fa",
+        "size": 103340,
+        "features": [],
+        "simd": false
+      },
+      {
+        "name": "autovec",
+        "description": "LLVM autovectorization (+simd128)",
+        "path": "autovec.wasm",
+        "hash": "25ef3296173c893f",
+        "size": 103050,
+        "features": [],
+        "simd": true
+      }
+    ]
+  },
+  "simdReports": {
+    "scalar": {
+      "variant": "scalar",
+      "wasm_path": "/Users/addmaple/sites/wasm-fast-compress/bindings/lz4-wasm/bench_out/dist/scalar.wasm",
+      "wasm_hash": "07472df249a0a7fa",
+      "wasm_size": 103340,
+      "total_simd_ops": 0,
+      "total_ops": 34617,
+      "overall_simd_density": 0,
+      "opcode_summary": {},
+      "functions": [],
+      "lines": []
+    },
+    "autovec": {
+      "variant": "autovec",
+      "wasm_path": "/Users/addmaple/sites/wasm-fast-compress/bindings/lz4-wasm/bench_out/dist/autovec.wasm",
+      "wasm_hash": "25ef3296173c893f",
+      "wasm_size": 103050,
+      "total_simd_ops": 293,
+      "total_ops": 34138,
+      "overall_simd_density": 0.008582810943816275,
+      "opcode_summary": {
+        "i64x2.extract_lane": 1,
+        "v128.and": 1,
+        "i32x4.shr_u": 12,
+        "i32x4.mul": 24,
+        "i32x4.extract_lane": 4,
+        "i8x16.eq": 4,
+        "i64x2.add": 1,
+        "i32x4.add": 12,
+        "v128.store": 85,
+        "v128.or": 13,
+        "v128.const": 39,
+        "i8x16.bitmask": 4,
+        "i32x4.splat": 1,
+        "i32x4.max_u": 2,
+        "i32x4.sub": 2,
+        "v128.load": 74,
+        "v128.not": 1,
+        "i32x4.shl": 12,
+        "i64x2.shr_u": 1
+      },
+      "functions": [
+        {
+          "index": 76,
+          "name": "_ZN4core5error5Error7type_id17h2ddfed1f13f38960E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 4,
+          "simd_density": 0.5,
+          "op_breakdown": {
+            "v128.store": 1,
+            "v128.const": 1
+          }
+        },
+        {
+          "index": 80,
+          "name": "_ZN8lz4_flex5block9hashtable11HashTable4K10reposition17h91cc5c0976e3ed12E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 9,
+          "total_ops": 40,
+          "simd_density": 0.225,
+          "op_breakdown": {
+            "i32x4.splat": 1,
+            "v128.load": 2,
+            "i32x4.max_u": 2,
+            "i32x4.sub": 2,
+            "v128.store": 2
+          }
+        },
+        {
+          "index": 11,
+          "name": "_ZN4core3ops8function6FnOnce9call_once17h5ca436ead2473ed1E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 6,
+          "total_ops": 51,
+          "simd_density": 0.11764705882352941,
+          "op_breakdown": {
+            "v128.store": 2,
+            "i64x2.extract_lane": 1,
+            "v128.load": 3
+          }
+        },
+        {
+          "index": 0,
+          "name": "_ZN66_$LT$twox_hash..xxhash32..Hasher$u20$as$u20$core..hash..Hasher$GT$5write17h32a111953b528eb7E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 27,
+          "total_ops": 249,
+          "simd_density": 0.10843373493975904,
+          "op_breakdown": {
+            "v128.store": 1,
+            "i32x4.add": 3,
+            "i32x4.shl": 3,
+            "v128.or": 3,
+            "i32x4.mul": 6,
+            "v128.load": 4,
+            "v128.const": 4,
+            "i32x4.shr_u": 3
+          }
+        },
+        {
+          "index": 77,
+          "name": "_ZN66_$LT$twox_hash..xxhash32..Hasher$u20$as$u20$core..hash..Hasher$GT$5write17h32a111953b528eb7E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 27,
+          "total_ops": 249,
+          "simd_density": 0.10843373493975904,
+          "op_breakdown": {
+            "i32x4.mul": 6,
+            "i32x4.add": 3,
+            "v128.const": 4,
+            "v128.store": 1,
+            "v128.or": 3,
+            "i32x4.shr_u": 3,
+            "i32x4.shl": 3,
+            "v128.load": 4
+          }
+        },
+        {
+          "index": 58,
+          "name": "_ZN3std2io5error5Error3new17h7393921cee60675cE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 30,
+          "simd_density": 0.06666666666666667,
+          "op_breakdown": {
+            "v128.load": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 44,
+          "name": "_ZN8lz4_flex5frame8compress21FrameEncoder$LT$W$GT$11write_block17hd233dba26689ece0E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 60,
+          "total_ops": 1215,
+          "simd_density": 0.04938271604938271,
+          "op_breakdown": {
+            "v128.store": 2,
+            "i32x4.extract_lane": 4,
+            "i32x4.mul": 12,
+            "i32x4.shr_u": 6,
+            "i32x4.shl": 6,
+            "i32x4.add": 6,
+            "v128.or": 6,
+            "v128.load": 8,
+            "v128.const": 10
+          }
+        },
+        {
+          "index": 89,
+          "name": "_ZN8lz4_flex5frame101_$LT$impl$u20$core..convert..From$LT$lz4_flex..frame..Error$GT$$u20$for$u20$std..io..error..Error$GT$4from17h1e1d7814bc73cd3dE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 57,
+          "simd_density": 0.03508771929824561,
+          "op_breakdown": {
+            "v128.load": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 26,
+          "name": "_ZN3std3sys4sync4once10no_threads4Once4call17h1617eb04b3e18d63E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 4,
+          "total_ops": 115,
+          "simd_density": 0.034782608695652174,
+          "op_breakdown": {
+            "v128.load": 2,
+            "v128.store": 2
+          }
+        },
+        {
+          "index": 43,
+          "name": "_ZN8lz4_flex5frame8compress21FrameEncoder$LT$W$GT$11begin_frame17hc505342f0f953c9dE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 8,
+          "total_ops": 256,
+          "simd_density": 0.03125,
+          "op_breakdown": {
+            "v128.load": 1,
+            "v128.const": 2,
+            "v128.store": 5
+          }
+        },
+        {
+          "index": 22,
+          "name": "decompress_lz4",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 6,
+          "total_ops": 259,
+          "simd_density": 0.023166023166023165,
+          "op_breakdown": {
+            "v128.store": 4,
+            "v128.const": 2
+          }
+        },
+        {
+          "index": 4,
+          "name": "_ZN9hashbrown3raw13RawTableInner15rehash_in_place17hdbe7b25a692c1860E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 9,
+          "total_ops": 391,
+          "simd_density": 0.023017902813299233,
+          "op_breakdown": {
+            "v128.store": 1,
+            "v128.or": 1,
+            "v128.const": 2,
+            "v128.load": 1,
+            "i64x2.shr_u": 1,
+            "v128.and": 1,
+            "v128.not": 1,
+            "i64x2.add": 1
+          }
+        },
+        {
+          "index": 86,
+          "name": "_ZN91_$LT$lz4_flex..frame..Error$u20$as$u20$core..convert..From$LT$std..io..error..Error$GT$$GT$4from17hc14fade4cb90ab12E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 96,
+          "simd_density": 0.020833333333333332,
+          "op_breakdown": {
+            "v128.store": 1,
+            "v128.load": 1
+          }
+        },
+        {
+          "index": 2,
+          "name": "_ZN8lz4_flex5frame10decompress21FrameDecoder$LT$R$GT$20check_block_checksum17h6733b3bbdea97b2bE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 5,
+          "total_ops": 268,
+          "simd_density": 0.018656716417910446,
+          "op_breakdown": {
+            "v128.const": 2,
+            "v128.store": 3
+          }
+        },
+        {
+          "index": 51,
+          "name": "_ZN65_$LT$codec_lz4..Lz4Compressor$u20$as$u20$core_api..Compressor$GT$14compress_chunk17h0261aae21711bcf6E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 9,
+          "total_ops": 542,
+          "simd_density": 0.016605166051660517,
+          "op_breakdown": {
+            "v128.store": 5,
+            "v128.load": 2,
+            "v128.const": 2
+          }
+        },
+        {
+          "index": 52,
+          "name": "_ZN65_$LT$codec_lz4..Lz4Compressor$u20$as$u20$core_api..Compressor$GT$12compress_all17h2ff587f63646179dE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 7,
+          "total_ops": 444,
+          "simd_density": 0.015765765765765764,
+          "op_breakdown": {
+            "v128.load": 1,
+            "v128.const": 2,
+            "v128.store": 4
+          }
+        },
+        {
+          "index": 21,
+          "name": "decompress_lz4_block",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 10,
+          "total_ops": 636,
+          "simd_density": 0.015723270440251572,
+          "op_breakdown": {
+            "v128.store": 5,
+            "v128.load": 5
+          }
+        },
+        {
+          "index": 56,
+          "name": "_ZN8lz4_flex5block8compress20handle_last_literals17h4a5f048e5347fa2dE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 4,
+          "total_ops": 256,
+          "simd_density": 0.015625,
+          "op_breakdown": {
+            "v128.load": 2,
+            "v128.store": 2
+          }
+        },
+        {
+          "index": 31,
+          "name": "_ZN9hashbrown3map28HashMap$LT$K$C$V$C$S$C$A$GT$6insert17h69d01a7f349286d2E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 6,
+          "total_ops": 414,
+          "simd_density": 0.014492753623188406,
+          "op_breakdown": {
+            "v128.store": 3,
+            "v128.load": 3
+          }
+        },
+        {
+          "index": 84,
+          "name": "_ZN8lz4_flex5frame6header9FrameInfo5write17ha48675b25c84a967E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 5,
+          "total_ops": 419,
+          "simd_density": 0.011933174224343675,
+          "op_breakdown": {
+            "v128.store": 3,
+            "v128.const": 2
+          }
+        },
+        {
+          "index": 27,
+          "name": "_ZN8lz4_flex5block8compress17compress_internal17h114160db13855cb4E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 8,
+          "total_ops": 719,
+          "simd_density": 0.011126564673157162,
+          "op_breakdown": {
+            "v128.load": 4,
+            "i8x16.eq": 1,
+            "i8x16.bitmask": 1,
+            "v128.store": 2
+          }
+        },
+        {
+          "index": 29,
+          "name": "_ZN8lz4_flex5block8compress17compress_internal17hb887b3629f762e67E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 8,
+          "total_ops": 719,
+          "simd_density": 0.011126564673157162,
+          "op_breakdown": {
+            "i8x16.eq": 1,
+            "v128.load": 4,
+            "i8x16.bitmask": 1,
+            "v128.store": 2
+          }
+        },
+        {
+          "index": 55,
+          "name": "_ZN8lz4_flex5block8compress17compress_internal17h0b22501b19fcfa2dE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 8,
+          "total_ops": 719,
+          "simd_density": 0.011126564673157162,
+          "op_breakdown": {
+            "v128.load": 4,
+            "i8x16.eq": 1,
+            "v128.store": 2,
+            "i8x16.bitmask": 1
+          }
+        },
+        {
+          "index": 6,
+          "name": "_ZN9hashbrown3raw21RawTable$LT$T$C$A$GT$12remove_entry17h969d95a925796ec3E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 192,
+          "simd_density": 0.010416666666666666,
+          "op_breakdown": {
+            "v128.store": 1,
+            "v128.load": 1
+          }
+        },
+        {
+          "index": 57,
+          "name": "_ZN8lz4_flex5block8compress17compress_internal17hcc38777dfe3a88a1E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 8,
+          "total_ops": 786,
+          "simd_density": 0.010178117048346057,
+          "op_breakdown": {
+            "v128.load": 4,
+            "i8x16.bitmask": 1,
+            "i8x16.eq": 1,
+            "v128.store": 2
+          }
+        },
+        {
+          "index": 32,
+          "name": "_ZN9hashbrown3map28HashMap$LT$K$C$V$C$S$C$A$GT$6remove17h4890c199d44a26c3E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 197,
+          "simd_density": 0.01015228426395939,
+          "op_breakdown": {
+            "v128.store": 1,
+            "v128.load": 1
+          }
+        },
+        {
+          "index": 5,
+          "name": "_ZN9hashbrown3raw21RawTable$LT$T$C$A$GT$12remove_entry17h928dc7229153f474E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 202,
+          "simd_density": 0.009900990099009901,
+          "op_breakdown": {
+            "v128.store": 1,
+            "v128.load": 1
+          }
+        },
+        {
+          "index": 24,
+          "name": "decompress_chunk",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 6,
+          "total_ops": 695,
+          "simd_density": 0.008633093525179856,
+          "op_breakdown": {
+            "v128.store": 4,
+            "v128.const": 2
+          }
+        },
+        {
+          "index": 1,
+          "name": "_ZN84_$LT$lz4_flex..frame..decompress..FrameDecoder$LT$R$GT$$u20$as$u20$std..io..Read$GT$11read_to_end17hba65dcf22a8373fcE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 28,
+          "total_ops": 4346,
+          "simd_density": 0.006442705936493327,
+          "op_breakdown": {
+            "v128.load": 11,
+            "v128.const": 2,
+            "v128.store": 15
+          }
+        },
+        {
+          "index": 85,
+          "name": "_ZN8lz4_flex5frame6header9FrameInfo4read17h4b0fae86c9dc3410E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 5,
+          "total_ops": 980,
+          "simd_density": 0.00510204081632653,
+          "op_breakdown": {
+            "v128.store": 3,
+            "v128.const": 2
+          }
+        },
+        {
+          "index": 45,
+          "name": "_ZN8lz4_flex5frame8compress21FrameEncoder$LT$W$GT$6finish17h4bed33717eae87c5E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 561,
+          "simd_density": 0.0035650623885918,
+          "op_breakdown": {
+            "v128.load": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 9,
+          "name": "_ZN9hashbrown3raw21RawTable$LT$T$C$A$GT$14reserve_rehash17h8f681d2556e25429E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 621,
+          "simd_density": 0.00322061191626409,
+          "op_breakdown": {
+            "v128.load": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 7,
+          "name": "_ZN9hashbrown3raw21RawTable$LT$T$C$A$GT$14reserve_rehash17h16f3814cd5254a7cE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 645,
+          "simd_density": 0.0031007751937984496,
+          "op_breakdown": {
+            "v128.load": 1,
+            "v128.store": 1
+          }
+        }
+      ],
+      "lines": []
+    }
+  },
+  "provenance": {
+    "summary": {}
+  },
+  "benchResults": {
+    "scalar": {
+      "functions": {
+        "compress_lz4_block": {
+          "sizes": {
+            "65536": {
+              "mean": 0.005548198355568782,
+              "median": 0.004805533091227213,
+              "min": 0.004149993260701497,
+              "max": 0.020944396654764812,
+              "p5": 0.004333337148030599,
+              "p95": 0.008452796936035156,
+              "stddev": 0.0024581374826910373,
+              "throughputMBps": 13005.841144679136,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            }
+          }
+        },
+        "decompress_lz4_block": {
+          "sizes": {}
+        }
+      }
+    },
+    "autovec": {
+      "functions": {
+        "compress_lz4_block": {
+          "sizes": {
+            "65536": {
+              "mean": 0.005167675150765313,
+              "median": 0.004813869794209799,
+              "min": 0.004263861974080404,
+              "max": 0.008844470977783203,
+              "p5": 0.004288872083028157,
+              "p95": 0.007963871955871582,
+              "stddev": 0.0010646530858874651,
+              "throughputMBps": 12983.317512072308,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            }
+          }
+        },
+        "decompress_lz4_block": {
+          "sizes": {}
+        }
+      },
+      "speedups": {
+        "compress_lz4_block": {
+          "65536": 0.9982681910107719
+        },
+        "decompress_lz4_block": {}
+      }
+    }
+  },
+  "sizeSummary": {
+    "65536": {
+      "autovec": 0.9982681910107719
+    }
+  }
+}

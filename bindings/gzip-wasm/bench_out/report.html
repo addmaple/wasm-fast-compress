@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SIMD Analysis Report</title>
+  <style>
+    :root { --bg: #0a0a0a; --surface: #141414; --border: #2a2a2a; --text: #e8e8e8; --dim: #777; --accent: #ff6b35; --green: #4ade80; --purple: #c084fc; --orange: #fb923c; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'SF Mono', monospace; background: var(--bg); color: var(--text); padding: 2rem; line-height: 1.6; }
+    h1 { color: var(--accent); margin-bottom: 0.5rem; }
+    h2 { margin: 2rem 0 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+    h3 { color: var(--accent); margin: 1.5rem 0 0.75rem; font-size: 1rem; }
+    table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: 8px; overflow: hidden; font-size: 0.85rem; margin-bottom: 1rem; }
+    th, td { padding: 0.6rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: rgba(255,107,53,0.1); color: var(--accent); font-size: 0.75rem; text-transform: uppercase; }
+    .variant { font-weight: 500; }
+    .compiler { color: var(--orange); }
+    .explicit { color: var(--purple); }
+    .speedup { color: var(--green); }
+    .speedup-high { color: var(--green); font-weight: bold; background: rgba(74,222,128,0.1); }
+    .baseline { color: var(--dim); }
+    .note { color: var(--dim); font-size: 0.75rem; margin-bottom: 0.5rem; }
+    h4 { color: var(--dim); margin: 1rem 0 0.5rem; font-size: 0.85rem; }
+    pre { background: var(--surface); padding: 1rem; border-radius: 8px; overflow-x: auto; font-size: 0.75rem; color: var(--dim); }
+    .subtitle { color: var(--dim); font-size: 0.85rem; margin-bottom: 2rem; }
+    details { margin-top: 1.5rem; }
+    summary { cursor: pointer; color: var(--accent); font-weight: 500; margin-bottom: 1rem; }
+    summary:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>SIMD Analysis Report</h1>
+  <p class="subtitle">Crate: gzip-wasm • Generated: 2026-01-02T13:12:54.609Z</p>
+  
+  <h2>Variants</h2>
+  <table>
+    <thead><tr><th>Name</th><th>Description</th><th>Features</th><th>Size</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="variant">scalar</td>
+        <td>Scalar baseline (no SIMD)</td>
+        <td>none</td>
+        <td>211.7 KB</td>
+      </tr><tr>
+        <td class="variant">autovec</td>
+        <td>LLVM autovectorization (+simd128)</td>
+        <td>none</td>
+        <td>208.9 KB</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <h2>SIMD Analysis</h2>
+  
+    <h3>SIMD Instruction Analysis</h3>
+    <table>
+      <thead>
+        <tr><th>Variant</th><th>Total Ops</th><th>SIMD Ops</th><th>Density</th><th>Size</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td class="variant">scalar</td>
+            <td>64534</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>211.7 KB</td>
+          </tr><tr>
+            <td class="variant">autovec</td>
+            <td>62571</td>
+            <td>609</td>
+            <td>1.0%</td>
+            <td>208.9 KB</td>
+          </tr>
+      </tbody>
+    </table>
+  
+  
+  
+    <h3>Performance Summary (Largest Size)</h3>
+    <table>
+      <thead>
+        <tr><th>Variant</th><th>Avg Throughput</th><th>Speedup vs Scalar</th></tr>
+      </thead>
+      <tbody>
+        
+          <tr>
+            <td class="variant">scalar</td>
+            <td>772.7 MB/s</td>
+            <td class="">1.00x (baseline)</td>
+          </tr>
+        
+          <tr>
+            <td class="variant">autovec</td>
+            <td>1675.1 MB/s</td>
+            <td class="speedup">2.17x</td>
+          </tr>
+        
+      </tbody>
+    </table>
+    
+    
+    <h3>Speedup by Data Size</h3>
+    <p class="note">Shows how SIMD benefits scale with input size</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Variant</th>
+          <th>1 KB</th><th>16 KB</th><th>64 KB</th><th>256 KB</th><th>1 MB</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="variant">scalar</td>
+          <td class="baseline">1.00x</td><td class="baseline">1.00x</td><td class="baseline">1.00x</td><td class="baseline">1.00x</td><td class="baseline">1.00x</td>
+        </tr>
+        
+          <tr>
+            <td class="variant">autovec</td>
+            <td class="">1.0x</td><td class="">1.2x</td><td class="speedup">1.6x</td><td class="speedup">2.0x</td><td class="speedup">2.1x</td>
+          </tr>
+        
+      </tbody>
+    </table>
+    
+    <details>
+      <summary>Detailed Results by Function & Size</summary>
+      
+          <h4>scalar → compress_level_1</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>1 KB</td>
+                    <td>0.005 ms</td>
+                    <td>195.1 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>16 KB</td>
+                    <td>0.012 ms</td>
+                    <td>1308.6 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>64 KB</td>
+                    <td>0.053 ms</td>
+                    <td>1172.0 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.252 ms</td>
+                    <td>990.9 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>1.060 ms</td>
+                    <td>943.7 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+          <h4>scalar → compress_level_6</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>1 KB</td>
+                    <td>0.009 ms</td>
+                    <td>104.7 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>16 KB</td>
+                    <td>0.018 ms</td>
+                    <td>876.7 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>64 KB</td>
+                    <td>0.061 ms</td>
+                    <td>1023.1 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.270 ms</td>
+                    <td>924.8 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>1.129 ms</td>
+                    <td>885.7 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+          <h4>scalar → compress_level_9</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>1 KB</td>
+                    <td>0.010 ms</td>
+                    <td>96.2 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>16 KB</td>
+                    <td>0.032 ms</td>
+                    <td>491.3 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>64 KB</td>
+                    <td>0.122 ms</td>
+                    <td>514.1 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.503 ms</td>
+                    <td>496.8 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>2.046 ms</td>
+                    <td>488.8 MB/s</td>
+                    <td class="">1.00x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+          <h4>scalar → decompress_gzip</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+            </tbody>
+          </table>
+        
+          <h4>autovec → compress_level_1</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>1 KB</td>
+                    <td>0.005 ms</td>
+                    <td>193.4 MB/s</td>
+                    <td class="">0.99x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>16 KB</td>
+                    <td>0.010 ms</td>
+                    <td>1640.3 MB/s</td>
+                    <td class="">1.25x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>64 KB</td>
+                    <td>0.029 ms</td>
+                    <td>2164.6 MB/s</td>
+                    <td class="speedup">1.85x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.110 ms</td>
+                    <td>2269.2 MB/s</td>
+                    <td class="speedup">2.29x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>0.446 ms</td>
+                    <td>2242.0 MB/s</td>
+                    <td class="speedup">2.38x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+          <h4>autovec → compress_level_6</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>1 KB</td>
+                    <td>0.009 ms</td>
+                    <td>106.0 MB/s</td>
+                    <td class="">1.01x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>16 KB</td>
+                    <td>0.015 ms</td>
+                    <td>1044.2 MB/s</td>
+                    <td class="">1.19x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>64 KB</td>
+                    <td>0.036 ms</td>
+                    <td>1723.3 MB/s</td>
+                    <td class="speedup">1.68x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.124 ms</td>
+                    <td>2017.6 MB/s</td>
+                    <td class="speedup">2.18x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>0.484 ms</td>
+                    <td>2065.5 MB/s</td>
+                    <td class="speedup">2.33x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+          <h4>autovec → compress_level_9</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+                  <tr>
+                    <td>1 KB</td>
+                    <td>0.010 ms</td>
+                    <td>100.0 MB/s</td>
+                    <td class="">1.04x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>16 KB</td>
+                    <td>0.029 ms</td>
+                    <td>546.1 MB/s</td>
+                    <td class="">1.11x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>64 KB</td>
+                    <td>0.093 ms</td>
+                    <td>671.8 MB/s</td>
+                    <td class="">1.31x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>256 KB</td>
+                    <td>0.353 ms</td>
+                    <td>708.7 MB/s</td>
+                    <td class="">1.43x</td>
+                  </tr>
+                
+                  <tr>
+                    <td>1 MB</td>
+                    <td>1.393 ms</td>
+                    <td>717.8 MB/s</td>
+                    <td class="">1.47x</td>
+                  </tr>
+                
+            </tbody>
+          </table>
+        
+          <h4>autovec → decompress_gzip</h4>
+          <table>
+            <thead>
+              <tr><th>Size</th><th>Median</th><th>Throughput</th><th>Speedup</th></tr>
+            </thead>
+            <tbody>
+              
+            </tbody>
+          </table>
+        
+    </details>
+</body>
+</html>

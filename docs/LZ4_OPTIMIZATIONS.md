@@ -59,16 +59,48 @@ All unsafe operations are:
 
 ## SIMD Optimizations in lz4_flex
 
-### 1. Hash Function Optimization
+### 1. Frame checksums: xxHash32 (SIMD-optimized on wasm32 + simd128)
 
-**What it does**: LZ4 uses a hash table to find duplicate sequences. At each position, it hashes a 4-byte (or word-sized) “batch” and uses that hash to index into the dictionary.\n+\n+**What we actually optimized (and are actually using)**:\n+\n+1. **Fast “batch” loads when `safe-encode` is disabled**\n+   - In `lz4_flex/src/block/compress.rs`, `get_batch()` is implemented as an **unsafe unaligned pointer load** when `not(feature = \"safe-encode\")`:\n+     - `get_batch(input, n)` reads a `u32` via a raw pointer (`read_u32_ptr`) rather than slicing + `try_into()`.\n+   - On 64-bit platforms, there’s also `get_batch_arch()` which reads an `usize` the same way.\n+   - This reduces per-position overhead (bounds checks + copies) in the hot hash path.\n+\n+2. **A tuned multiplicative hash + fixed right shift**\n+   - In `lz4_flex/src/block/hashtable.rs`, the 32-bit hash is:\n+     - `hash(sequence: u32) = (sequence.wrapping_mul(2654435761_u32)) >> 16`\n+   - On 64-bit, `hash5(sequence: usize)` uses a platform-dependent prime and a different shift strategy.\n+   - The hash is then further reduced to the table’s capacity via right shifts (e.g. `HASHTABLE_BIT_SHIFT_4K`).\n+\n+These are the “hash optimizations” we can point to in code today; they’re not WASM SIMD shuffles, they’re **(a) cheaper loads**, and **(b) a fast multiplicative hash designed to fit the table**.
+**What it does**: In **LZ4 frame format**, checksums are computed with **xxHash32**:
+
+- **Header checksum** (frame header integrity)
+- **Block checksum** (optional)
+- **Content checksum** (optional; running hash)
+
+In `lz4_flex`, these are implemented using `twox_hash::XxHash32` in:
+
+- `lz4_flex/src/frame/header.rs` (header checksum)
+- `lz4_flex/src/frame/compress.rs` / `lz4_flex/src/frame/decompress.rs` (block/content checksum)
+
+**Why this matters for wasm-fast-compress**:
+
+- `wasm-fast-compress` enables LZ4’s `frame` feature (`features = ["frame", "std", "checked-decode"]`).
+- In `lz4_flex`, `frame = ["std", "dep:twox-hash"]`, so **twox-hash is included**.
+- Our `twox-hash` fork includes a `#[cfg(all(target_arch = "wasm32", target_feature = "simd128"))]` SIMD128 fast path for xxHash32 (commit `3437b27`), so when `lz4.simd.wasm` is loaded, xxHash32 checksum updates use WASM SIMD128.
+
+### 2. Dictionary hash/table hot path (LZ4 match finding)
+
+**What it does**: LZ4 compression uses a dictionary hash table to find duplicate sequences. At each position, it hashes a 4-byte (or word-sized) “batch” and uses that hash to index into the dictionary.
+
+**What we actually optimized (and are actually using)**:
+
+1. **Fast “batch” loads when `safe-encode` is disabled**
+   - In `lz4_flex/src/block/compress.rs`, `get_batch()` is implemented as an **unsafe unaligned pointer load** when `not(feature = "safe-encode")` (instead of slicing + `try_into()`).
+   - On 64-bit platforms, there’s also `get_batch_arch()` for `usize`.
+
+2. **A tuned multiplicative hash + fixed right shift**
+   - In `lz4_flex/src/block/hashtable.rs`, the 32-bit hash is:
+     - `hash(sequence: u32) = (sequence.wrapping_mul(2654435761_u32)) >> 16`
+   - The computed hash is reduced to the table’s capacity via right shifts (e.g. `HASHTABLE_BIT_SHIFT_4K`).
 
 **Why it's safe**:
-- The **unsafe loads** are only enabled when `safe-encode` is off, and are used with the encoder’s invariants (the compressor avoids reading beyond the allowed end region).\n+- `read_unaligned`-style loads are permitted on wasm32/most platforms; correctness comes from ensuring the caller only requests valid positions.\n+- Hash table indexing safety is ensured by the hash + right-shift scheme keeping indices within the table’s logical range.
+- The **unsafe loads** are only enabled when `safe-encode` is off, and rely on the compressor’s invariants about how close to the end it reads.
+- Hash table indexing stays in-range due to the hash + right-shift scheme.
 
-**Why this matters**:\n+The hash path runs at (almost) every input position. Making the “batch load + hash” cheaper has a big multiplicative effect on overall throughput.
+**Why this matters**:
+The dictionary-hash path runs at (almost) every input position. Making the “batch load + hash” cheaper has a big multiplicative effect on overall throughput.
 
-### 2. String Matching
+### 3. String Matching
 
 **What it does**: Finds the longest matching string in the sliding window.
 
@@ -89,7 +121,7 @@ All unsafe operations are:
 
 **Performance gain**: ~10-15x faster for matching prefixes
 
-### 3. Memory Copy Operations
+### 4. Memory Copy Operations
 
 **What it does**: Copies matched strings and literals to output.
 

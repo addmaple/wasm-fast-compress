@@ -12,6 +12,14 @@
     "baseline": true,
     "simd": true
   },
+  "simd": {
+    "features": {},
+    "allFeature": null,
+    "note": "zlib-rs has built-in SIMD intrinsics enabled via target_feature=+simd128, no Cargo features needed"
+  },
+  "bench": {
+    "outputDir": "bench_out"
+  },
   "exports": [
     {
       "abi": "compress_gzip_level_1",
@@ -40,17 +48,20 @@
     {
       "abi": "create_gzip_compressor",
       "name": "create_gzip_compressor",
-      "return": "u32"
+      "return": "u32",
+      "bench": false
     },
     {
       "abi": "compress_gzip_chunk",
       "name": "compress_gzip_chunk",
       "return": "bytes",
-      "outSize": "len + 1024"
+      "outSize": "len + 1024",
+      "bench": false
     },
     {
       "abi": "destroy_gzip_compressor",
-      "name": "destroy_gzip_compressor"
+      "name": "destroy_gzip_compressor",
+      "bench": false
     }
   ]
 }

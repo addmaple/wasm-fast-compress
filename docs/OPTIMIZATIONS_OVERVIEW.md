@@ -16,7 +16,7 @@ All three codecs leverage WebAssembly SIMD128 to process multiple data elements 
 
 - **Brotli**: Custom SIMD optimizations in `rust-brotli` for entropy calculation, histogram operations, and string matching
 - **Gzip**: Uses `zlib-rs` backend which includes SIMD-optimized hash tables and string matching
-- **LZ4**: Uses `lz4_flex` with SIMD-optimized hash function computation, hash table operations, and memory operations
+- **LZ4**: Uses `lz4_flex` with SIMD-optimized xxHash32 checksums (frame), SIMD match/copy hot paths, and a tuned dictionary hash table
 
 ### 2. Build-Time Feature Selection
 
@@ -53,7 +53,7 @@ All SIMD optimizations maintain safety through:
 |-------|------------------|-------------|------------------|
 | **Brotli** | 1.35x faster (vs native C) | ~5.5x (vs base) | Custom SIMD entropy & matching |
 | **Gzip** | 3.5x-5.5x faster (vs pako) | ~1.5-2x (vs miniz_oxide) | zlib-rs backend with SIMD |
-| **LZ4** | 2.5x-3.5x faster (vs lz4js) | ~1.5-2x (vs base) | SIMD hash function & hash tables |
+| **LZ4** | 2.5x-3.5x faster (vs lz4js) | ~1.5-2x (vs base) | SIMD xxHash32 (frame) + SIMD match/copy |
 
 ## Why SIMD Works
 

@@ -1,0 +1,12 @@
+{
+  "variant": "scalar",
+  "wasm_path": "/Users/addmaple/sites/wasm-fast-compress/bindings/lz4-wasm/bench_out/dist/scalar.wasm",
+  "wasm_hash": "07472df249a0a7fa",
+  "wasm_size": 103340,
+  "total_simd_ops": 0,
+  "total_ops": 34617,
+  "overall_simd_density": 0,
+  "opcode_summary": {},
+  "functions": [],
+  "lines": []
+}

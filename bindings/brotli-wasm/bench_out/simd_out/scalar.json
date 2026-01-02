@@ -1,0 +1,12 @@
+{
+  "variant": "scalar",
+  "wasm_path": "/Users/addmaple/sites/wasm-fast-compress/bindings/brotli-wasm/bench_out/dist/scalar.wasm",
+  "wasm_hash": "ead798e2a5d64136",
+  "wasm_size": 1451304,
+  "total_simd_ops": 0,
+  "total_ops": 313247,
+  "overall_simd_density": 0,
+  "opcode_summary": {},
+  "functions": [],
+  "lines": []
+}

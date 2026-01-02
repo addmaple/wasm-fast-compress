@@ -1,0 +1,993 @@
+{
+  "generated": "2026-01-02T13:12:54.609Z",
+  "manifest": {
+    "generated": "2026-01-02T13:12:45.109Z",
+    "crate": "gzip-wasm",
+    "variants": [
+      {
+        "name": "scalar",
+        "description": "Scalar baseline (no SIMD)",
+        "path": "scalar.wasm",
+        "hash": "5ee3d2abe742de52",
+        "size": 216741,
+        "features": [],
+        "simd": false
+      },
+      {
+        "name": "autovec",
+        "description": "LLVM autovectorization (+simd128)",
+        "path": "autovec.wasm",
+        "hash": "937f3d3eca0ca729",
+        "size": 213874,
+        "features": [],
+        "simd": true
+      }
+    ]
+  },
+  "simdReports": {
+    "scalar": {
+      "variant": "scalar",
+      "wasm_path": "/Users/addmaple/sites/wasm-fast-compress/bindings/gzip-wasm/bench_out/dist/scalar.wasm",
+      "wasm_hash": "5ee3d2abe742de52",
+      "wasm_size": 216741,
+      "total_simd_ops": 0,
+      "total_ops": 64534,
+      "overall_simd_density": 0,
+      "opcode_summary": {},
+      "functions": [],
+      "lines": []
+    },
+    "autovec": {
+      "variant": "autovec",
+      "wasm_path": "/Users/addmaple/sites/wasm-fast-compress/bindings/gzip-wasm/bench_out/dist/autovec.wasm",
+      "wasm_hash": "937f3d3eca0ca729",
+      "wasm_size": 213874,
+      "total_simd_ops": 609,
+      "total_ops": 62571,
+      "overall_simd_density": 0.009732943376324495,
+      "opcode_summary": {
+        "i32x4.extend_low_i16x8_u": 2,
+        "i8x16.bitmask": 16,
+        "v128.load32_zero": 2,
+        "v128.load": 220,
+        "v128.load64_zero": 1,
+        "i32x4.extract_lane": 32,
+        "i16x8.splat": 1,
+        "i32x4.replace_lane": 6,
+        "i32x4.splat": 3,
+        "i64x2.extend_low_i32x4_u": 2,
+        "i32x4.dot_i16x8_s": 8,
+        "i8x16.eq": 16,
+        "i16x8.extend_high_i8x16_u": 4,
+        "i64x2.extract_lane": 1,
+        "i32x4.ge_u": 2,
+        "i16x8.extadd_pairwise_i8x16_u": 4,
+        "v128.or": 1,
+        "i64x2.add": 3,
+        "i32x4.extadd_pairwise_i16x8_u": 4,
+        "v128.not": 1,
+        "v128.and": 1,
+        "i8x16.shuffle": 1,
+        "i32x4.shl": 2,
+        "i16x8.sub_sat_u": 4,
+        "v128.const": 28,
+        "v128.load32_lane": 2,
+        "i64x2.shr_u": 1,
+        "i32x4.sub": 2,
+        "i16x8.extend_low_i8x16_u": 6,
+        "i32x4.add": 16,
+        "v128.store": 217
+      },
+      "functions": [
+        {
+          "index": 57,
+          "name": "_ZN4core5error5Error7type_id17h02df32ae07640f9aE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 4,
+          "simd_density": 0.5,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 58,
+          "name": "_ZN4core5error5Error7type_id17h592dfcb50a8c5e92E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 4,
+          "simd_density": 0.5,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 130,
+          "name": "_ZN7zlib_rs7deflate10compare2566wasm3210compare25617h2821dc0fb0ef4486E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 64,
+          "total_ops": 250,
+          "simd_density": 0.256,
+          "op_breakdown": {
+            "i8x16.eq": 16,
+            "i8x16.bitmask": 16,
+            "v128.load": 32
+          }
+        },
+        {
+          "index": 146,
+          "name": "_ZN7zlib_rs7deflate10slide_hash16slide_hash_chain17hc5a3055db14ed062E.llvm.9749420005400617549",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 13,
+          "total_ops": 60,
+          "simd_density": 0.21666666666666667,
+          "op_breakdown": {
+            "v128.load": 4,
+            "i16x8.splat": 1,
+            "v128.store": 4,
+            "i16x8.sub_sat_u": 4
+          }
+        },
+        {
+          "index": 128,
+          "name": "_ZN7zlib_rs7adler324wasm12adler32_wasm17ha33c50adc89939cfE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 76,
+          "total_ops": 395,
+          "simd_density": 0.19240506329113924,
+          "op_breakdown": {
+            "v128.load": 4,
+            "i32x4.shl": 2,
+            "i16x8.extend_high_i8x16_u": 4,
+            "i16x8.extend_low_i8x16_u": 4,
+            "i16x8.extadd_pairwise_i8x16_u": 4,
+            "i32x4.dot_i16x8_s": 8,
+            "i32x4.extadd_pairwise_i16x8_u": 4,
+            "i32x4.replace_lane": 4,
+            "i32x4.add": 16,
+            "v128.const": 10,
+            "i32x4.extract_lane": 16
+          }
+        },
+        {
+          "index": 10,
+          "name": "_ZN4core3ops8function6FnOnce9call_once17hb5792ab47e0721dcE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 6,
+          "total_ops": 51,
+          "simd_density": 0.11764705882352941,
+          "op_breakdown": {
+            "i64x2.extract_lane": 1,
+            "v128.load": 3,
+            "v128.store": 2
+          }
+        },
+        {
+          "index": 112,
+          "name": "_ZN7zlib_rs7inflate3end17hf89abb3083a7f394E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 18,
+          "simd_density": 0.1111111111111111,
+          "op_breakdown": {
+            "v128.store": 1,
+            "v128.const": 1
+          }
+        },
+        {
+          "index": 4,
+          "name": "_ZN6flate22gz7bufread18GzDecoder$LT$R$GT$3new17h0a24fdea6ad78048E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 42,
+          "total_ops": 586,
+          "simd_density": 0.07167235494880546,
+          "op_breakdown": {
+            "v128.load": 21,
+            "v128.store": 21
+          }
+        },
+        {
+          "index": 61,
+          "name": "_ZN94_$LT$flate2..gz..GzHeader$u20$as$u20$core..convert..From$LT$flate2..gz..GzHeaderParser$GT$$GT$4from17hca4f4734c50281f8E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 4,
+          "total_ops": 56,
+          "simd_density": 0.07142857142857142,
+          "op_breakdown": {
+            "v128.store": 2,
+            "v128.load": 2
+          }
+        },
+        {
+          "index": 66,
+          "name": "_ZN6flate23mem10Decompress3new17h1a2556f2852884d4E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 5,
+          "total_ops": 78,
+          "simd_density": 0.0641025641025641,
+          "op_breakdown": {
+            "v128.store": 4,
+            "v128.const": 1
+          }
+        },
+        {
+          "index": 65,
+          "name": "_ZN6flate23mem8Compress3new17hba3c530ab5e064fdE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 5,
+          "total_ops": 82,
+          "simd_density": 0.06097560975609756,
+          "op_breakdown": {
+            "v128.store": 4,
+            "v128.const": 1
+          }
+        },
+        {
+          "index": 79,
+          "name": "_ZN6flate23ffi1c7Deflate14compress_inner17he2c89c4e38a42489E.llvm.7514480317405208704",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 9,
+          "total_ops": 165,
+          "simd_density": 0.05454545454545454,
+          "op_breakdown": {
+            "v128.store": 1,
+            "i32x4.replace_lane": 1,
+            "v128.load32_lane": 1,
+            "i64x2.extend_low_i32x4_u": 1,
+            "i32x4.splat": 1,
+            "i64x2.add": 1,
+            "v128.load": 1,
+            "i32x4.sub": 1,
+            "v128.load32_zero": 1
+          }
+        },
+        {
+          "index": 5,
+          "name": "_ZN73_$LT$flate2..gz..bufread..GzDecoder$LT$R$GT$$u20$as$u20$std..io..Read$GT$4read17h4c7e8c80693f8f26E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 44,
+          "total_ops": 869,
+          "simd_density": 0.05063291139240506,
+          "op_breakdown": {
+            "v128.load": 22,
+            "v128.store": 22
+          }
+        },
+        {
+          "index": 78,
+          "name": "_ZN6flate23ffi1c7Inflate16decompress_inner17h0bf2fbf8065bb391E.llvm.7514480317405208704",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 9,
+          "total_ops": 178,
+          "simd_density": 0.05056179775280899,
+          "op_breakdown": {
+            "v128.load32_zero": 1,
+            "i64x2.add": 1,
+            "v128.store": 1,
+            "i64x2.extend_low_i32x4_u": 1,
+            "v128.load": 1,
+            "v128.load32_lane": 1,
+            "i32x4.sub": 1,
+            "i32x4.replace_lane": 1,
+            "i32x4.splat": 1
+          }
+        },
+        {
+          "index": 103,
+          "name": "_ZN7zlib_rs7deflate16flush_block_only17h32c57fb04a0e0577E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 241,
+          "total_ops": 5848,
+          "simd_density": 0.04121067031463748,
+          "op_breakdown": {
+            "v128.load": 115,
+            "v128.store": 124,
+            "v128.const": 2
+          }
+        },
+        {
+          "index": 24,
+          "name": "_ZN3std3sys4sync4once10no_threads4Once4call17h3d7c3de346c3aba1E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 4,
+          "total_ops": 115,
+          "simd_density": 0.034782608695652174,
+          "op_breakdown": {
+            "v128.load": 2,
+            "v128.store": 2
+          }
+        },
+        {
+          "index": 122,
+          "name": "_ZN7zlib_rs7inflate6writer6Writer35extend_from_window_runtime_dispatch17hc2beecae42ea22ecE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 4,
+          "total_ops": 144,
+          "simd_density": 0.027777777777777776,
+          "op_breakdown": {
+            "v128.load": 2,
+            "v128.store": 2
+          }
+        },
+        {
+          "index": 108,
+          "name": "_ZN7zlib_rs7inflate4init17h7c727c394b5d4287E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 7,
+          "total_ops": 263,
+          "simd_density": 0.026615969581749048,
+          "op_breakdown": {
+            "v128.const": 2,
+            "v128.store": 5
+          }
+        },
+        {
+          "index": 9,
+          "name": "_ZN3std2io19default_read_to_end16small_probe_read17h29fb87a580f9fc0dE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 3,
+          "total_ops": 187,
+          "simd_density": 0.016042780748663103,
+          "op_breakdown": {
+            "v128.store": 2,
+            "v128.const": 1
+          }
+        },
+        {
+          "index": 123,
+          "name": "_ZN7zlib_rs7inflate6writer6Writer27copy_match_runtime_dispatch17hda49a2d21f40a8beE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 6,
+          "total_ops": 377,
+          "simd_density": 0.015915119363395226,
+          "op_breakdown": {
+            "v128.load": 3,
+            "v128.store": 3
+          }
+        },
+        {
+          "index": 45,
+          "name": "_ZN67_$LT$codec_gzip..GzipCompressor$u20$as$u20$core_api..Compressor$GT$3new17hac76f9146219205fE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 171,
+          "simd_density": 0.011695906432748537,
+          "op_breakdown": {
+            "v128.load": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 87,
+          "name": "_ZN7zlib_rs7deflate4init17h5445e0f3c834eec6E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 4,
+          "total_ops": 419,
+          "simd_density": 0.00954653937947494,
+          "op_breakdown": {
+            "v128.store": 3,
+            "v128.const": 1
+          }
+        },
+        {
+          "index": 47,
+          "name": "_ZN67_$LT$codec_gzip..GzipCompressor$u20$as$u20$core_api..Compressor$GT$12compress_all17hea88c4e3a93fd93bE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 214,
+          "simd_density": 0.009345794392523364,
+          "op_breakdown": {
+            "v128.load": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 46,
+          "name": "_ZN67_$LT$codec_gzip..GzipCompressor$u20$as$u20$core_api..Compressor$GT$14compress_chunk17h7daefb1ba6e84b7dE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 6,
+          "total_ops": 684,
+          "simd_density": 0.008771929824561403,
+          "op_breakdown": {
+            "v128.load": 3,
+            "v128.store": 3
+          }
+        },
+        {
+          "index": 1,
+          "name": "_ZN9hashbrown3raw21RawTable$LT$T$C$A$GT$14reserve_rehash17hed4bfd04b27432a7E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 9,
+          "total_ops": 1376,
+          "simd_density": 0.006540697674418605,
+          "op_breakdown": {
+            "v128.not": 1,
+            "v128.load": 1,
+            "v128.and": 1,
+            "i64x2.add": 1,
+            "i64x2.shr_u": 1,
+            "v128.const": 2,
+            "v128.store": 1,
+            "v128.or": 1
+          }
+        },
+        {
+          "index": 64,
+          "name": "_ZN6flate22gz9GzBuilder11into_header17h7ebb771de6f08eb4E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 4,
+          "total_ops": 742,
+          "simd_density": 0.005390835579514825,
+          "op_breakdown": {
+            "v128.store": 2,
+            "v128.load": 2
+          }
+        },
+        {
+          "index": 109,
+          "name": "_ZN7zlib_rs7inflate7inflate17h29b051fafa867ed7E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 27,
+          "total_ops": 6921,
+          "simd_density": 0.0039011703511053317,
+          "op_breakdown": {
+            "i32x4.extend_low_i16x8_u": 2,
+            "i32x4.splat": 1,
+            "v128.const": 2,
+            "i32x4.ge_u": 2,
+            "i32x4.extract_lane": 16,
+            "v128.load64_zero": 1,
+            "i8x16.shuffle": 1,
+            "i16x8.extend_low_i8x16_u": 2
+          }
+        },
+        {
+          "index": 121,
+          "name": "_ZN7zlib_rs7inflate8inftrees13inflate_table17h5d3bd116e45545f4E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 3,
+          "total_ops": 1111,
+          "simd_density": 0.0027002700270027003,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 2
+          }
+        },
+        {
+          "index": 133,
+          "name": "_ZN7zlib_rs5crc325braid11crc32_braid17h614c0b6b68b62bfaE",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 806,
+          "simd_density": 0.0024813895781637717,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 1
+          }
+        },
+        {
+          "index": 110,
+          "name": "_ZN7zlib_rs7inflate17inflate_fast_help17hfa98380cf980b3c0E",
+          "file": null,
+          "line": null,
+          "simd_ops_total": 2,
+          "total_ops": 1035,
+          "simd_density": 0.001932367149758454,
+          "op_breakdown": {
+            "v128.const": 1,
+            "v128.store": 1
+          }
+        }
+      ],
+      "lines": []
+    }
+  },
+  "provenance": {
+    "summary": {}
+  },
+  "benchResults": {
+    "scalar": {
+      "functions": {
+        "compress_level_1": {
+          "sizes": {
+            "1024": {
+              "mean": 0.005110353312857164,
+              "median": 0.005006531762535547,
+              "min": 0.004647626024365547,
+              "max": 0.010035945696099738,
+              "p5": 0.004677638319916412,
+              "p95": 0.005680327868608177,
+              "stddev": 0.0006907790619131111,
+              "throughputMBps": 195.05768590298968,
+              "samples": 60,
+              "batchSize": 976,
+              "actualInputSize": 1024
+            },
+            "16384": {
+              "mean": 0.012042997814104207,
+              "median": 0.011940581968328992,
+              "min": 0.011282786879627431,
+              "max": 0.0150744426293207,
+              "p5": 0.011456278687129255,
+              "p95": 0.014702196721537192,
+              "stddev": 0.0006903982268574033,
+              "throughputMBps": 1308.5626849213463,
+              "samples": 60,
+              "batchSize": 61,
+              "actualInputSize": 16384
+            },
+            "65536": {
+              "mean": 0.05353097777606713,
+              "median": 0.05332916667684913,
+              "min": 0.04933333328614632,
+              "max": 0.06344166665027538,
+              "p5": 0.0511443999906381,
+              "p95": 0.06198893332233032,
+              "stddev": 0.002319651761510598,
+              "throughputMBps": 1171.9665596637205,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 0.2535596550007661,
+              "median": 0.252285399986431,
+              "min": 0.24078329997137188,
+              "max": 0.288733399938792,
+              "p5": 0.24632500000298024,
+              "p95": 0.2645124999806285,
+              "stddev": 0.006488225423902624,
+              "throughputMBps": 990.9412118713412,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 1.0729334683436904,
+              "median": 1.0596791500691325,
+              "min": 1.033600000012666,
+              "max": 1.278891700040549,
+              "p5": 1.0435499999672175,
+              "p95": 1.1615375000052155,
+              "stddev": 0.04042064924337442,
+              "throughputMBps": 943.6818681718527,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
+            }
+          }
+        },
+        "compress_level_6": {
+          "sizes": {
+            "1024": {
+              "mean": 0.009399216478789744,
+              "median": 0.009324282274646378,
+              "min": 0.008896644467671142,
+              "max": 0.011291367828189472,
+              "p5": 0.009069459016633327,
+              "p95": 0.00991632479441459,
+              "stddev": 0.0003359948585025964,
+              "throughputMBps": 104.73326216810999,
+              "samples": 60,
+              "batchSize": 976,
+              "actualInputSize": 1024
+            },
+            "16384": {
+              "mean": 0.01928465437128774,
+              "median": 0.017822745904998213,
+              "min": 0.016516393432240994,
+              "max": 0.07581899999106517,
+              "p5": 0.016940573764751193,
+              "p95": 0.027397540978110226,
+              "stddev": 0.007728644606793086,
+              "throughputMBps": 876.6887034852539,
+              "samples": 60,
+              "batchSize": 61,
+              "actualInputSize": 16384
+            },
+            "65536": {
+              "mean": 0.06147412555395729,
+              "median": 0.061087499993542835,
+              "min": 0.05832219999283552,
+              "max": 0.06969720001022021,
+              "p5": 0.05941393338143826,
+              "p95": 0.06821386671314637,
+              "stddev": 0.0020585466385293323,
+              "throughputMBps": 1023.1225701920438,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 0.2713865366609146,
+              "median": 0.2703291499987245,
+              "min": 0.2625500000081956,
+              "max": 0.29434580001980065,
+              "p5": 0.26502499999478457,
+              "p95": 0.2800708000548184,
+              "stddev": 0.005239676242311493,
+              "throughputMBps": 924.7985280210426,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 1.195796523336321,
+              "median": 1.1290874499827623,
+              "min": 1.1081832999363541,
+              "max": 2.236574999988079,
+              "p5": 1.109900000039488,
+              "p95": 1.5132291000336409,
+              "stddev": 0.17950495141355313,
+              "throughputMBps": 885.6709903340675,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
+            }
+          }
+        },
+        "compress_level_9": {
+          "sizes": {
+            "1024": {
+              "mean": 0.010255946892045203,
+              "median": 0.010151404200873688,
+              "min": 0.009571892418326108,
+              "max": 0.012909622950723669,
+              "p5": 0.00975687295145004,
+              "p95": 0.011212133196541338,
+              "stddev": 0.000520190676773489,
+              "throughputMBps": 96.1997454417145,
+              "samples": 60,
+              "batchSize": 976,
+              "actualInputSize": 1024
+            },
+            "16384": {
+              "mean": 0.03433403879775579,
+              "median": 0.031804991809681785,
+              "min": 0.030760918026331994,
+              "max": 0.10360450819745416,
+              "p5": 0.031025262289970625,
+              "p95": 0.04176298360966268,
+              "stddev": 0.010283492145538827,
+              "throughputMBps": 491.27508327933543,
+              "samples": 60,
+              "batchSize": 61,
+              "actualInputSize": 16384
+            },
+            "65536": {
+              "mean": 0.1231275466674318,
+              "median": 0.12157223336398601,
+              "min": 0.11420833331843218,
+              "max": 0.15859726667404175,
+              "p5": 0.11761946665743987,
+              "p95": 0.1343389332915346,
+              "stddev": 0.006254992525738385,
+              "throughputMBps": 514.0976542964021,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 0.5065495816680293,
+              "median": 0.5032124999910592,
+              "min": 0.489850000012666,
+              "max": 0.5479875000193715,
+              "p5": 0.4933542000129819,
+              "p95": 0.5272541999816894,
+              "stddev": 0.010631012223483538,
+              "throughputMBps": 496.8080085539247,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 2.0649113199999554,
+              "median": 2.0456333499867467,
+              "min": 2.017566700000316,
+              "max": 2.404633400030434,
+              "p5": 2.0222834000363945,
+              "p95": 2.152695900015533,
+              "stddev": 0.0586567020667419,
+              "throughputMBps": 488.84615613373666,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
+            }
+          }
+        },
+        "decompress_gzip": {
+          "sizes": {}
+        }
+      },
+      "avgThroughputMBps": 772.7330048798857
+    },
+    "autovec": {
+      "functions": {
+        "compress_level_1": {
+          "sizes": {
+            "1024": {
+              "mean": 0.005062342793734801,
+              "median": 0.005049244877138008,
+              "min": 0.00458713319652607,
+              "max": 0.005799222335822453,
+              "p5": 0.004682633196591537,
+              "p95": 0.005616205942923906,
+              "stddev": 0.0002519418106977363,
+              "throughputMBps": 193.40763297531552,
+              "samples": 60,
+              "batchSize": 976,
+              "actualInputSize": 1024
+            },
+            "16384": {
+              "mean": 0.009621640436778791,
+              "median": 0.009525614752449462,
+              "min": 0.00890504916916128,
+              "max": 0.01217213115792294,
+              "p5": 0.009094950819357496,
+              "p95": 0.01126844263406562,
+              "stddev": 0.0005354118069973878,
+              "throughputMBps": 1640.3140800946323,
+              "samples": 60,
+              "batchSize": 61,
+              "actualInputSize": 16384
+            },
+            "65536": {
+              "mean": 0.029482503340890007,
+              "median": 0.028873600034664076,
+              "min": 0.02664166670292616,
+              "max": 0.04236666665722926,
+              "p5": 0.027719466698666415,
+              "p95": 0.036138866717616715,
+              "stddev": 0.0025383507169192045,
+              "throughputMBps": 2164.6071125514623,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 0.11090715499594808,
+              "median": 0.11016874997876584,
+              "min": 0.10447089998051524,
+              "max": 0.12620830005034805,
+              "p5": 0.10545830000191928,
+              "p95": 0.12136249998584389,
+              "stddev": 0.00395243822602957,
+              "throughputMBps": 2269.246043439592,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 0.4513397983384007,
+              "median": 0.44603749997913833,
+              "min": 0.4299624999985099,
+              "max": 0.5704375000670552,
+              "p5": 0.4325916999951005,
+              "p95": 0.49117090003564956,
+              "stddev": 0.024449332765485488,
+              "throughputMBps": 2241.9639605341954,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
+            }
+          }
+        },
+        "compress_level_6": {
+          "sizes": {
+            "1024": {
+              "mean": 0.009256440010274852,
+              "median": 0.009215185450691516,
+              "min": 0.008836534836131041,
+              "max": 0.010654072745771865,
+              "p5": 0.008877177254228135,
+              "p95": 0.009708419057624568,
+              "stddev": 0.0002908095047175883,
+              "throughputMBps": 105.97317929469534,
+              "samples": 60,
+              "batchSize": 976,
+              "actualInputSize": 1024
+            },
+            "16384": {
+              "mean": 0.01492494453441942,
+              "median": 0.014963803286129822,
+              "min": 0.013422131156701534,
+              "max": 0.018982229510047396,
+              "p5": 0.013719950817891808,
+              "p95": 0.01626503278241783,
+              "stddev": 0.0008111868344681601,
+              "throughputMBps": 1044.1864077752914,
+              "samples": 60,
+              "batchSize": 61,
+              "actualInputSize": 16384
+            },
+            "65536": {
+              "mean": 0.03717819999696479,
+              "median": 0.036268066676954425,
+              "min": 0.03553606662899256,
+              "max": 0.060136133308211964,
+              "p5": 0.035661133316655956,
+              "p95": 0.047269400022923944,
+              "stddev": 0.003900042026134658,
+              "throughputMBps": 1723.2790641061097,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 0.12526249833249795,
+              "median": 0.12391045000404119,
+              "min": 0.12037079995498061,
+              "max": 0.14785000002011656,
+              "p5": 0.12258750004693866,
+              "p95": 0.13486250005662442,
+              "stddev": 0.004699633820555435,
+              "throughputMBps": 2017.5860873061679,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 0.49282735999828836,
+              "median": 0.48413744997233155,
+              "min": 0.47461249995976684,
+              "max": 0.6731124999932945,
+              "p5": 0.476345800049603,
+              "p95": 0.5550875000655651,
+              "stddev": 0.029672538658054845,
+              "throughputMBps": 2065.5291179336573,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
+            }
+          }
+        },
+        "compress_level_9": {
+          "sizes": {
+            "1024": {
+              "mean": 0.009829347301942492,
+              "median": 0.009766777151466545,
+              "min": 0.00919616598345828,
+              "max": 0.011021516393664003,
+              "p5": 0.009477501024194366,
+              "p95": 0.010349726434186345,
+              "stddev": 0.000309052930296392,
+              "throughputMBps": 99.98820336075374,
+              "samples": 60,
+              "batchSize": 976,
+              "actualInputSize": 1024
+            },
+            "16384": {
+              "mean": 0.028896253006380115,
+              "median": 0.028609622956910094,
+              "min": 0.02723906557152017,
+              "max": 0.034340163937113324,
+              "p5": 0.027659836057268204,
+              "p95": 0.03197336065598198,
+              "stddev": 0.001328486015225359,
+              "throughputMBps": 546.1449115751484,
+              "samples": 60,
+              "batchSize": 61,
+              "actualInputSize": 16384
+            },
+            "65536": {
+              "mean": 0.0937764377747145,
+              "median": 0.09303469999382893,
+              "min": 0.09020279999822378,
+              "max": 0.10332499997069439,
+              "p5": 0.09153613336384296,
+              "p95": 0.10161666665226221,
+              "stddev": 0.002503638168741804,
+              "throughputMBps": 671.7923527903639,
+              "samples": 60,
+              "batchSize": 15,
+              "actualInputSize": 65536
+            },
+            "262144": {
+              "mean": 0.3543067316726471,
+              "median": 0.3527562499977648,
+              "min": 0.34366669999435545,
+              "max": 0.3836625000461936,
+              "p5": 0.34600830003619193,
+              "p95": 0.37459589997306464,
+              "stddev": 0.008516212103912903,
+              "throughputMBps": 708.7046650529483,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 262144
+            },
+            "1048576": {
+              "mean": 1.4047838866570965,
+              "median": 1.3932208499871193,
+              "min": 1.364041700027883,
+              "max": 1.6767125000245868,
+              "p5": 1.371908299997449,
+              "p95": 1.4447791999205948,
+              "stddev": 0.04225658605660822,
+              "throughputMBps": 717.7612939177915,
+              "samples": 60,
+              "batchSize": 10,
+              "actualInputSize": 1048576
+            }
+          }
+        },
+        "decompress_gzip": {
+          "sizes": {}
+        }
+      },
+      "avgThroughputMBps": 1675.0847907952148,
+      "speedups": {
+        "compress_level_1": {
+          "1024": 0.9915406925903202,
+          "16384": 1.253523502539144,
+          "65536": 1.8469870959224008,
+          "262144": 2.289990582947134,
+          "1048576": 2.3757624641845023
+        },
+        "compress_level_6": {
+          "1024": 1.011838809380301,
+          "16384": 1.1910572174868395,
+          "65536": 1.6843329570792716,
+          "262144": 2.181649328122915,
+          "1048576": 2.3321630046328576
+        },
+        "compress_level_9": {
+          "1024": 1.0393811636573882,
+          "16384": 1.1116886041310066,
+          "65536": 1.3067407469691414,
+          "262144": 1.4265161850264816,
+          "1048576": 1.4682764401678738
+        },
+        "decompress_gzip": {}
+      },
+      "speedupVsScalar": 2.167740707614257
+    }
+  },
+  "sizeSummary": {
+    "1024": {
+      "autovec": 1.0142535552093366
+    },
+    "16384": {
+      "autovec": 1.18542310805233
+    },
+    "65536": {
+      "autovec": 1.6126869333236045
+    },
+    "262144": {
+      "autovec": 1.966052032032177
+    },
+    "1048576": {
+      "autovec": 2.0587339696617444
+    }
+  }
+}
