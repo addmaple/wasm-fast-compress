@@ -94,7 +94,6 @@ import { createDecompressionStream } from '@addmaple/gzip';
 const res = await fetch('/download');
 if (!res.body) throw new Error('No response body');
 
-// Note: this implementation buffers and decompresses on flush.
 const decompressed = res.body.pipeThrough(createDecompressionStream());
 
 const buf = await new Response(decompressed).arrayBuffer();

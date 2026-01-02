@@ -205,35 +205,17 @@ export function createCompressionStream(options = {}) {
 /**
  * Create a TransformStream that gzip-decompresses a byte stream.
  *
- * Note: gzip decompression here is implemented as a buffered stream:
- * we accumulate all chunks and perform a single decompression in `flush()`.
- * (True incremental streaming decompression is not yet exposed by this package.)
- *
  * @returns {TransformStream<Uint8Array, Uint8Array>}
  */
 export function createDecompressionStream() {
-  requireTransformStream();
-  const chunks = [];
-  let total = 0;
-
-  return new TransformStream({
-    transform(chunk) {
-      const bytes = toBytes(chunk);
-      chunks.push(bytes);
-      total += bytes.byteLength;
-    },
-    async flush(controller) {
-      const combined = new Uint8Array(total);
-      let offset = 0;
-      for (const c of chunks) {
-        combined.set(c, offset);
-        offset += c.byteLength;
-      }
-
-      const out = await decompress(combined);
-      if (out.length) controller.enqueue(out);
-    },
-  });
+  // Use the platform's native streaming gzip decompressor when available.
+  // This avoids buffering the entire response in JS.
+  if (typeof DecompressionStream === 'function') {
+    return new DecompressionStream('gzip');
+  }
+  throw new Error(
+    'DecompressionStream is not available in this runtime; use decompress(...) for one-shot gzip decompression'
+  );
 }
 
 /**
