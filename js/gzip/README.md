@@ -69,6 +69,23 @@ const out2 = await gz.compressChunk(chunk2, false);
 const out3 = await gz.compressChunk(chunk3, true);
 ```
 
+### Streaming to `fetch()` (ergonomic)
+
+```javascript
+import { createCompressionStream } from '@addmaple/gzip';
+
+const body = file.stream().pipeThrough(createCompressionStream({ level: 6 }));
+
+await fetch('/upload', {
+  method: 'POST',
+  headers: {
+    'Content-Encoding': 'gzip',
+  },
+  body,
+  duplex: 'half',
+});
+```
+
 ### Inline (Zero-latency)
 
 WASM bytes embedded directly in JS — no separate file fetching:

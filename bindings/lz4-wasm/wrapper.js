@@ -335,5 +335,80 @@ export async function decompress(input) {
   }
 }
 
+// ============================================================================
+// Ergonomic streaming helpers (Web Streams)
+// ============================================================================
+
+function requireTransformStream() {
+  if (typeof TransformStream === 'undefined') {
+    throw new Error('TransformStream is not available in this runtime');
+  }
+}
+
+/**
+ * Create a TransformStream that LZ4-compresses a byte stream.
+ *
+ * This uses the LZ4 *frame* streaming API so the output can be decoded without
+ * knowing the original size ahead of time (good for fetch request bodies).
+ *
+ * @returns {TransformStream<Uint8Array, Uint8Array>}
+ */
+export function createCompressionStream() {
+  requireTransformStream();
+  const enc = new StreamingCompressor();
+
+  return new TransformStream({
+    async transform(chunk, controller) {
+      const out = await enc.compressChunk(toBytes(chunk), false);
+      if (out.length) controller.enqueue(out);
+    },
+    async flush(controller) {
+      // Finish the stream (flush footer / close handle)
+      const out = await enc.compressChunk(new Uint8Array(0), true);
+      if (out.length) controller.enqueue(out);
+    },
+  });
+}
+
+/**
+ * Create a TransformStream that LZ4-decompresses a byte stream.
+ *
+ * Note: current LZ4 frame streaming decompression buffers until finish=true,
+ * so output is typically produced during `flush()`.
+ *
+ * @returns {TransformStream<Uint8Array, Uint8Array>}
+ */
+export function createDecompressionStream() {
+  requireTransformStream();
+  const dec = new StreamingDecompressor();
+
+  return new TransformStream({
+    async transform(chunk, controller) {
+      const out = await dec.decompressChunk(toBytes(chunk), false);
+      if (out.length) controller.enqueue(out);
+    },
+    async flush(controller) {
+      const out = await dec.decompressChunk(new Uint8Array(0), true);
+      if (out.length) controller.enqueue(out);
+    },
+  });
+}
+
+/**
+ * Convenience helper: readable.pipeThrough(createCompressionStream()).
+ * @param {ReadableStream<Uint8Array>} readable
+ */
+export function compressStream(readable) {
+  return readable.pipeThrough(createCompressionStream());
+}
+
+/**
+ * Convenience helper: readable.pipeThrough(createDecompressionStream()).
+ * @param {ReadableStream<Uint8Array>} readable
+ */
+export function decompressStream(readable) {
+  return readable.pipeThrough(createDecompressionStream());
+}
+
 export { wasmExports };
 

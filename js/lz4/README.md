@@ -73,6 +73,27 @@ await dec.decompressChunk(c2, false);
 const plain = await dec.decompressChunk(c3, true);
 ```
 
+### Streaming to `fetch()` (ergonomic)
+
+If you want to upload a `File`/`Blob` with LZ4 compression, you can pipe it through the built-in stream helper:
+
+```javascript
+import { createCompressionStream } from '@addmaple/lz4';
+
+const body = file.stream().pipeThrough(createCompressionStream());
+
+await fetch('/upload', {
+  method: 'POST',
+  headers: {
+    // Not a standard encoding token like gzip; your server must explicitly support this.
+    'Content-Encoding': 'lz4',
+  },
+  body,
+  // Needed for streaming request bodies in some runtimes (notably Node fetch).
+  duplex: 'half',
+});
+```
+
 ### Inline (Zero-latency)
 
 WASM bytes embedded directly in JS — no separate file fetching:

@@ -170,5 +170,46 @@ export class StreamingCompressor {
   }
 }
 
+// ============================================================================
+// Ergonomic streaming helpers (Web Streams)
+// ============================================================================
+
+function requireTransformStream() {
+  if (typeof TransformStream === 'undefined') {
+    throw new Error('TransformStream is not available in this runtime');
+  }
+}
+
+/**
+ * Create a TransformStream that gzip-compresses a byte stream.
+ *
+ * @param {{ level?: number }} [options]
+ * @returns {TransformStream<Uint8Array, Uint8Array>}
+ */
+export function createCompressionStream(options = {}) {
+  requireTransformStream();
+  const gz = new StreamingCompressor(options);
+
+  return new TransformStream({
+    async transform(chunk, controller) {
+      const out = await gz.compressChunk(toBytes(chunk), false);
+      if (out.length) controller.enqueue(out);
+    },
+    async flush(controller) {
+      const out = await gz.compressChunk(new Uint8Array(0), true);
+      if (out.length) controller.enqueue(out);
+    },
+  });
+}
+
+/**
+ * Convenience helper: readable.pipeThrough(createCompressionStream()).
+ * @param {ReadableStream<Uint8Array>} readable
+ * @param {{ level?: number }} [options]
+ */
+export function compressStream(readable, options = {}) {
+  return readable.pipeThrough(createCompressionStream(options));
+}
+
 export { wasmExports };
 
