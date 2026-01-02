@@ -160,7 +160,8 @@ checksum = "e320a6c5ad31d271ad523dcf3ad13e2767ad8b1cb8f047f75a8aeaf8da139da2"
 [[package]]
 name = "twox-hash"
 version = "2.1.2"
-source = "git+https://github.com/addmaple/twox-hash.git?branch=wasm-simd#3437b272bbcc26c361de6bb0dd11cb3fd625c0a6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9ea3136b675547379c4bd395ca6b938e5ad3c3d20fad76e7fe85f9e0d011419c"
 
 [[package]]
 name = "zlib-rs"

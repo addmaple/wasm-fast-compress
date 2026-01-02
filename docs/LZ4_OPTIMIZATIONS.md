@@ -59,7 +59,7 @@ All unsafe operations are:
 
 ## SIMD Optimizations in lz4_flex
 
-### 1. Frame checksums: xxHash32 (SIMD-optimized on wasm32 + simd128)
+### 1. Frame checksums: xxHash32 (frame format)
 
 **What it does**: In **LZ4 frame format**, checksums are computed with **xxHash32**:
 
@@ -76,7 +76,7 @@ In `lz4_flex`, these are implemented using `twox_hash::XxHash32` in:
 
 - `wasm-fast-compress` enables LZ4’s `frame` feature (`features = ["frame", "std", "checked-decode"]`).
 - In `lz4_flex`, `frame = ["std", "dep:twox-hash"]`, so **twox-hash is included**.
-- Our `twox-hash` fork includes a `#[cfg(all(target_arch = "wasm32", target_feature = "simd128"))]` SIMD128 fast path for xxHash32 (commit `3437b27`), so when `lz4.simd.wasm` is loaded, xxHash32 checksum updates use WASM SIMD128.
+- We use upstream `twox-hash` (no project-specific fork). The major SIMD wins for wasm-fast-compress’s LZ4 come from `lz4_flex`’s SIMD hot paths (match finding + copies), not from xxHash32.
 
 ### 2. Dictionary hash/table hot path (LZ4 match finding)
 

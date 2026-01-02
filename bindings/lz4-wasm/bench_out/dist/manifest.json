@@ -1,13 +1,13 @@
 {
-  "generated": "2026-01-02T13:30:13.292Z",
+  "generated": "2026-01-02T15:18:12.902Z",
   "crate": "lz4-wasm",
   "variants": [
     {
       "name": "scalar",
       "description": "Scalar baseline (no SIMD)",
       "path": "scalar.wasm",
-      "hash": "07472df249a0a7fa",
-      "size": 103340,
+      "hash": "a075175ce1c116d5",
+      "size": 103354,
       "features": [],
       "simd": false
     },
@@ -15,8 +15,8 @@
       "name": "autovec",
       "description": "LLVM autovectorization (+simd128)",
       "path": "autovec.wasm",
-      "hash": "25ef3296173c893f",
-      "size": 103050,
+      "hash": "ac25dd384eb0d191",
+      "size": 102745,
       "features": [],
       "simd": true
     }
