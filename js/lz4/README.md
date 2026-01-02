@@ -94,6 +94,20 @@ await fetch('/upload', {
 });
 ```
 
+### Streaming decompression from `fetch()` (ergonomic)
+
+```javascript
+import { createDecompressionStream } from '@addmaple/lz4';
+
+const res = await fetch('/download');
+if (!res.body) throw new Error('No response body');
+
+const decompressed = res.body.pipeThrough(createDecompressionStream());
+
+// Example: read it all (or pipe somewhere else)
+const buf = await new Response(decompressed).arrayBuffer();
+```
+
 ### Inline (Zero-latency)
 
 WASM bytes embedded directly in JS — no separate file fetching:

@@ -203,12 +203,54 @@ export function createCompressionStream(options = {}) {
 }
 
 /**
+ * Create a TransformStream that gzip-decompresses a byte stream.
+ *
+ * Note: gzip decompression here is implemented as a buffered stream:
+ * we accumulate all chunks and perform a single decompression in `flush()`.
+ * (True incremental streaming decompression is not yet exposed by this package.)
+ *
+ * @returns {TransformStream<Uint8Array, Uint8Array>}
+ */
+export function createDecompressionStream() {
+  requireTransformStream();
+  const chunks = [];
+  let total = 0;
+
+  return new TransformStream({
+    transform(chunk) {
+      const bytes = toBytes(chunk);
+      chunks.push(bytes);
+      total += bytes.byteLength;
+    },
+    async flush(controller) {
+      const combined = new Uint8Array(total);
+      let offset = 0;
+      for (const c of chunks) {
+        combined.set(c, offset);
+        offset += c.byteLength;
+      }
+
+      const out = await decompress(combined);
+      if (out.length) controller.enqueue(out);
+    },
+  });
+}
+
+/**
  * Convenience helper: readable.pipeThrough(createCompressionStream()).
  * @param {ReadableStream<Uint8Array>} readable
  * @param {{ level?: number }} [options]
  */
 export function compressStream(readable, options = {}) {
   return readable.pipeThrough(createCompressionStream(options));
+}
+
+/**
+ * Convenience helper: readable.pipeThrough(createDecompressionStream()).
+ * @param {ReadableStream<Uint8Array>} readable
+ */
+export function decompressStream(readable) {
+  return readable.pipeThrough(createDecompressionStream());
 }
 
 export { wasmExports };
