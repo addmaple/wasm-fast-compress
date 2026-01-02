@@ -1,6 +1,6 @@
 {
   "name": "@addmaple/lz4",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "main": "./dist/node.js",
   "browser": "./dist/browser.js",
@@ -26,13 +26,16 @@
     "directory": "js/lz4"
   },
   "homepage": "https://github.com/addmaple/wasm-fast-compress#readme",
-  "scripts": {
-  },
+  "scripts": {},
   "dependencies": {
     "lz4js": "^0.2.0"
   },
   "description": "Fast lz4 compression in the browser using Rust + WASM",
-  "keywords": ["lz4", "compression", "wasm", "browser"],
+  "keywords": [
+    "lz4",
+    "compression",
+    "wasm",
+    "browser"
+  ],
   "license": "MIT"
 }
-
