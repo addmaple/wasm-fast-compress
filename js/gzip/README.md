@@ -4,6 +4,23 @@ Fast Gzip compression in the browser and Node.js using Rust + WASM.
 
 **3.5x-5.5x faster** than `pako`.
 
+## Implementation (Rust)
+
+This package is backed by these Rust crates in the `wasm-fast-compress` repo:
+
+- `codec-gzip` (this repo): high-level codec wrapper
+- `flate2` (crates.io): gzip/deflate API
+- `zlib-rs` (via `flate2` feature `zlib-rs`): fast, pure-Rust zlib/deflate backend with WASM SIMD128 intrinsics
+
+## SIMD acceleration (how it works)
+
+- We build **two WASM binaries**:
+  - `gzip.base.wasm`: compiled without `+simd128`
+  - `gzip.simd.wasm`: compiled with `-C target-feature=+simd128`
+- At runtime, the JS loader detects SIMD support and loads the best binary automatically.
+
+`zlib-rs` includes WASM SIMD128 code paths (e.g. match finding / checksums) that activate when `simd128` is enabled in the SIMD build.
+
 ## Installation
 
 ```bash

@@ -18,6 +18,20 @@ Fast, SIMD-optimized compression in the browser and Node.js using Rust + WASM.
 | `@addmaple/lz4` | LZ4 | **2.5x-3.5x faster** than `lz4js` |
 | `@addmaple/brotli` | Brotli | **1.3x faster** than `brotli` (JS port of native C) |
 
+## SIMD acceleration (how it works)
+
+Each codec package ships **two WASM binaries**:
+- `*.base.wasm` (no `simd128`)
+- `*.simd.wasm` (compiled with `-C target-feature=+simd128`)
+
+The JS loader detects SIMD support at runtime and loads the best binary automatically.
+
+## Rust dependencies (by codec)
+
+- **Gzip (`@addmaple/gzip`)**: `flate2` + `zlib-rs` backend (WASM SIMD128 intrinsics enabled in the SIMD build)
+- **LZ4 (`@addmaple/lz4`)**: `lz4_flex` (Git fork `wasm-simd` for WASM SIMD hot paths)
+- **Brotli (`@addmaple/brotli`)**: `brotli` (Git fork `wasm-simd` with optional `portable_simd` feature)
+
 ## Installation
 
 ```bash
