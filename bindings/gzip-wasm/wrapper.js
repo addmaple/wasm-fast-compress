@@ -171,6 +171,85 @@ export class StreamingCompressor {
 }
 
 // ============================================================================
+// Streaming Decompression API (WASM)
+// ============================================================================
+
+export class StreamingDecompressor {
+  constructor() {
+    this._initPromise = ensureReady();
+    this.handle = null;
+  }
+
+  async _ensureInit() {
+    await this._initPromise;
+    if (this.handle === null) {
+      this.handle = wasmExports().create_gzip_decompressor();
+      if (this.handle === 0) {
+        throw new Error('Failed to create decompressor');
+      }
+    }
+  }
+
+  async decompressChunk(input, finish = false) {
+    await this._ensureInit();
+    if (this.handle === 0) {
+      throw new Error('Decompressor already destroyed');
+    }
+
+    const view = toBytes(input);
+    const len = view.byteLength;
+
+    // Heuristic: gzip can expand a lot; start with a decent minimum.
+    const outLen = Math.max(len * 8, 65536);
+
+    const inPtr = alloc(len);
+    const outPtr = alloc(outLen);
+
+    try {
+      memoryU8().set(view, inPtr);
+      const written = wasmExports().decompress_gzip_chunk(
+        this.handle,
+        inPtr,
+        len,
+        outPtr,
+        outLen,
+        finish ? 1 : 0
+      );
+
+      if (written < 0) {
+        throw new Error('Decompression failed');
+      }
+
+      if (written === 0) {
+        free(inPtr, len);
+        free(outPtr, outLen);
+        if (finish) this.handle = 0;
+        return new Uint8Array(0);
+      }
+
+      const result = memoryU8().slice(outPtr, outPtr + written);
+      free(inPtr, len);
+      free(outPtr, outLen);
+
+      if (finish) this.handle = 0;
+      return result;
+    } catch (error) {
+      free(inPtr, len);
+      free(outPtr, outLen);
+      throw new Error(`Decompression failed: ${error.message}`);
+    }
+  }
+
+  async destroy() {
+    await this._initPromise;
+    if (this.handle !== 0 && this.handle !== null) {
+      wasmExports().destroy_gzip_decompressor(this.handle);
+      this.handle = 0;
+    }
+  }
+}
+
+// ============================================================================
 // Ergonomic streaming helpers (Web Streams)
 // ============================================================================
 
@@ -208,14 +287,31 @@ export function createCompressionStream(options = {}) {
  * @returns {TransformStream<Uint8Array, Uint8Array>}
  */
 export function createDecompressionStream() {
-  // Use the platform's native streaming gzip decompressor when available.
-  // This avoids buffering the entire response in JS.
-  if (typeof DecompressionStream === 'function') {
-    return new DecompressionStream('gzip');
+  requireTransformStream();
+  const dec = new StreamingDecompressor();
+
+  async function drain(controller, finish) {
+    // Drain any remaining output buffered on the Rust side.
+    while (true) {
+      const out = await dec.decompressChunk(new Uint8Array(0), finish);
+      if (!out.length) break;
+      controller.enqueue(out);
+      // Only pass finish once; subsequent drains should be finish=false.
+      finish = false;
+    }
   }
-  throw new Error(
-    'DecompressionStream is not available in this runtime; use decompress(...) for one-shot gzip decompression'
-  );
+
+  return new TransformStream({
+    async transform(chunk, controller) {
+      const out = await dec.decompressChunk(toBytes(chunk), false);
+      if (out.length) controller.enqueue(out);
+      await drain(controller, false);
+    },
+    async flush(controller) {
+      // Finish and drain the remainder.
+      await drain(controller, true);
+    },
+  });
 }
 
 /**
