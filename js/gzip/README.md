@@ -38,6 +38,25 @@ const input = new TextEncoder().encode('hello world');
 const compressed = await compress(input, { level: 9 });
 ```
 
+### Streaming compression
+
+For chunked input (e.g. file uploads), use `StreamingCompressor`:
+
+```javascript
+import { init, StreamingCompressor } from '@addmaple/gzip';
+
+await init();
+
+const gz = new StreamingCompressor({ level: 6 });
+
+// First chunk(s)
+const out1 = await gz.compressChunk(chunk1, false);
+const out2 = await gz.compressChunk(chunk2, false);
+
+// Final chunk (flushes footer + closes)
+const out3 = await gz.compressChunk(chunk3, true);
+```
+
 ### Inline (Zero-latency)
 
 WASM bytes embedded directly in JS — no separate file fetching:

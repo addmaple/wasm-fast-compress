@@ -39,6 +39,28 @@ const input = new TextEncoder().encode('hello world');
 const compressed = await compress(input);
 ```
 
+### Streaming compression + decompression
+
+For chunked input (e.g. streaming over the network), use the handle-based streaming helpers:
+
+```javascript
+import { init, StreamingCompressor, StreamingDecompressor } from '@addmaple/lz4';
+
+await init();
+
+// Compress
+const enc = new StreamingCompressor();
+const c1 = await enc.compressChunk(chunk1, false);
+const c2 = await enc.compressChunk(chunk2, false);
+const c3 = await enc.compressChunk(chunk3, true); // finish
+
+// Decompress (finish must be true to produce output for frame format)
+const dec = new StreamingDecompressor();
+await dec.decompressChunk(c1, false);
+await dec.decompressChunk(c2, false);
+const plain = await dec.decompressChunk(c3, true);
+```
+
 ### Inline (Zero-latency)
 
 WASM bytes embedded directly in JS — no separate file fetching:
