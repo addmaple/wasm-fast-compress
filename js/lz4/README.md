@@ -33,10 +33,21 @@ npm install @addmaple/lz4
 ```javascript
 import { init, compress } from '@addmaple/lz4';
 
+// Optional: call init() to avoid first-call latency.
+// If you skip init(), the first compress/decompress call will lazy-initialize.
 await init();
 
 const input = new TextEncoder().encode('hello world');
 const compressed = await compress(input);
+```
+
+### Lazy init (init() optional)
+
+```javascript
+import { compress } from '@addmaple/lz4';
+
+const input = new TextEncoder().encode('hello world');
+const compressed = await compress(input); // triggers lazy init on first call
 ```
 
 ### Streaming compression + decompression
@@ -46,6 +57,7 @@ For chunked input (e.g. streaming over the network), use the handle-based stream
 ```javascript
 import { init, StreamingCompressor, StreamingDecompressor } from '@addmaple/lz4';
 
+// Optional: init() is not required; streaming helpers also lazy-init.
 await init();
 
 // Compress

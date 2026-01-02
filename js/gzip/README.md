@@ -32,10 +32,21 @@ npm install @addmaple/gzip
 ```javascript
 import { init, compress } from '@addmaple/gzip';
 
+// Optional: call init() to avoid first-call latency.
+// If you skip init(), the first compress/decompress call will lazy-initialize.
 await init();
 
 const input = new TextEncoder().encode('hello world');
 const compressed = await compress(input, { level: 9 });
+```
+
+### Lazy init (init() optional)
+
+```javascript
+import { compress } from '@addmaple/gzip';
+
+const input = new TextEncoder().encode('hello world');
+const compressed = await compress(input, { level: 6 }); // triggers lazy init on first call
 ```
 
 ### Streaming compression
@@ -45,6 +56,7 @@ For chunked input (e.g. file uploads), use `StreamingCompressor`:
 ```javascript
 import { init, StreamingCompressor } from '@addmaple/gzip';
 
+// Optional: init() is not required; streaming helper also lazy-inits.
 await init();
 
 const gz = new StreamingCompressor({ level: 6 });
